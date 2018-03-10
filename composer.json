@@ -1,0 +1,36 @@
+{
+    "name":        "uxie/framework",
+    "description": "Uxie framework core",
+    "keywords":    ["framework", "uxie"],
+    "type":        "framework",
+    "license":     "MIT",
+
+    "require": {
+        "php": ">=7.2"
+    },
+
+    "authors": [
+        {
+            "name":     "M.Amine Cheribet",
+            "email":    "MohamedAmine1c@gmail.com",
+            "homepage": "https://github.com/MohamedAmine-C/Uxie",
+            "role":     "Owner"
+        }
+    ],
+
+    "autoload": {
+        "files": [
+            "Services/Helpers/helpers.php"
+        ],
+    "psr-4": {
+      "Authenticator\\": "Authenticator/",
+      "Box\\":           "Box/",
+      "Kernel\\":        "Kernel",
+      "Model\\":         "Model",
+      "RequetHandler\\": "Requet-Handler/",
+      "Router\\":        "Router",
+      "Services\\":      "Services/",
+      "Validator\\":     "Validator"
+    }
+  }
+}
