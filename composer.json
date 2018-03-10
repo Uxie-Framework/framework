@@ -27,7 +27,7 @@
       "Box\\":           "Box/",
       "Kernel\\":        "Kernel",
       "Model\\":         "Model",
-      "RequetHandler\\": "Requet-Handler/",
+      "Request\\":       "Requet-Handler/",
       "Router\\":        "Router",
       "Services\\":      "Services/",
       "Validator\\":     "Validator"
