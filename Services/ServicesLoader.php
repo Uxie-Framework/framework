@@ -11,8 +11,8 @@ class ServicesLoader
     public function __construct()
     {
         $this->bindServicesToIOC();
-        $this->loadServices();
         $this->loadApp();
+        $this->loadServices();
     }
 
     private function bindServicesToIOC()
