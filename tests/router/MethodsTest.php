@@ -16,11 +16,9 @@ class MethodsTest extends TestCase
     {
         $_SERVER['REQUEST_URI'] = 'testPost';
         $_SERVER['REQUEST_METHOD'] = 'POST';
-        try {
-            $router = new Router\Router(__DIR__.'/routes.php');
-        } catch (\Exception $e) {
-            $this->assertEquals($e->getCode(), 900);
-        }
+        $router = new Router\Router(__DIR__.'/routes.php');
+        $this->assertInstanceof(Router\Route::class, $router->getRoute());
+
     }
 
     public function testPut()
@@ -28,11 +26,9 @@ class MethodsTest extends TestCase
         $_SERVER['REQUEST_URI'] = 'testPut';
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['_method'] = 'PUT';
-        try {
-            $router = new Router\Router(__DIR__.'/routes.php');
-        } catch (\Exception $e) {
-            $this->assertEquals($e->getCode(), 900);
-        }
+
+        $router = new Router\Router(__DIR__.'/routes.php');
+        $this->assertInstanceof(Router\Route::class, $router->getRoute());
     }
 
     public function testPatch()
@@ -40,11 +36,9 @@ class MethodsTest extends TestCase
         $_SERVER['REQUEST_URI'] = 'testPatch';
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['_method'] = 'PATCH';
-        try {
-            $router = new Router\Router(__DIR__.'/routes.php');
-        } catch (\Exception $e) {
-            $this->assertEquals($e->getCode(), 900);
-        }
+
+        $router = new Router\Router(__DIR__.'/routes.php');
+        $this->assertInstanceof(Router\Route::class, $router->getRoute());
     }
 
     public function testDelete()
@@ -52,10 +46,8 @@ class MethodsTest extends TestCase
         $_SERVER['REQUEST_URI'] = 'testDelete';
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['_method'] = 'DELETE';
-        try {
-            $router = new Router\Router(__DIR__.'/routes.php');
-        } catch (\Exception $e) {
-            $this->assertEquals($e->getCode(), 900);
-        }
+
+        $router = new Router\Router(__DIR__.'/routes.php');
+        $this->assertInstanceof(Router\Route::class, $router->getRoute());
     }
 }
