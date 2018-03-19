@@ -13,7 +13,11 @@ class MiddlewareCompiler implements DependencyCompilerInterface
         $this->middlewares = $middlewares;
     }
 
-    public function execute()
+    /**
+ 	 * Call attached middlewares to route
+ 	 *
+	 */
+    public function execute(): void
     {
         $middlewareProvider = require rootDir().$this->links['MiddlewaresProviders'];
 
@@ -22,7 +26,12 @@ class MiddlewareCompiler implements DependencyCompilerInterface
         }
     }
 
-    private function callMiddleware(string $middleware)
+    /**
+ 	 * Create a Middleware instance
+ 	 *
+ 	 * @param string $middleware
+	 */
+    private function callMiddleware(string $middleware): void
     {
         if (!class_exists($middleware)) {
             throw new \Exception("$middleware Middleware can't be found", 26);
