@@ -4,8 +4,6 @@ namespace Kernel\Compiler;
 
 class MiddlewareCompiler implements DependencyCompilerInterface
 {
-    use \Services\Traits\Links;
-
     private $middlewares;
 
     public function __construct(array $middlewares)
@@ -15,7 +13,7 @@ class MiddlewareCompiler implements DependencyCompilerInterface
 
     public function execute()
     {
-        $middlewareProvider = require rootDir().$this->links['MiddlewaresProviders'];
+        $middlewareProvider = require rootDir().getAliase('MiddlewaresProviders');
 
         foreach ($this->middlewares as $middleware) {
             $this->callMiddleware($middlewareProvider[$middleware]);

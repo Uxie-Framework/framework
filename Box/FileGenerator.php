@@ -4,8 +4,6 @@ namespace Box;
 
 class FileGenerator
 {
-    use \Services\Traits\Links;
-
     private $commandDirs = [
         'Controller' => 'Controllers',
         'Middleware' => 'Middlewares',
@@ -22,7 +20,7 @@ class FileGenerator
         $this->command = $command;
         $this->argument = $argument;
         $this->flag = $flag;
-        $this->fileInfo = $this->getFileLocationInfos(new FileLocationResolver($this->links[$this->commandDirs[$command]], $argument));
+        $this->fileInfo = $this->getFileLocationInfos(new FileLocationResolver(getAliase($this->commandDirs[$command]), $argument));
         $this->template = $this->getTemplate();
     }
 
