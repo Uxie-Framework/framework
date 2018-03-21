@@ -124,6 +124,12 @@ function container()
     return $container;
 }
 
+// get aliases using aliases service
+function getAliase(string $aliase)
+{
+    return \Services\AliasesResolver::resolve($aliase);
+}
+
 function rootDir()
 {
     return $_SERVER['DOCUMENT_ROOT'].'/../';

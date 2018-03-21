@@ -2,9 +2,9 @@
 
 namespace Services\Traits;
 
-trait Links
+trait Aliases
 {
-    private $links = [
+    private static $aliases = [
         'App'                  => 'App/App.php',
         'MiddlewaresProviders' => 'App/MiddlewaresLocator.php',
         'Services'             => 'App/Services.php',

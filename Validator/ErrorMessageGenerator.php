@@ -4,8 +4,6 @@ namespace Validator;
 
 class ErrorMessageGenerator implements ErrorMessageGeneratorInterface
 {
-    use \Services\Traits\Links;
-
     public function compileErrorMessage(string $validator, array $arguments)
     {
         $message = $this->getValidationErrors()[$validator];
@@ -19,7 +17,7 @@ class ErrorMessageGenerator implements ErrorMessageGeneratorInterface
 
     private function getValidationErrors()
     {
-        $validations = require rootDir().$this->links['validationLanguages'];
+        $validations = require rootDir().getAliase('validationLanguages');
         $language = getLanguage() ?? 'default';
 
         return $validations[$language];
