@@ -3,27 +3,36 @@
 namespace Kernel\Compiler;
 
 use Router\RouteInterface;
-use Closure;
 
 class Compiler
 {
+
     /**
-     * Check if Route action is in Closure form or controller form.
-     *
-     * @param RouteInterface $route
-     * @return Mix
-     */
-    public function compileRoute(Routeinterface $route)
+ 	 * Call resolved action from a route
+ 	 *
+ 	 * @param RouteInterface $route
+	 */
+    public function compileRoute(Routeinterface $route): void
     {
-        return $this->compile(new RouteCompiler($route));
+        $this->compile(new RouteCompiler($route));
     }
 
-    public function compileMiddlewares(array $middlewares)
+    /**
+ 	 * Call Middlewares attached to a route
+ 	 *
+ 	 * @param array $middlewares
+	 */
+    public function compileMiddlewares(array $middlewares): void
     {
-        return $this->compile(new MiddlewareCompiler($middlewares));
+        $this->compile(new MiddlewareCompiler($middlewares));
     }
 
-    private function compile(DependencyCompilerInterface $dependencyCompiler)
+    /**
+ 	 * Call either a route action or a middleware
+ 	 *
+ 	 * @param DependencyCompilerInterface $dependencyCompiler
+	 */
+    private function compile(DependencyCompilerInterface $dependencyCompiler): void
     {
         $dependencyCompiler->execute();
     }

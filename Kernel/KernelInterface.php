@@ -4,7 +4,7 @@ namespace Kernel;
 
 interface KernelInterface
 {
-    public function prepare();
-    public function start();
-    public function stop();
+    public function prepare(): void;
+    public function start(): void;
+    public function stop(): void;
 }

@@ -2,19 +2,14 @@
 
 namespace Kernel;
 
-/**
- * execute the application.
- */
-
 class Kernel implements KernelInterface
 {
     /**
      * Prepare Application for launching
      * Load necessairy Services for the application to run
      *
-     * @return void
      */
-    public function prepare()
+    public function prepare(): void
     {
         // load all service providers.
         container()->build('Services\ServicesLoader');
@@ -27,9 +22,9 @@ class Kernel implements KernelInterface
     /**
      * Start the application
      * Call Middlewares
-     * @return void
+     *
      */
-    public function start()
+    public function start(): void
     {
         // call Middlewares
         container()->Compiler->compileMiddlewares(container()->Router->getRoute()->getMiddlewares());
@@ -41,9 +36,8 @@ class Kernel implements KernelInterface
      * This is the last method excuted during application life cycle
      * this method handle late Middleware
      *
-     * @return void
      */
-    public function stop()
+    public function stop(): void
     {
         container()->Compiler->compileMiddlewares(container()->Router->getRoute()->getLateMiddlewares());
     }

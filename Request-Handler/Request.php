@@ -33,6 +33,11 @@ class Request
         return  $this->validator->startValidation($this->variables[$input], $field);
     }
 
+    public function isValide()
+    {
+        return (empty($this->errors)) ? true : false;
+    }
+
     public function getErrors()
     {
         return $this->validator->getErrors();
