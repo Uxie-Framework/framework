@@ -13,8 +13,6 @@ function view(string $view, array $data = [])
 function bladeView(string $view, array $data = [])
 {
     container()->build('Blade', ['../App/Views', '../cache/blade']);
-
-
     echo container()->Blade->make($view, $data);
 }
 
@@ -120,8 +118,13 @@ function method_field(string $method)
 
 function container()
 {
-    global $container;
-    return $container;
+    return IOC\IOC::container();
+}
+
+// get aliases using aliases service
+function getAliase(string $aliase)
+{
+    return \Services\AliasesResolver::resolve($aliase);
 }
 
 function rootDir()

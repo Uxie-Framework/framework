@@ -3,8 +3,6 @@
 namespace Router;
 
 use Closure;
-use Exception;
-use MiddlewareHandler\MIddleware as Middleware;
 use Request\Request;
 
 class Router implements RouterInterface
@@ -19,17 +17,17 @@ class Router implements RouterInterface
     {
         $this->routes = new RoutesCollection([]);
         $this->url = new Url;
-        $this->request = new Request;
-        $this->setUp($routesFile);
+        $this->request = container()->Request;
+        $this->callRoutes($routesFile);
 
         if (isset($this->route)) {
             return $this;
         }
 
-        throw new Exception('This Page Does Not Exist', 404);
+        throw new \Exception('This Page Does Not Exist', 404);
     }
 
-    private function setUp(string $routesFile): void
+    private function callRoutes(string $routesFile): void
     {
         require $routesFile;
     }

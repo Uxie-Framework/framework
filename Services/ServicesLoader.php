@@ -6,7 +6,6 @@ namespace Services;
 class ServicesLoader
 {
     use Support\Services;
-    use Traits\Links;
 
     public function __construct()
     {
@@ -17,7 +16,7 @@ class ServicesLoader
 
     private function bindServicesToIOC()
     {
-        $this->bindedServices = array_merge_recursive($this->services, require rootDir().$this->links['Services']);
+        $this->bindedServices = array_merge_recursive($this->services, require rootDir().getAliase('Services'));
         array_map(array($this, 'checkForDuplication'), $this->bindedServices);
     }
 
@@ -26,16 +25,16 @@ class ServicesLoader
         array_map(array($this, 'checkIfUnique'), $array);
     }
 
-    private function checkIfUnique($array)
+    private function checkIfUnique(string $key)
     {
-        if (count($array) > 1) {
+        if (isset(container()->{$key})) {
             throw new \Exception("There is a duplication in your Providers : $array[0]", 17);
         }
     }
 
     private function loadApp()
     {
-        require rootDir().$this->links['App'];
+        require rootDir().getAliase('App');
     }
 
     private function loadServices()
