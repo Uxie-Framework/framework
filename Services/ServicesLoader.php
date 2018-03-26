@@ -25,9 +25,9 @@ class ServicesLoader
         array_map(array($this, 'checkIfUnique'), $array);
     }
 
-    private function checkIfUnique($array)
+    private function checkIfUnique(string $key)
     {
-        if (count($array) > 1) {
+        if (isset(container()->{$key})) {
             throw new \Exception("There is a duplication in your Providers : $array[0]", 17);
         }
     }
