@@ -5,11 +5,19 @@ use PHPUnit\Framework\TestCase;
 class BasicTest extends TestCase
 {
 
+    public function setUp()
+    {
+        IOC\IOC::createContainer();
+    }
+
     public function testGroup()
     {
         $_SERVER['REQUEST_URI'] = 'group/test';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $router = new Router\Router(__DIR__.'/routes.php');
+        container()->bind('Request', function() {
+            return new Request\Request();
+        });
+        $router = new Router\Router(__DIR__.'/helpers/routes.php');
         $this->assertInstanceof(Router\Route::class, $router->getRoute());
     }
 
@@ -17,7 +25,10 @@ class BasicTest extends TestCase
     {
         $_SERVER['REQUEST_URI'] = 'testResource';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $router = new Router\Router(__DIR__.'/routes.php');
+        container()->bind('Request', function() {
+            return new Request\Request();
+        });
+        $router = new Router\Router(__DIR__.'/helpers/routes.php');
         $this->assertInstanceof(Router\Route::class, $router->getRoute());
     }
 
@@ -25,15 +36,21 @@ class BasicTest extends TestCase
     {
         $_SERVER['REQUEST_URI'] = 'DontExist';
         $_SERVER['REQUEST_METHOD'] = 'GET';
+        container()->bind('Request', function() {
+            return new Request\Request();
+        });
         $this->expectException(\Exception::class);
-        $router = new Router\Router(__DIR__.'/routes.php');
+        $router = new Router\Router(__DIR__.'/helpers/routes.php');
     }
 
     public function testPassedVariables()
     {
         $_SERVER['REQUEST_URI'] = 'variables/one/two';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $router = new Router\Router(__DIR__.'/routes.php');
+        container()->bind('Request', function() {
+            return new Request\Request();
+        });
+        $router = new Router\Router(__DIR__.'/helpers/routes.php');
         $this->assertEquals(['one', 'two'], $router->getRoute()->getVariables());
     }
 
@@ -41,7 +58,10 @@ class BasicTest extends TestCase
     {
         $_SERVER['REQUEST_URI'] = 'variables/one/two/three';
         $_SERVER['REQUEST_METHOD'] = 'GET';
+        container()->bind('Request', function() {
+            return new Request\Request();
+        });
         $this->expectException(\Exception::class);
-        $router = new Router\Router(__DIR__.'/routes.php');
+        $router = new Router\Router(__DIR__.'/helpers/routes.php');
     }
 }
