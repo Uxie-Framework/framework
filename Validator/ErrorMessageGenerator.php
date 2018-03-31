@@ -6,7 +6,7 @@ class ErrorMessageGenerator implements ErrorMessageGeneratorInterface
 {
     public function compileErrorMessage(string $validator, array $arguments)
     {
-        $message = $this->getValidationErrors()[$validator];
+        $message = $this->getValidationErrorsByLanguage()[$validator];
 
         for ($i=0; $i < count($arguments); $i++) {
             $message = preg_replace("/\\$\\$/", $arguments[$i], $message, 1);
@@ -15,10 +15,10 @@ class ErrorMessageGenerator implements ErrorMessageGeneratorInterface
         return $message;
     }
 
-    private function getValidationErrors()
+    private function getValidationErrorsByLanguage()
     {
         $validations = require rootDir().getAliase('validationLanguages');
-        $language = getLanguage() ?? 'default';
+        $language = getLanguage() ?? 'en';
 
         return $validations[$language];
     }
