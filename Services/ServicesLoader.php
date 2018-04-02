@@ -5,7 +5,7 @@ namespace Services;
 
 class ServicesLoader
 {
-    use Support\Services;
+    use Services;
 
     public function __construct()
     {
