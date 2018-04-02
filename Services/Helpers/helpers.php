@@ -89,14 +89,19 @@ function unsetCookie($key)
     setcookie($key, '', time() - 1);
 }
 
-function setLanguage(string $language)
+function language(string $language = null)
 {
-    cookie('language', $language, time()+3600*24);
+    if ($language === null) {
+        return cookie('_language') ?? 'en';
+    }
+    if (!is_string($language)) {
+        return cookie('_language', $language, time()+3600*24);
+    }
 }
 
-function getLanguage()
+function translation(string $languageFile)
 {
-    return cookie('language') ?? null;
+    return \Services\LanguagesResolver::resolve($languageFile);
 }
 
 function csrf_field()

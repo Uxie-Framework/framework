@@ -17,7 +17,7 @@ class ErrorMessageGenerator implements ErrorMessageGeneratorInterface
 
     private function getValidationErrorsByLanguage()
     {
-        $validations = require rootDir().getAliase('validationLanguages');
+        $validations = translation('Validations');
         $language = getLanguage() ?? 'en';
 
         return $validations[$language];
