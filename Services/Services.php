@@ -1,6 +1,6 @@
 <?php
 
-namespace Services\Support;
+namespace Services;
 
 trait Services
 {
@@ -18,8 +18,8 @@ trait Services
         ],
 
         'ServiceProviders' => [
-            \Services\ErrorHandler::class,
-            \Services\Logger::class,
+            \Services\Support\ErrorHandler::class,
+            \Services\Support\Logger::class,
         ],
     ];
 }
