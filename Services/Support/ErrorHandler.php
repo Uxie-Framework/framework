@@ -1,6 +1,6 @@
 <?php
 
-namespace Services;
+namespace Services\Support;
 
 class ErrorHandler
 {
