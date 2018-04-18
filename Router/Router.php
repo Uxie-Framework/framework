@@ -29,6 +29,7 @@ class Router implements RouterInterface
 
     private function callRoutes(string $routesFile): void
     {
+        $route = $this;
         require $routesFile;
     }
 
@@ -73,7 +74,7 @@ class Router implements RouterInterface
     public function group(string $prefix, Closure $action): Router
     {
         $this->prefix .= $prefix . '/';
-        $action();
+        $action($this);
         $this->initialisePrefix();
         return $this;
     }
@@ -114,7 +115,7 @@ class Router implements RouterInterface
 
     private function saveRoute(): void
     {
-        $this->route = isset($this->route) ? : $this->routes->current();
+        $this->route = isset($this->route) ? $this->route : $this->routes->current();
     }
 
     private function bindRouteVariables(array $variables): void
