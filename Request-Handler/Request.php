@@ -30,7 +30,10 @@ class Request
 
     public function validate(string $input, string $field)
     {
-        return  $this->validator->startValidation($this->variables[$input], $field);
+        if (!isset($this->{$input})) {
+            throw new \Exception("( $input ) input does not exist", 1);
+        }
+        return  $this->validator->startValidation($this->{$input}, $field);
     }
 
     public function isValide()
@@ -50,11 +53,11 @@ class Request
 
     public function __get($name)
     {
-        return $this->variables[$name];
+        return $this->variables[$name] ?? null;
     }
 
     public function __isset($name)
     {
-        return isset($this->variables[$name]) ? $this->variables[$name] : false;
+        return isset($this->variables[$name]) ? true : false;
     }
 }
