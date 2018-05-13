@@ -62,6 +62,14 @@ abstract class Model
         return $data;
     }
 
+    public function first()
+    {
+        $statment = $this->execute();
+        $data = $statment->fetchAll(PDO::FETCH_OBJ);
+
+        return $data[0];
+    }
+
     public function save()
     {
         $statment = $this->execute();
@@ -100,13 +108,14 @@ abstract class Model
     public static function select(array $columns = ['*'])
     {
         static::$query = 'select '.implode($columns, ',').' from '.static::$table.' ';
-        static::$query .= 'where softdelete is null ';
+        static::$query .= 'where softdelete is false ';
         static::$whereFlag = ' and ';
         return new static();
     }
 
     public static function insert(array $data)
     {
+        $data = array_merge($data, ['created_at' => date('Y-m-d H:i:s')]);
         $inputs = array_map('addslashes', array_values($data));
         $columns = implode(',', array_keys($data));
         $values = implode(',', array_fill(0, count($inputs), '?'));
@@ -131,7 +140,10 @@ abstract class Model
 
     public static function delete()
     {
-        static::update(['softdelete' => 1]);
+        static::update([
+            'softdelete' => true,
+            'deleted_at' => date('y-m-d H:i:s'),
+        ]);
 
         return new static();
     }
