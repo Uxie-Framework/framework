@@ -18,7 +18,7 @@ class ErrorMessageGenerator implements ErrorMessageGeneratorInterface
     private function getValidationErrorsByLanguage()
     {
         $validations = translation('Validations');
-        $language = getLanguage() ?? 'en';
+        $language = language() ?? 'en';
 
         return $validations[$language];
     }

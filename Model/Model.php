@@ -78,14 +78,14 @@ abstract class Model
 
     public static function find(string $column, string $value)
     {
-        $data = static::select(['*'])->where($column, '=', $value)->get();
+        $data = static::select()->where($column, '=', $value)->get();
 
         return $data;
     }
 
     public static function findOrFail(string $column, string $value)
     {
-        $exist = static::select(['*'])->where($column, '=', $value)->count();
+        $exist = static::select()->where($column, '=', $value)->count();
 
         return boolval($exist);
     }
@@ -100,14 +100,15 @@ abstract class Model
     public static function select(array $columns = ['*'])
     {
         static::$query = 'select '.implode($columns, ',').' from '.static::$table.' ';
-
+        static::$query .= 'where softdelete is null ';
+        static::$whereFlag = ' and ';
         return new static();
     }
 
-    public static function insert(array $columns, array $inputs)
+    public static function insert(array $data)
     {
-        $inputs = array_map('addslashes', $inputs);
-        $columns = implode(',', $columns);
+        $inputs = array_map('addslashes', array_values($data));
+        $columns = implode(',', array_keys($data));
         $values = implode(',', array_fill(0, count($inputs), '?'));
         static::$query .= 'insert into '.static::$table."($columns) values($values)";
         static::$inputs = $inputs;
@@ -115,12 +116,12 @@ abstract class Model
         return new static();
     }
 
-    public static function update(array $columns, array $inputs)
+    public static function update(array $data)
     {
-        $inputs = array_map('addslashes', $inputs);
+        $inputs = array_map('addslashes', array_values($data));
         $columns = implode(',', array_map(function ($value) {
             return "$value = ?";
-        }, $columns));
+        }, array_keys($data)));
         $values = implode(',', array_fill(0, count($inputs), '?'));
         static::$query = 'update '.static::$table." set $columns ";
         static::$inputs = $inputs;
@@ -130,9 +131,16 @@ abstract class Model
 
     public static function delete()
     {
+        static::update(['softdelete' => 1]);
+
+        return new static();
+    }
+
+    public static function hardDelete()
+    {
         static::$query = 'delete from '.static::$table;
 
-        return new staitc();
+        return new static();
     }
 
     public function where(string $column, string $condition, string $input)
