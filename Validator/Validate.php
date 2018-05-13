@@ -21,7 +21,7 @@ class validate
 
     public function getErrors()
     {
-        return empty($this->errors) ? null : $this->generateErrorMessages(new ErrorMessageGenerator());
+        return empty($this->errors) ? [] : $this->generateErrorMessages(new ErrorMessageGenerator());
     }
 
     private function generateErrorMessages(ErrorMessageGeneratorInterface $generator)
