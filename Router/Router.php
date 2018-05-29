@@ -13,10 +13,14 @@ class Router implements RouterInterface
     private $request;
     private $prefix = '';
 
-    public function __construct(string $routesFile)
+    public function __construct()
     {
         $this->routes = new RoutesCollection([]);
         $this->url = new Url;
+    }
+
+    public function call(string $routesFile)
+    {
         $this->request = container()->Request;
         $this->callRoutes($routesFile);
 

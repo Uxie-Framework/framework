@@ -13,10 +13,6 @@ class Kernel implements KernelInterface
     {
         // load all service providers.
         container()->build('Services\ServicesLoader');
-        // load env cinfiguration file.
-        container()->Dotenv->load();
-        // load the default configurations
-        require_once rootDir().'defaults.php';
     }
 
     /**
