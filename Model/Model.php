@@ -67,7 +67,7 @@ abstract class Model
         $statment = $this->execute();
         $data = $statment->fetchAll(PDO::FETCH_OBJ);
 
-        return $data[0];
+        return $data[0] ?? null;
     }
 
     public function save()
