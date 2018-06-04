@@ -71,12 +71,17 @@ class Attempt
         $this->identifier['value'] = $values[1];
 
         $this->password['key']   = $keys[2];
-        $this->password['value'] = $keys[2];
+        $this->password['value'] = $values[2];
 
         $this->optionalValue['key']   = isset($keys[3]) ? $keys[3] : null;
         $this->optionalValue['value'] = isset($values[3]) ? $values[3] : null;
     }
 
+    /**
+     * remove white spaces from inputs & add slashes
+     *
+     * @return void
+    */
     private function secure()
     {
         foreach ($this->data as $key => $value) {
