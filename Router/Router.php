@@ -28,7 +28,7 @@ class Router implements RouterInterface
             return $this;
         }
 
-        throw new \Exception('This Page Does Not Exist', 404);
+        throw new \Exception('This Page ('.url(currentUrl()).') Does Not Exist', 404);
     }
 
     private function callRoutes(string $routesFile): void
