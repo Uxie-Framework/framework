@@ -37,20 +37,17 @@ function url(string $url)
 // redirect to a specific url (inside application);
 function route(string $url)
 {
-    ob_start();
     $host = 'http'.(($_SERVER['SERVER_PORT'] == 443) ? 's://' : '://').$_SERVER['HTTP_HOST'].'/';
     header('Location: '.$host.$url);
 }
 // reidrect to an external url
 function redirect(string $url)
 {
-    ob_start();
     header('Location: '.$url);
 }
 
 function session($key, $value = null)
 {
-    ob_start();
     if (!isset($_SESSION)) {
         session_start();
     }
@@ -72,7 +69,6 @@ function unsetSession($key)
 
 function cookie($key, $value = null, $time = null)
 {
-    ob_start();
     if ($value && $time) {
         return setcookie($key, $value, $time);
     }
