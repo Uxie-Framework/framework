@@ -205,11 +205,10 @@ abstract class Model
         return $this;
     }
 
-    public function limit(int $limit, int $offset = null)
+    public function limit(int $offset, int $limit = null)
     {
-        $offset = ($offset) ? ','.$offset : '';
-        static::$query .= " limit $limit $offset";
-
+        $limit = ($limit) ? ','.$limit : '';
+        static::$query .= " limit $offset $limit";
         return $this;
     }
 }
