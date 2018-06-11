@@ -93,8 +93,9 @@ function language(string $language = null)
     if ($language === null) {
         return cookie('_language') ?? 'en';
     }
-    if (!is_string($language)) {
-        return cookie('_language', $language, time()+3600*24);
+    if (is_string($language)) {
+        cookie('_language', $language, time()+3600*24);
+        return cookie('_language');
     }
 }
 
