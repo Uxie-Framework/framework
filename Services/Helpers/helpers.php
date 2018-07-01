@@ -70,10 +70,10 @@ function unsetSession($key)
 function cookie($key, $value = null, $time = null)
 {
     if ($value && $time) {
-        return setcookie($key, $value, $time);
+        return setcookie($key, $value, $time, '/');
     }
     if ($value && !$time) {
-        return setcookie($key, $value);
+        return setcookie($key, $value, time(), '/');
     }
     if (!$value && !$time) {
         return $_COOKIE[$key] ?? null;
@@ -91,10 +91,10 @@ function unsetCookie($key)
 function language(string $language = null)
 {
     if ($language === null) {
-        return cookie('_language') ?? 'en';
+        return cookie('_language') ?? 'english';
     }
     if (is_string($language)) {
-        cookie('_language', $language, time()+3600*24);
+        cookie('_language', $language, time()+3600*24*30);
         return cookie('_language');
     }
 }
