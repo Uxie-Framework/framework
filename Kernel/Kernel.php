@@ -37,6 +37,7 @@ class Kernel implements KernelInterface
      */
     public function stop(): void
     {
+        // compile late-middlewares
         container()->Compiler->compileMiddlewares(container()->Router->getRoute()->getLateMiddlewares());
     }
 }
