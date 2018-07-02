@@ -10,13 +10,25 @@ class UrlMatcher implements UrlMatcherInterface
 
     public function __construct(Url $url, Route $route)
     {
-        $this->url = explode('/', $url->getUrl());
-        $this->route = explode('/', $route->getRoute());
+        $this->url   = array_values($this->filterRoute(explode('/', $url->getUrl())));
+        $this->route = array_values($this->filterRoute(explode('/', $route->getRoute())));
+    }
+
+    private function filterRoute(array $route)
+    {
+        $tmpArray = [];
+        foreach ($route as $value) {
+            if (strlen($value) > 0) {
+                $tmpArray[] = $value;
+            }
+        }
+
+        return $tmpArray;
     }
 
     public function match(): bool
     {
-        if (count($this->url) != count($this->route)) {
+        if (count($this->url) !== count($this->route)) {
             return false;
         }
 

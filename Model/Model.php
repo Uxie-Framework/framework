@@ -62,6 +62,14 @@ abstract class Model
         return $data;
     }
 
+    public function first()
+    {
+        $statment = $this->execute();
+        $data = $statment->fetchAll(PDO::FETCH_OBJ);
+
+        return $data[0] ?? null;
+    }
+
     public function save()
     {
         $statment = $this->execute();
@@ -78,14 +86,14 @@ abstract class Model
 
     public static function find(string $column, string $value)
     {
-        $data = static::select(['*'])->where($column, '=', $value)->get();
+        $data = static::select()->where($column, '=', $value)->get();
 
         return $data;
     }
 
     public static function findOrFail(string $column, string $value)
     {
-        $exist = static::select(['*'])->where($column, '=', $value)->count();
+        $exist = static::select()->where($column, '=', $value)->count();
 
         return boolval($exist);
     }
@@ -100,14 +108,16 @@ abstract class Model
     public static function select(array $columns = ['*'])
     {
         static::$query = 'select '.implode($columns, ',').' from '.static::$table.' ';
-
+        static::$query .= 'where softdelete is false ';
+        static::$whereFlag = ' and ';
         return new static();
     }
 
-    public static function insert(array $columns, array $inputs)
+    public static function insert(array $data)
     {
-        $inputs = array_map('addslashes', $inputs);
-        $columns = implode(',', $columns);
+        $data = array_merge($data, ['created_at' => date('Y-m-d H:i:s')]);
+        $inputs = array_map('addslashes', array_values($data));
+        $columns = implode(',', array_keys($data));
         $values = implode(',', array_fill(0, count($inputs), '?'));
         static::$query .= 'insert into '.static::$table."($columns) values($values)";
         static::$inputs = $inputs;
@@ -115,12 +125,12 @@ abstract class Model
         return new static();
     }
 
-    public static function update(array $columns, array $inputs)
+    public static function update(array $data)
     {
-        $inputs = array_map('addslashes', $inputs);
+        $inputs = array_map('addslashes', array_values($data));
         $columns = implode(',', array_map(function ($value) {
             return "$value = ?";
-        }, $columns));
+        }, array_keys($data)));
         $values = implode(',', array_fill(0, count($inputs), '?'));
         static::$query = 'update '.static::$table." set $columns ";
         static::$inputs = $inputs;
@@ -130,9 +140,19 @@ abstract class Model
 
     public static function delete()
     {
+        static::update([
+            'softdelete' => true,
+            'deleted_at' => date('y-m-d H:i:s'),
+        ]);
+
+        return new static();
+    }
+
+    public static function hardDelete()
+    {
         static::$query = 'delete from '.static::$table;
 
-        return new staitc();
+        return new static();
     }
 
     public function where(string $column, string $condition, string $input)
