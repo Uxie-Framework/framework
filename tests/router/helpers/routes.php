@@ -1,33 +1,41 @@
 <?php
 
-$this->get('testGet', function () {
+$route->get('testGet', function () {
     return true;
 });
 
-$this->post('testPost', function () {
+$route->post('testPost', function () {
     return true;
 });
 
-$this->put('testPut', function(){
+$route->put('testPut', function() {
     return true;
 });
 
-$this->patch('testPatch', function() {
+$route->patch('testPatch', function() {
     return true;
 });
 
-$this->delete('testDelete', function() {
+$route->delete('testDelete', function() {
     return true;
 });
 
-$this->group('group', function () {
-    $this->get('test', function () {
+$route->group('group', function ($route) {
+    $route->get('test', function () {
         return true;
     });
 });
 
-$this->resource('testResource', 'controller');
+$route->resource('testResource', 'controller');
 
-$this->get('variables/{$one}/{$two}', function () {
+$route->get('variables/{$one}/{$two}', function () {
     return true;
 });
+
+$route->get('testMiddleware', function()  {
+    return true;
+})->middleware('test');
+
+$route->get('testLateMiddleware', function() {
+    return true;
+})->middleware('test', true);
