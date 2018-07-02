@@ -26,12 +26,12 @@
     "psr-4": {
       "Authenticator\\": "Authenticator/",
       "Box\\":           "Box/",
-      "Kernel\\":        "Kernel",
-      "Model\\":         "Model",
+      "Kernel\\":        "Kernel/",
+      "Model\\":         "Model/",
       "Request\\":       "Request-Handler/",
-      "Router\\":        "Router",
+      "Router\\":        "Router/",
       "Services\\":      "Services/",
-      "Validator\\":     "Validator"
+      "Validator\\":     "Validator/"
     }
   }
 }
