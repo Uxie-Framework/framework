@@ -155,6 +155,24 @@ abstract class Model
         return new static();
     }
 
+    public static function join(string $table, string $leftKey, string $rightKey)
+    {
+        $leftTable = static::$table;
+        $rightTable = $table;
+        static::$query = "select * from $leftTable join $rightTable on $leftTable.$leftKey = $rightTable.$rightKey where $leftTable.softdelete is false and $rightTable.softdelete is false";
+        static::$whereFlag = ' and ';
+        return new static();
+    }
+
+    public static function leftJoin(string $table, string $leftKey, string $rightKey)
+    {
+        $leftTable = static::$table;
+        $rightTable = $table;
+        static::$query = "select * from $leftTable left join $rightTable on $leftTable.$leftKey = $rightTable.$rightKey where $leftTable.softdelete is false and $rightTable.softdelete is false";
+        static::$whereFlag = ' and ';
+        return new static();
+    }
+
     public function where(string $column, string $condition, string $input)
     {
         $input = addslashes($input);
@@ -187,11 +205,10 @@ abstract class Model
         return $this;
     }
 
-    public function limit(int $limit, int $offset = null)
+    public function limit(int $offset, int $limit = null)
     {
-        $offset = ($offset) ? ','.$offset : '';
-        static::$query .= " limit $limit $offset";
-
+        $limit = ($limit) ? ','.$limit : '';
+        static::$query .= " limit $offset $limit";
         return $this;
     }
 }

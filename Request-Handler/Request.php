@@ -8,7 +8,6 @@ use Exception;
 class Request
 {
     private $variables = [];
-    private $errors = [];
     private $method;
 
     public function __construct()
@@ -38,7 +37,7 @@ class Request
 
     public function isValide()
     {
-        return (empty($this->errors)) ? true : false;
+        return (empty($this->getErrors())) ? true : false;
     }
 
     public function getErrors()

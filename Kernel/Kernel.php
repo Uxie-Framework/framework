@@ -13,6 +13,8 @@ class Kernel implements KernelInterface
     {
         // load all service providers.
         container()->build('Services\ServicesLoader');
+        // load routes
+        container()->Router->call(rootDir().'App/Routes.php');
     }
 
     /**
@@ -35,6 +37,7 @@ class Kernel implements KernelInterface
      */
     public function stop(): void
     {
+        // compile late-middlewares
         container()->Compiler->compileMiddlewares(container()->Router->getRoute()->getLateMiddlewares());
     }
 }
