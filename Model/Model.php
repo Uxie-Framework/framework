@@ -39,7 +39,7 @@ abstract class Model
         }
     }
 
-    private function execute(): bool
+    private function execute(): \PDOStatement
     {
         $statment          = $this->pdo->prepare(static::$query);
         $verifyedStatment  = $statment->execute(static::$inputs);
@@ -70,7 +70,7 @@ abstract class Model
         return $data[0] ?? null;
     }
 
-    public function save(): bool
+    public function save(): \PDOStatement
     {
         $statment = $this->execute();
 
