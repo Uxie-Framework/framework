@@ -23,12 +23,12 @@ abstract class Model
         }
     }
 
-    public function getPDO()
+    public function getPDO(): \PDO
     {
         return $this->pdo;
     }
 
-    public function query($query)
+    public function query($query): \PDOStatement
     {
         try {
             $result = $this->pdo->query($query);
@@ -39,7 +39,7 @@ abstract class Model
         }
     }
 
-    private function execute()
+    private function execute(): bool
     {
         $statment          = $this->pdo->prepare(static::$query);
         $verifyedStatment  = $statment->execute(static::$inputs);
@@ -54,7 +54,7 @@ abstract class Model
         return $statment;
     }
 
-    public function get()
+    public function get(): array
     {
         $statment = $this->execute();
         $data = $statment->fetchAll(PDO::FETCH_OBJ);
@@ -62,7 +62,7 @@ abstract class Model
         return $data;
     }
 
-    public function first()
+    public function first(): object
     {
         $statment = $this->execute();
         $data = $statment->fetchAll(PDO::FETCH_OBJ);
@@ -70,42 +70,42 @@ abstract class Model
         return $data[0] ?? null;
     }
 
-    public function save()
+    public function save(): bool
     {
         $statment = $this->execute();
 
         return $statment;
     }
 
-    public function count()
+    public function count(): int
     {
         $statment = $this->execute();
 
         return $statment->rowCount();
     }
 
-    public static function find(string $column, string $value)
+    public static function find(string $column, string $value): array
     {
         $data = static::select()->where($column, '=', $value)->get();
 
         return $data;
     }
 
-    public static function findOrFail(string $column, string $value)
+    public static function findOrFail(string $column, string $value): bool
     {
         $exist = static::select()->where($column, '=', $value)->count();
 
         return boolval($exist);
     }
 
-    public static function increase(string $column, string $value)
+    public static function increase(string $column, string $value): self
     {
         static::$query = 'update '.static::$table." set $column = ".$column.$value;
 
         return new static();
     }
 
-    public static function select(array $columns = ['*'])
+    public static function select(array $columns = ['*']): self
     {
         static::$query = 'select '.implode($columns, ',').' from '.static::$table.' ';
         static::$query .= 'where softdelete is false ';
@@ -113,7 +113,7 @@ abstract class Model
         return new static();
     }
 
-    public static function insert(array $data)
+    public static function insert(array $data): self
     {
         $data = array_merge($data, ['created_at' => date('Y-m-d H:i:s')]);
         $inputs = array_map('addslashes', array_values($data));
@@ -125,7 +125,7 @@ abstract class Model
         return new static();
     }
 
-    public static function update(array $data)
+    public static function update(array $data): self
     {
         $inputs = array_map('addslashes', array_values($data));
         $columns = implode(',', array_map(function ($value) {
@@ -138,7 +138,7 @@ abstract class Model
         return new static();
     }
 
-    public static function delete()
+    public static function delete(): self
     {
         static::update([
             'softdelete' => true,
@@ -148,14 +148,14 @@ abstract class Model
         return new static();
     }
 
-    public static function hardDelete()
+    public static function hardDelete(): self
     {
         static::$query = 'delete from '.static::$table;
 
         return new static();
     }
 
-    public static function join(string $table, string $leftKey, string $rightKey)
+    public static function join(string $table, string $leftKey, string $rightKey): self
     {
         $leftTable = static::$table;
         $rightTable = $table;
@@ -164,7 +164,7 @@ abstract class Model
         return new static();
     }
 
-    public static function leftJoin(string $table, string $leftKey, string $rightKey)
+    public static function leftJoin(string $table, string $leftKey, string $rightKey): self
     {
         $leftTable = static::$table;
         $rightTable = $table;
@@ -173,7 +173,7 @@ abstract class Model
         return new static();
     }
 
-    public function where(string $column, string $condition, string $input)
+    public function where(string $column, string $condition, string $input): self
     {
         $input = addslashes($input);
         static::$query .= ' '.static::$whereFlag." $column $condition ? ";
@@ -183,7 +183,7 @@ abstract class Model
         return $this;
     }
 
-    public function or(string $column, string $condition, string $input)
+    public function or(string $column, string $condition, string $input): self
     {
         static::$query .= " or $column $condition ? ";
         static::$inputs[] = $input;
@@ -191,21 +191,21 @@ abstract class Model
         return $this;
     }
 
-    public function groupBy(string $column)
+    public function groupBy(string $column): self
     {
         static::$query .= " group by $column ";
 
         return $this;
     }
 
-    public function orderBy(string $column, string $order = 'desc')
+    public function orderBy(string $column, string $order = 'desc'): self
     {
         static::$query .= " order by $column $order ";
 
         return $this;
     }
 
-    public function limit(int $offset, int $limit = null)
+    public function limit(int $offset, int $limit = null): self
     {
         $limit = ($limit) ? ','.$limit : '';
         static::$query .= " limit $offset $limit";
