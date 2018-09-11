@@ -16,7 +16,7 @@ class Router implements RouterInterface
     public function __construct()
     {
         $this->routes = new RoutesCollection([]);
-        $this->url = new Url;
+        $this->url    = new Url;
     }
 
     public function call(string $routesFile)
@@ -35,6 +35,15 @@ class Router implements RouterInterface
     {
         $route = $this;
         require $routesFile;
+    }
+
+    public function any(string $route, $action): Router
+    {
+        return $this->addToRouteCollection(new Route('GET', $this->prefix, $route, $action));
+        return $this->addToRouteCollection(new Route('POST', $this->prefix, $route, $action));
+        return $this->addToRouteCollection(new Route('PUT', $this->prefix, $route, $action));
+        return $this->addToRouteCollection(new Route('PATCH', $this->prefix, $route, $action));
+        return $this->addToRouteCollection(new Route('DELETE', $this->prefix, $route, $action));
     }
 
     public function get(string $route, $action): Router
