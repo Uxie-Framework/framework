@@ -13,7 +13,7 @@ class Request
     public function __construct()
     {
         $this->handleData(new RequestDataHandler());
-        $this->method = (new RequestMethodResolver($this))->getMethod();
+        $this->method    = (new RequestMethodResolver($this))->getMethod();
         $this->validator = new Validate();
     }
 
