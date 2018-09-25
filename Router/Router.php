@@ -11,7 +11,9 @@ class Router implements RouterInterface
     private $routes;
     private $url;
     private $request;
-    private $prefix = '';
+    private $prefix  = '';
+    private $defaultClosure;
+    private $activeDefault = false;
 
     public function __construct()
     {
@@ -19,7 +21,13 @@ class Router implements RouterInterface
         $this->url    = new Url;
     }
 
-    public function call(string $routesFile)
+    /**
+     * call routes from a given routes file.
+     *
+     * @param string $routesFile
+     * @return Router
+     */
+    public function call(string $routesFile): Router
     {
         $this->request = container()->Request;
         $this->callRoutes($routesFile);
@@ -28,9 +36,19 @@ class Router implements RouterInterface
             return $this;
         }
 
+        if (!isset($this->route) && $this->activeDefault) {
+            $this->route = new Route('DEFAULT', 'DEFAULT', 'DEFAULT', $this->defaultClosure);
+            return $this;
+        }
+
         throw new \Exception('This Page ('.url(currentUrl()).') Does Not Exist', 404);
     }
 
+    /**
+     * require a given file.
+     *
+     * @param string $routesFile
+     */
     private function callRoutes(string $routesFile): void
     {
         $route = $this;
@@ -90,6 +108,12 @@ class Router implements RouterInterface
         $action($this);
         $this->initialisePrefix();
         return $this;
+    }
+
+    public function default(Closure $closure): void
+    {
+        $this->activeDefault  = true;
+        $this->defaultClosure = $closure;
     }
 
     public function middleware(string $middleware, bool $flag = false): Router
