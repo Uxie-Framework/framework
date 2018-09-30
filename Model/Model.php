@@ -115,7 +115,10 @@ abstract class Model
 
     public static function insert(array $data): self
     {
-        $data = array_merge($data, ['created_at' => date('Y-m-d H:i:s')]);
+        $data = array_merge($data, [
+            'created_at' => date('Y-m-d H:i:s'),
+            'softdelete' => 0,
+        ]);
         $inputs = array_map('addslashes', array_values($data));
         $columns = implode(',', array_keys($data));
         $values = implode(',', array_fill(0, count($inputs), '?'));
