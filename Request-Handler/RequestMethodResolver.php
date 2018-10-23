@@ -2,7 +2,7 @@
 
 namespace Request;
 
-class RequestMethodResolver
+class RequestMethodResolver implements RequestMethodResolverInterface
 {
     private $request;
     private $method;
