@@ -12,9 +12,9 @@ class MiddlewareCompiler implements DependencyCompilerInterface
     }
 
     /**
- 	 * Call attached middlewares to route
- 	 *
-	 */
+     * Call attached middlewares to route
+     *
+     */
     public function execute(): void
     {
         $middlewareProvider = require rootDir().getAliase('MiddlewaresProviders');
@@ -25,16 +25,16 @@ class MiddlewareCompiler implements DependencyCompilerInterface
     }
 
     /**
- 	 * Create a Middleware instance
- 	 *
- 	 * @param string $middleware
-	 */
+     * Create a Middleware instance
+     *
+     * @param string $middleware
+     */
     private function callMiddleware(string $middleware): void
     {
         if (!class_exists($middleware)) {
             throw new \Exception("$middleware Middleware can't be found", 26);
         }
 
-        container()->build($middleware);
+        container()->build($middleware, [container()->request, container()->response]);
     }
 }

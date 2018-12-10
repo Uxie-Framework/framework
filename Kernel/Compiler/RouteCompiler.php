@@ -8,18 +8,23 @@ use Closure;
 class RouteCompiler implements DependencyCompilerInterface
 {
     private $route;
+    private $arguments;
 
     public function __construct(RouteInterface $route)
     {
         $this->route = $route;
+        $this->arguments = [
+          container()->Request,
+          container()->Response,
+        ];
     }
 
     /**
- 	 * Check if route action is Closure or method@controller format
+     * Check if route action is Closure or method@controller format
      * And then call it
- 	 *
+     *
      * @return Mixed
-	 */
+     */
     public function execute()
     {
         if ($this->route->getAction() instanceof Closure) {
@@ -41,7 +46,7 @@ class RouteCompiler implements DependencyCompilerInterface
     private function callClosure(RouteInterface $route): void
     {
         $action = $route->getAction();
-        $action(...array_values($route->getVariables()));
+        $action(...$this->arguments);
     }
 
     /**
@@ -61,24 +66,24 @@ class RouteCompiler implements DependencyCompilerInterface
     }
 
     /**
- 	 * Create Controller instance and call the right method
- 	 *
- 	 * @param RouteInterface $route
- 	 * @return object
-	 */
+     * Create Controller instance and call the right method
+     *
+     * @param RouteInterface $route
+     * @return object
+     */
     private function executeController(RouteInterface $route)
     {
         $parameters = $this->explodeController($route);
         $controller = new $parameters['controller'];
-        return call_user_func_array([$controller, $parameters['method']], $route->getVariables());
+        return call_user_func_array([$controller, $parameters['method']], $this->arguments);
     }
 
     /**
- 	 * Resolve Controller name and method to call
- 	 *
- 	 * @param RouteInterface $route
- 	 * @return array
-	 */
+     * Resolve Controller name and method to call
+     *
+     * @param RouteInterface $route
+     * @return array
+     */
     private function explodeController(RouteInterface $route): array
     {
         $parameters = explode('@', $route->getAction());
