@@ -29,7 +29,8 @@
       "Box\\":           "Box/",
       "Kernel\\":        "Kernel/",
       "Model\\":         "Model/",
-      "Request\\":       "Request-Handler/",
+      "Request\\":       "Request/",
+      "Response\\":      "Response/",
       "Router\\":        "Router/",
       "Services\\":      "Services/",
       "Validator\\":     "Validator/"
