@@ -8,12 +8,13 @@ use Exception;
 class Request
 {
     public $body;
+    public $files;
     public $params;
     private $method;
 
     public function __construct()
     {
-        $this->handleBodyData(new RequestDataHandler());
+        $this->handleData(new RequestDataHandler());
         $this->method    = $this->resolveMethod(new RequestMethodResolver($this));
         $this->validator = new Validate();
     }
@@ -58,9 +59,10 @@ class Request
         return $this->method;
     }
 
-    private function handleBodyData(RequestDataHandler $handler)
+    private function handleData(RequestDataHandler $handler)
     {
-        $this->body = $handler->handle();
+        $this->body = $handler->handleBody();
+        $this->files = $hanler->handleFiles();
     }
 
     public function validate(string $input, string $field)
