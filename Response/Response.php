@@ -18,11 +18,6 @@ class Response
         return $this;
     }
 
-    public function end(): void
-    {
-        exit();
-    }
-
     public function json(array $array): void
     {
         echo json_encode($array);
