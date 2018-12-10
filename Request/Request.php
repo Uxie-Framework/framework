@@ -8,12 +8,12 @@ use Exception;
 class Request
 {
     public $body;
-    private $method;
     public $params;
+    private $method;
 
     public function __construct()
     {
-        $this->handleData(new RequestDataHandler());
+        $this->handleBodyData(new RequestDataHandler());
         $this->method    = $this->resolveMethod(new RequestMethodResolver($this));
         $this->validator = new Validate();
     }
@@ -50,7 +50,7 @@ class Request
 
     public function setParams(array $params)
     {
-        $this->params = (object)$params;
+        $this->params = new Params($params);
     }
 
     public function method()
@@ -58,7 +58,7 @@ class Request
         return $this->method;
     }
 
-    private function handleData(RequestDataHandler $handler)
+    private function handleBodyData(RequestDataHandler $handler)
     {
         $this->body = $handler->handle();
     }
