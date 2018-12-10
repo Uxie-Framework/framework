@@ -7,7 +7,7 @@ use Exception;
 
 class Request
 {
-    private $variables = [];
+    public $body;
     private $method;
     public $params;
 
@@ -60,7 +60,7 @@ class Request
 
     private function handleData(RequestDataHandler $handler)
     {
-        $this->variables = $handler->handle();
+        $this->body = $handler->handle();
     }
 
     public function validate(string $input, string $field)
@@ -79,20 +79,5 @@ class Request
     public function getErrors()
     {
         return $this->validator->getErrors();
-    }
-
-    public function __set($name, $value)
-    {
-        $this->variables[$name] = $value;
-    }
-
-    public function __get($name)
-    {
-        return $this->variables[$name] ?? null;
-    }
-
-    public function __isset($name)
-    {
-        return isset($this->variables[$name]) ? true : false;
     }
 }
