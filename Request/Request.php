@@ -9,6 +9,7 @@ class Request
 {
     private $variables = [];
     private $method;
+    public $params;
 
     public function __construct()
     {
@@ -22,7 +23,37 @@ class Request
         return $resolver->getMethod();
     }
 
-    public function getMethod()
+    public function url()
+    {
+        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    }
+
+    public function path()
+    {
+        return $_SERVER['REQUEST_URI'];
+    }
+
+    public function cookie(string $cookie)
+    {
+        return cookie($cookie);
+    }
+
+    public function session(string $session)
+    {
+        return session($session);
+    }
+
+    public function ip()
+    {
+        return $_SERVER['ip'];
+    }
+
+    public function setParams(array $params)
+    {
+        $this->params = (object)$params;
+    }
+
+    public function method()
     {
         return $this->method;
     }

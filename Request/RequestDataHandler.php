@@ -4,14 +4,20 @@ namespace Request;
 
 class RequestDataHandler implements RequestDataHandlerInterface
 {
-    public function handle(): array
+    private $body;
+
+    public function __construct()
     {
-        $variables = [];
+        $this->body = new Body();
+    }
+
+    public function handle(): Body
+    {
         foreach ($_POST as $key => $value) {
-            $variables[$key] = $this->filter($value);
+            $this->body->key = $this->filter($value);
         }
 
-        return $variables;
+        return $this->body;
     }
 
     private function filter($input)
