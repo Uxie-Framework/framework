@@ -146,23 +146,12 @@ class Router implements RouterInterface
         if ($resolver->validate()) {
             $this->saveRoute();
             $this->bindRouteVariables($resolver->getUrlVariables());
-            $this->bindRequest($this->request);
         }
     }
 
     private function saveRoute(): void
     {
         $this->route = isset($this->route) ? $this->route : $this->routes->current();
-    }
-
-    private function bindRouteVariables(array $variables): void
-    {
-        $this->route->setVariables($variables);
-    }
-
-    private function bindRequest(): void
-    {
-        $this->route->setRequest($this->request);
     }
 
     public function getRoute(): Route
