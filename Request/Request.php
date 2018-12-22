@@ -62,7 +62,7 @@ class Request
     private function handleData(RequestDataHandler $handler)
     {
         $this->body = $handler->handleBody();
-        $this->files = $hanler->handleFiles();
+        $this->files = $handler->handleFiles();
     }
 
     public function validate(string $input, string $field)

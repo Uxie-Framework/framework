@@ -4,5 +4,6 @@ namespace Request;
 
 interface RequestDataHandlerInterface
 {
-    public function handle(): array;
+    public function handleBody(): Body;
+    public function handleFiles(): Files;
 }

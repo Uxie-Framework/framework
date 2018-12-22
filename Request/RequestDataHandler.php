@@ -21,11 +21,13 @@ class RequestDataHandler implements RequestDataHandlerInterface
         return $this->body;
     }
 
-    public function handleFiles()
+    public function handleFiles(): Files
     {
         foreach ($_FILES as $key => $value) {
             $this->files->{$key} = $this->normalizeFilesData($value);
         }
+
+        return $this->files;
     }
 
     public function normalizeFilesData(array $data): array
