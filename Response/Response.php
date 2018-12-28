@@ -8,7 +8,7 @@ class Response
 
     public function write(string $text): Self
     {
-        $response += $text;
+        $this->response .= $text;
         return $this;
     }
 
@@ -25,7 +25,7 @@ class Response
 
     public function send(): Self
     {
-        echo $response;
+        echo $this->response;
         return $this;
     }
 
