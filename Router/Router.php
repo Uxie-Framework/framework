@@ -145,7 +145,6 @@ class Router implements RouterInterface
     {
         if ($resolver->validate()) {
             $this->saveRoute();
-            $this->bindRouteVariables($resolver->getUrlVariables());
         }
     }
 
