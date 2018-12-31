@@ -15,7 +15,7 @@ class RequestDataHandler implements RequestDataHandlerInterface
     public function handleBody(): Body
     {
         foreach ($_POST as $key => $value) {
-            $this->body->key = $this->filter($value);
+            $this->body->{$key} = $this->filter($value);
         }
 
         return $this->body;
