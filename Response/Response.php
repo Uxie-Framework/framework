@@ -29,6 +29,11 @@ class Response
         return $this;
     }
 
+    public function end()
+    {
+        container()->kernel->stop();
+    }
+
     public function view(string $view): Self
     {
         view($view);
