@@ -144,6 +144,7 @@ class Router implements RouterInterface
     private function ResolveRoute(RouteResolver $resolver): void
     {
         if ($resolver->validate()) {
+            container()->Request->setParams($resolver->getUrlVariables());
             $this->saveRoute();
         }
     }
