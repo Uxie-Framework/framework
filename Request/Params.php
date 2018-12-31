@@ -18,6 +18,9 @@ class Params
 
     public function __get($key)
     {
+        if (!isset($this->variables[$key])) {
+            throw new \Exception("$key Param dont exist", 1);
+        }
         return $this->variables[$key];
     }
 

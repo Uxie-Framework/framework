@@ -13,6 +13,9 @@ class Body
 
     public function __get($key)
     {
+        if (!isset($this->variables[$key])) {
+            throw new \Exception("$key dont exist in Request", 1);
+        }
         return $this->variables[$key];
     }
 
