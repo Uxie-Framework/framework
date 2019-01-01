@@ -80,7 +80,6 @@ function cookie($key, $value = null, $time = null)
     }
 
     throw new \Exception("Cookie function can't resolve of the given arguments", 21);
-
 }
 
 function unsetCookie($key)
