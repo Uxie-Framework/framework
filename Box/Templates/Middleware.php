@@ -2,20 +2,23 @@
 
 namespace Box\Templates;
 
+use Request\Request as Request;
+use Response\Response as Response;
+
 trait Middleware
 {
     public function template(string $directory, string $fileName, string $flag = null)
     {
-        return "<?php
+        return '<?php
 
-namespace Middleware".$directory.";
+namespace Middleware'.$directory.';
 
-class ".$fileName."
+class '.$fileName.'
 {
-    public function __construct()
+    public function __construct(Request $request, Response $response)
     {
         //
     }
-} \n";
+}';
     }
 }
