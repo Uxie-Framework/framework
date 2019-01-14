@@ -35,9 +35,9 @@ class Response
         container()->kernel->stop();
     }
 
-    public function view(string $view): Self
+    public function view(string $view, array $data = []): Self
     {
-        $this->response .= view($view);
+        $this->response .= view($view, $data);
         return $this;
     }
 
