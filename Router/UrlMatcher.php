@@ -52,7 +52,7 @@ class UrlMatcher implements UrlMatcherInterface
 
     private function isVariable(string $urlValue, string $routeValue): bool
     {
-        if (preg_match('@\$(.*?)@', $routeValue)) {
+        if (preg_match('@{\$(.*?)}@', $routeValue)) {
             $this->urlVariables[$this->normalizeVariable($routeValue)] = $urlValue;
             return true;
         }
@@ -62,6 +62,7 @@ class UrlMatcher implements UrlMatcherInterface
 
     private function normalizeVariable(string $variable)
     {
-        return ltrim($variable, '$');
+        preg_match('@{\$(.*?)}@', $variable, $result);
+        return $result[1];
     }
 }
