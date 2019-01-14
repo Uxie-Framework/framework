@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class MethodsTest extends TestCase
+class RouterTest extends TestCase
 {
     public function setUp()
     {
@@ -44,6 +44,10 @@ class MethodsTest extends TestCase
         container()->bind('Request', function () {
             return new Request\Request();
         });
+        container()->bind('Response', function () {
+            return new Response\Response();
+        });
+
         $router = new Router\Router();
         $router->call(__DIR__.'/helpers/routes.php');
         $this->assertInstanceof(Router\Route::class, $router->getRoute());
@@ -133,7 +137,7 @@ class MethodsTest extends TestCase
         $this->assertInstanceof(Router\Route::class, $router->getRoute());
     }
 
-    public function testPassedVariables()
+    public function testpassedVariables()
     {
         $_SERVER['REQUEST_URI']    = 'variables/one/two';
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -142,7 +146,9 @@ class MethodsTest extends TestCase
         });
         $router = new Router\Router();
         $router->call(__DIR__.'/helpers/routes.php');
-        $this->assertEquals(['one', 'two'], $router->getRoute()->getVariables());
+
+        $this->assertEquals('one', container()->Request->params->one);
+        $this->assertEquals('two', container()->Request->params->two);
     }
 
     public function testUnpassedVariables()

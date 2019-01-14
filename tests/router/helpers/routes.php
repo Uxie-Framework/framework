@@ -8,15 +8,15 @@ $route->post('testPost', function () {
     return true;
 });
 
-$route->put('testPut', function() {
+$route->put('testPut', function ($req, $res) {
     return true;
 });
 
-$route->patch('testPatch', function() {
+$route->patch('testPatch', function () {
     return true;
 });
 
-$route->delete('testDelete', function() {
+$route->delete('testDelete', function () {
     return true;
 });
 
@@ -32,10 +32,10 @@ $route->get('variables/{$one}/{$two}', function () {
     return true;
 });
 
-$route->get('testMiddleware', function()  {
+$route->get('testMiddleware', function () {
     return true;
 })->middleware('test');
 
-$route->get('testLateMiddleware', function() {
+$route->get('testLateMiddleware', function () {
     return true;
 })->middleware('test', true);
