@@ -32,7 +32,7 @@ class Response
 
     public function end(): void
     {
-        container()->kernel->stop();
+        container()->Kernel->stop();
     }
 
     public function view(string $view, array $data = []): Self
