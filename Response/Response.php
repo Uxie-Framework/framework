@@ -18,9 +18,10 @@ class Response
         return $this;
     }
 
-    public function json(array $array): void
+    public function json(array $array): Self
     {
-        echo json_encode($array);
+        $this->response .= json_encode($array);
+        return $this;
     }
 
     public function send(): Self
@@ -29,18 +30,18 @@ class Response
         return $this;
     }
 
-    public function end()
+    public function end(): void
     {
         container()->kernel->stop();
     }
 
     public function view(string $view): Self
     {
-        view($view);
+        $this->response .= view($view);
         return $this;
     }
 
-    public function cookie(string $name, string $value, string $expirationDate): void
+    public function cookie(string $name, string $value, string $expirationDate = null): void
     {
         cookie($name, $value, $expirationDate);
     }
