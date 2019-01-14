@@ -4,16 +4,16 @@
 function view(string $view, array $data = [])
 {
     if (getenv('TEMPLATING_ENGINE') == 'Blade') {
-        bladeView($view, $data);
+        return bladeView($view, $data);
     } else {
-        pugView($view, $data);
+        return pugView($view, $data);
     }
 }
 
 function bladeView(string $view, array $data = [])
 {
     container()->build('Blade', ['../App/Views', '../cache/blade']);
-    echo container()->Blade->make($view, $data);
+    return container()->Blade->make($view, $data);
 }
 
 function pugView(string $view, array $data = [])
@@ -24,7 +24,7 @@ function pugView(string $view, array $data = [])
         'basedir'            => '../App/Views',
         ]]);
 
-    echo container()->Pug->render("../App/Views/$view.pug", $data);
+    return container()->Pug->render("../App/Views/$view.pug", $data);
 }
 
 // return full valide url (inside application)
