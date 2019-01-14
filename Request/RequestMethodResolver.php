@@ -24,7 +24,7 @@ class RequestMethodResolver implements RequestMethodResolverInterface
 
     private function resolveMethodFromInputs()
     {
-        if (isset($this->request->_method)) {
+        if (isset($this->request->body->_method)) {
             return $this->getMethodFromRequest();
         }
 
@@ -33,10 +33,10 @@ class RequestMethodResolver implements RequestMethodResolverInterface
 
     private function getMethodFromRequest()
     {
-        if (!in_array($this->request->_method, $this->allowedMethods)) {
-            throw new \Exception($this->request->_method." Type of method is not supported", 1);
+        if (!in_array($this->request->body->_method, $this->allowedMethods)) {
+            throw new \Exception($this->request->body->_method." Type of method is not supported", 1);
         }
 
-        return $this->request->_method;
+        return $this->request->body->_method;
     }
 }
