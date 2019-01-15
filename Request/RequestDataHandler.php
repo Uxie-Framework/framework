@@ -32,7 +32,7 @@ class RequestDataHandler implements RequestDataHandlerInterface
 
     public function normalizeFilesData(array $data): array
     {
-        if (count($_FILES < 2)) {
+        if (count($_FILES) < 2) {
             return $data;
         }
 
