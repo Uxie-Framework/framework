@@ -39,6 +39,9 @@ class Kernel implements KernelInterface
     {
         // compile late-middlewares
         container()->Compiler->compileMiddlewares(container()->Router->getRoute()->getLateMiddlewares());
+        // print the output
+        container()->Response->send();
+        // end the app execution
         exit();
     }
 }
