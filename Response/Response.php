@@ -6,6 +6,12 @@ class Response
 {
     private $response;
 
+    public function unsetResponse(): Self
+    {
+        $this->response = '';
+        return $this;
+    }
+
     public function write(string $text): Self
     {
         $this->response .= $text;
@@ -20,6 +26,7 @@ class Response
 
     public function json(array $array): Self
     {
+        $this->clearResponse();
         $this->response .= json_encode($array);
         return $this;
     }
@@ -32,7 +39,7 @@ class Response
 
     public function end(): void
     {
-        container()->Kernel->stop();
+        exit();
     }
 
     public function view(string $view, array $data = []): Self
@@ -41,24 +48,39 @@ class Response
         return $this;
     }
 
-    public function cookie(string $name, string $value, string $expirationDate = null): void
+    public function setCookie(string $name, string $value, string $expirationDate = null): void
     {
         cookie($name, $value, $expirationDate);
     }
 
-    public function clearCookies(string $cookie): void
+    public function getCookie(string $name): string
+    {
+        return cookie($name);
+    }
+
+    public function unsetCookie(string $cookie): void
     {
         unsetCookie($cookie);
     }
 
-    public function session(string $name, string $value): void
+    public function setSession(string $name, string $value = null): void
     {
         session($name, $value);
     }
 
-    public function clearSession(string $session): void
+    public function getSession(string $name): string
+    {
+        return session($name);
+    }
+
+    public function unsetSession(string $session): void
     {
         unsetSession($session);
+    }
+
+    public function unsetAllSessions(): void
+    {
+        session_destroy();
     }
 
     public function back(): void
