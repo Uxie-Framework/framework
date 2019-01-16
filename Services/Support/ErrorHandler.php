@@ -13,7 +13,6 @@ class ErrorHandler
             $code = 'ERROR';
             $error = '404';
         }
-
-        container()->Response->view('CoreViews/error', ['code' => $code, 'error' => $error])->send();
+        container()->Response->unsetResponse()->view('CoreViews/error', ['code' => $code, 'error' => $error]);
     }
 }
