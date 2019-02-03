@@ -17,7 +17,7 @@ abstract class Model
     public function __construct()
     {
         try {
-            $this->pdo = new PDO(getenv('DB_CNX').':host='.getenv('DB_HOST').';dbname='.getenv('DB_NAME'), getenv('DB_USER'), getenv('DB_PASS'));
+            $this->pdo = new PDO(getenv('DB_CNX').':host='.getenv('DB_HOST').';port='.getenv('DB_PORT').';dbname='.getenv('DB_NAME'), getenv('DB_USER'), getenv('DB_PASS'));
         } catch (PDOException $e) {
             throw new Exception('cant connect to database '.$e->getMessage(), $e->getCode());
         }
