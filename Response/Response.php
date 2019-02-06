@@ -42,6 +42,11 @@ class Response
         exit();
     }
 
+    public function exception(string $message, int $code): \Exception
+    {
+        throw new \Exception($message, $code);
+    }
+
     public function view(string $view, array $data = []): Self
     {
         $this->response .= view($view, $data);
