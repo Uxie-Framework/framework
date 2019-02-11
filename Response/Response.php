@@ -4,17 +4,30 @@ namespace Response;
 
 class Response
 {
-    private $response;
+    private $response = '';
+    private $flag     = false;
 
-    public function unsetResponse(): Self
+    private function addToResponse(string $text): void
     {
-        $this->response = '';
-        return $this;
+        if ($this->flag) {
+            throw new \Exception("Response flag already raised, Response text already set", 1);
+        }
+        $this->response .= $text;
+    }
+
+    private function printResponse(): void
+    {
+        echo $this->Response;
+    }
+
+    private function setFlag(): void
+    {
+        $this->flag = true;
     }
 
     public function write(string $text): Self
     {
-        $this->response .= $text;
+        $this->addToResponse($text);
         return $this;
     }
 
@@ -27,13 +40,15 @@ class Response
     public function json(array $array): Self
     {
         $this->clearResponse();
-        $this->response .= json_encode($array);
+        $this->addToResponse(json_encode($array));
+        $this->setFlag();
         return $this;
     }
 
     public function send(): Self
     {
-        echo $this->response;
+        $this->printResponse();
+        $this->setFlag();
         return $this;
     }
 
@@ -45,11 +60,13 @@ class Response
     public function exception(string $message, int $code): \Exception
     {
         throw new \Exception($message, $code);
+        $this->setFlag();
     }
 
     public function view(string $view, array $data = []): Self
     {
-        $this->response .= view($view, $data);
+        $this->addToResponse(view($view, $data));
+        $this->setFlag();
         return $this;
     }
 
