@@ -15,12 +15,20 @@ class Response
         $this->response .= $text;
     }
 
+    private function clearResponse()
+    {
+        $this->response = '';
+    }
+
     private function printResponse(): void
     {
+        if (!$this->response) {
+            throw new \Exception("Can't overwright the response, The flag is raised", 1);
+        }
         echo $this->Response;
     }
 
-    private function setFlag(): void
+    private function raisFlag(): void
     {
         $this->flag = true;
     }
@@ -39,16 +47,13 @@ class Response
 
     public function json(array $array): Self
     {
-        $this->clearResponse();
         $this->addToResponse(json_encode($array));
-        $this->setFlag();
         return $this;
     }
 
     public function send(): Self
     {
         $this->printResponse();
-        $this->setFlag();
         return $this;
     }
 
@@ -60,13 +65,13 @@ class Response
     public function exception(string $message, int $code): \Exception
     {
         throw new \Exception($message, $code);
-        $this->setFlag();
     }
 
     public function view(string $view, array $data = []): Self
     {
+        $this->clearResponse();
         $this->addToResponse(view($view, $data));
-        $this->setFlag();
+        $this->raisFlag();
         return $this;
     }
 
