@@ -14,7 +14,7 @@ use Model\Model;
 
 class ".$fileName." extends Model
 {
-    protected static \$table = '".$fileName."';
+    protected static \$table = '".$fileName."s';
 } \n";
     }
 }
