@@ -75,11 +75,6 @@ class Response
         return $this;
     }
 
-    public function setCookie(string $name, string $value, string $expirationDate = null): void
-    {
-        cookie($name, $value, $expirationDate);
-    }
-
     public function cookie(string $name): string
     {
         return cookie($name);
