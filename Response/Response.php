@@ -80,7 +80,7 @@ class Response
         cookie($name, $value, $expirationDate);
     }
 
-    public function getCookie(string $name): string
+    public function cookie(string $name): string
     {
         return cookie($name);
     }
@@ -90,14 +90,9 @@ class Response
         unsetCookie($cookie);
     }
 
-    public function setSession(string $name, string $value = null): void
+    public function session(string $name, string $value = null): void
     {
         session($name, $value);
-    }
-
-    public function getSession(string $name): string
-    {
-        return session($name);
     }
 
     public function unsetSession(string $session): void
