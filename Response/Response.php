@@ -4,38 +4,16 @@ namespace Response;
 
 class Response
 {
-    private $response = '';
-    private $flag     = false;
+    private $response;
 
-    private function addToResponse(string $text): void
+    public function __construct()
     {
-        if ($this->flag) {
-            throw new \Exception("Response flag already raised, Response text already set", 1);
-        }
-        $this->response .= $text;
-    }
-
-    private function clearResponse()
-    {
-        $this->response = '';
-    }
-
-    private function printResponse(): void
-    {
-        if (!$this->response) {
-            throw new \Exception("Can't overwright the response, The flag is raised", 1);
-        }
-        echo $this->Response;
-    }
-
-    private function raisFlag(): void
-    {
-        $this->flag = true;
+        $this->response = new ResponseText();
     }
 
     public function write(string $text): Self
     {
-        $this->addToResponse($text);
+        $this->response->addToResponse($text);
         return $this;
     }
 
@@ -45,15 +23,15 @@ class Response
         return $this;
     }
 
-    public function json(array $array): Self
+    public function json(array $array, int $options = null): Self
     {
-        $this->addToResponse(json_encode($array));
+        $this->response->resetResponseTo(json_encode($array, $options));
         return $this;
     }
 
     public function send(): Self
     {
-        $this->printResponse();
+        $this->response->writeResponse();
         return $this;
     }
 
@@ -64,25 +42,29 @@ class Response
 
     public function exception(string $message, int $code): \Exception
     {
+        $this->response->resetResponse();
         throw new \Exception($message, $code);
     }
 
     public function view(string $view, array $data = []): Self
     {
-        $this->clearResponse();
-        $this->addToResponse(view($view, $data));
-        $this->raisFlag();
+        $this->response->resetResponseTo(view($view, $data));
         return $this;
     }
 
-    public function cookie(string $name): string
+    public function cookie(string $name, string $value, $date): void
     {
-        return cookie($name);
+        cookie($name, $value, $date);
     }
 
     public function unsetCookie(string $cookie): void
     {
         unsetCookie($cookie);
+    }
+
+    public function unsetAllCookies(): void
+    {
+        unset($_COOKIE);
     }
 
     public function session(string $name, string $value = null): void
