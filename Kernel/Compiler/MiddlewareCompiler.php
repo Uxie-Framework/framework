@@ -35,6 +35,6 @@ class MiddlewareCompiler implements DependencyCompilerInterface
             throw new \Exception("$middleware Middleware can't be found", 26);
         }
 
-        container()->build($middleware, [container()->request, container()->response]);
+        container()->build($middleware, [container()->Request, container()->Response]);
     }
 }
