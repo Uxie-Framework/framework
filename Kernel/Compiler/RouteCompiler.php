@@ -74,7 +74,7 @@ class RouteCompiler implements DependencyCompilerInterface
     private function executeController(RouteInterface $route)
     {
         $parameters = $this->explodeController($route);
-        $controller = new $parameters['controller'];
+        $controller = new $parameters['controller'](container()->Request, container()->Response);
         return call_user_func_array([$controller, $parameters['method']], $this->arguments);
     }
 
