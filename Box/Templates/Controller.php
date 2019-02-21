@@ -25,9 +25,13 @@ use Response\Response as Response;
 
 class '.$fileName.' extends Controller
 {
-    public function welcom(Request $request, Response $response)
+    private $response;
+    private $request;
+
+    public function __construct(Request $request, Response $response)
     {
-        //
+        $this->response = $response;
+        $this->request  = $request;
     }
 }';
     }
@@ -44,6 +48,14 @@ use Response\Response as Response;
 
 class '.$fileName.' extends Controller
 {
+    private $response;
+    private $request;
+    
+    pubic function __construct(Request $request, Response $response)
+    {
+        $this->response = $response;
+        $this->request  = $request;
+    }
 
     public function index(Request $request, Response $response)
     {

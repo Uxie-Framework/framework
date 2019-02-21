@@ -15,9 +15,13 @@ namespace Middleware'.$directory.';
 
 class '.$fileName.'
 {
+    private $response;
+    private $request;
+
     public function __construct(Request $request, Response $response)
     {
-        //
+        $this->response = $response;
+        $this->request  = $request;
     }
 }';
     }
