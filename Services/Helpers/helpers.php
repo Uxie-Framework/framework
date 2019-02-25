@@ -12,17 +12,17 @@ function view(string $view, array $data = [])
 
 function bladeView(string $view, array $data = [])
 {
-    container()->build('Blade', ['../App/Views', '../cache/blade']);
+    container()->build('Blade', '../App/Views', '../cache/blade');
     return container()->Blade->make($view, $data);
 }
 
 function pugView(string $view, array $data = [])
 {
-    container()->build('Pug', [[
+    container()->build('Pug', [
         'expressionLanguage' => 'php',
         'cache'              => '../cache/pug',
         'basedir'            => '../App/Views',
-        ]]);
+        ]);
 
     return container()->Pug->render("../App/Views/$view.pug", $data);
 }
