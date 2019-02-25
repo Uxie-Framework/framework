@@ -22,7 +22,7 @@ class ResponseTest extends TestCase
         $property->setAccessible(true);
         $response = $property->getValue(container()->Response);
 
-        $this->assertEquals($response, 'test');
+        $this->assertEquals($response->getText(), 'test');
     }
 
     public function testStatus()
@@ -43,6 +43,6 @@ class ResponseTest extends TestCase
         $property->setAccessible(true);
         $response = $property->getValue(container()->Response);
 
-        $this->assertEquals($response, '{"name":"uxie","package":"response"}');
+        $this->assertEquals($response->getText(), '{"name":"uxie","package":"response"}');
     }
 }
