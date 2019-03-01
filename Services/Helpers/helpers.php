@@ -115,6 +115,12 @@ function csrf_token()
     return session('_token');
 }
 
+function generate_csrf_token()
+{
+    session('_token', uniqid(random_int(0, 1000)));
+    return session('_token');
+}
+
 function method_field(string $method)
 {
     echo "<input type='hidden' name='_method' value='$method' />";
