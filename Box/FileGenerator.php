@@ -8,6 +8,7 @@ class FileGenerator
         'Controller' => 'Controllers',
         'Middleware' => 'Middlewares',
         'Model'      => 'Models',
+        'Repository' => 'Repositories',
     ];
     private $command;
     private $argument;
