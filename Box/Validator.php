@@ -4,7 +4,7 @@ namespace Box;
 
 class Validator
 {
-    private $commands = ['Controller', 'Model', 'Middleware'];
+    private $commands = ['Controller', 'Model', 'Middleware', 'Repository'];
 
     public function validate($command)
     {
