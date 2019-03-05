@@ -13,6 +13,9 @@ trait Middleware
 
 namespace Middleware'.$directory.';
 
+use Request\Request as Request;
+use Response\Response as Response;
+
 class '.$fileName.'
 {
     private $response;

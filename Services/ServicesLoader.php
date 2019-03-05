@@ -2,7 +2,6 @@
 
 namespace Services;
 
-
 class ServicesLoader
 {
     use Services;
@@ -53,7 +52,7 @@ class ServicesLoader
     private function loadProviders()
     {
         foreach ($this->bindedServices['ServiceProviders'] as $value) {
-            container()->build($value);
+            container()->build($value, container()->Request, container()->Response);
         }
     }
 }
