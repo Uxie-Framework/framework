@@ -27,8 +27,8 @@ class ResponseTest extends TestCase
 
     public function testStatus()
     {
-        container()->Response->status(22);
-        $this->assertEquals(http_response_code(), 22);
+        container()->Response->status(404);
+        $this->assertEquals(http_response_code(), 404);
     }
 
     public function testJson()

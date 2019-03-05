@@ -52,7 +52,7 @@ class Response
         return $this;
     }
 
-    public function cookie(string $name, string $value, $date): void
+    public function cookie(string $name, string $value, string $date): void
     {
         cookie($name, $value, $date);
     }
@@ -90,5 +90,10 @@ class Response
     public function refresh(): void
     {
         redirect(currentUrl());
+    }
+
+    public function redirect(string $url): void
+    {
+        redirect($url);
     }
 }

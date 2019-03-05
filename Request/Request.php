@@ -2,8 +2,7 @@
 
 namespace Request;
 
-use Validator\Validate;
-use Exception;
+use Validator\Validate as Validate;
 
 class Request
 {
@@ -19,53 +18,53 @@ class Request
         $this->validator = new Validate();
     }
 
-    private function resolveMethod(RequestMethodResolverInterface $resolver)
+    private function resolveMethod(RequestMethodResolverInterface $resolver): string
     {
         return $resolver->getMethod();
     }
 
-    public function url()
+    public function url(): string
     {
         return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     }
 
-    public function path()
+    public function path(): string
     {
         return $_SERVER['REQUEST_URI'];
     }
 
-    public function cookie(string $cookie)
+    public function cookie(string $cookie): string
     {
         return cookie($cookie);
     }
 
-    public function session(string $session)
+    public function session(string $session): string
     {
         return session($session);
     }
 
-    public function ip()
+    public function ip(): string
     {
         return $_SERVER['ip'];
     }
 
-    public function setParams(array $params)
+    public function setParams(array $params): void
     {
         $this->params = new Params($params);
     }
 
-    public function method()
+    public function method(): string
     {
         return $this->method;
     }
 
-    private function handleData(RequestDataHandler $handler)
+    private function handleData(RequestDataHandler $handler): void
     {
-        $this->body = $handler->handleBody();
+        $this->body  = $handler->handleBody();
         $this->files = $handler->handleFiles();
     }
 
-    public function validate(string $input, string $field)
+    public function validate(string $input, string $field): Validate
     {
         if (!isset($this->{$input})) {
             throw new \Exception("( $input ) input does not exist", 1);
@@ -73,12 +72,12 @@ class Request
         return  $this->validator->startValidation($this->{$input}, $field);
     }
 
-    public function isValide()
+    public function isValide(): bool
     {
         return (empty($this->getErrors())) ? true : false;
     }
 
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->validator->getErrors();
     }
