@@ -1,9 +1,19 @@
 <?php
-
 namespace Services\Support;
+
+use Request\Request as Request;
+use Response\Response as Response;
 
 class Logger
 {
+    private $request;
+    private $response;
+
+    public function __construct(Request $request, Response $response)
+    {
+        $this->request  = $request;
+        $this->response = $response;
+    }
 
     public function error($error, $code, $line, $file)
     {

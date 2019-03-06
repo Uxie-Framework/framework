@@ -1,9 +1,20 @@
 <?php
-
 namespace Services\Support;
+
+use Request\Request as Request;
+use Response\Response as Response;
 
 class ErrorHandler
 {
+    private $request;
+    private $response;
+
+    public function __construct(Request $request, Response $response)
+    {
+        $this->request  = $request;
+        $this->response = $response;
+    }
+
     public function handle(\Throwable $e)
     {
         container()->Logger->error($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile());
@@ -13,6 +24,6 @@ class ErrorHandler
             $code = 'ERROR';
             $error = '404';
         }
-        container()->Response->view('CoreViews/error', ['code' => $code, 'error' => $error])->send();
+        $this->response->view('CoreViews/error', ['code' => $code, 'error' => $error])->send();
     }
 }
