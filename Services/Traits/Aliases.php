@@ -10,6 +10,7 @@ trait Aliases
         'Services'             => 'App/Services.php',
         'Controllers'          => 'App/Controllers',
         'Models'               => 'App/Models',
+        'Repositories'         => 'App/Repositories',
         'Middlewares'          => 'App/Middlewares',
         'ServicesFolder'       => 'App/Services',
     ];
