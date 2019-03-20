@@ -2,8 +2,6 @@
 
 namespace Request;
 
-use Validator\Validate as Validate;
-
 class Request
 {
     public $body;
@@ -15,7 +13,6 @@ class Request
     {
         $this->handleData(new RequestDataHandler());
         $this->method    = $this->resolveMethod(new RequestMethodResolver($this));
-        $this->validator = new Validate();
     }
 
     private function resolveMethod(RequestMethodResolverInterface $resolver): string
@@ -64,21 +61,8 @@ class Request
         $this->files = $handler->handleFiles();
     }
 
-    public function validate(string $input, string $field): Validate
-    {
-        if (!isset($this->{$input})) {
-            throw new \Exception("( $input ) input does not exist", 1);
-        }
-        return  $this->validator->startValidation($this->{$input}, $field);
-    }
-
     public function isValide(): bool
     {
         return (empty($this->getErrors())) ? true : false;
-    }
-
-    public function getErrors(): array
-    {
-        return $this->validator->getErrors();
     }
 }
