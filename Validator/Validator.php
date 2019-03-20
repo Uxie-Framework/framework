@@ -2,18 +2,18 @@
 
 namespace Validator;
 
-class validator
+class Validator
 {
     private $input;
     private $errors = [];
 
     public function validate(string $input, string $field): self
     {
-        if (!isset(container()->Request->{$input})) {
+        if (!isset(container()->Request->body->{$input})) {
             throw new \Exception("( $input ) input does not exist", 1);
         }
 
-        return  $this->validator->startValidation($this->{$input}, $field);
+        return  $this->validator->startValidation(container()->request->body->{$input}, $field);
     }
 
     private function startValidation(string $input, string $field): self
