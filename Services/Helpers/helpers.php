@@ -90,7 +90,7 @@ function unsetCookie($key)
 function language(string $language = null)
 {
     if ($language === null) {
-        return cookie('_language') ?? 'english';
+        return cookie('_language') ?? 'en';
     }
     if (is_string($language)) {
         cookie('_language', $language, time()+3600*24*30);
