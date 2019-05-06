@@ -46,27 +46,6 @@ function redirect(string $url)
     header('Location: '.$url);
 }
 
-function session($key, $value = null)
-{
-    if (!isset($_SESSION)) {
-        session_start();
-    }
-    if (!$value && isset($_SESSION[$key])) {
-        return $_SESSION[$key] ?? false;
-    }
-    if ($value) {
-        return $_SESSION[$key] = $value;
-    }
-
-    return null;
-}
-
-function unsetSession($key)
-{
-    session_start();
-    unset($_SESSION[$key]);
-}
-
 function cookie($key, $value = null, $time = null)
 {
     if ($value && $time) {
@@ -105,20 +84,24 @@ function translation(string $languageFile)
 
 function csrf_field()
 {
-    $token = session('_token') ?? uniqid(random_int(0, 1000));
-    session('_token', $token);
+    if (isset(container()->Response->session->_token)) {
+        $token = container()->Response->session->_token;
+    } else {
+        $token = uniqid(random_int(0, 1000));
+    }
+    container()->Response->session->set('_token', $token);
     echo "<input type='hidden' name='_token' value='".$token."'>";
 }
 
 function csrf_token()
 {
-    return session('_token');
+    return container()->Response->session->_token;
 }
 
 function generate_csrf_token()
 {
-    session('_token', uniqid(random_int(0, 1000)));
-    return session('_token');
+    container()->Response->session->set('_token', uniqid(random_int(0, 1000)));
+    return container()->Response->session->_token;
 }
 
 function method_field(string $method)
