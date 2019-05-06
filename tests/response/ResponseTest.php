@@ -4,6 +4,23 @@ use PHPUnit\Framework\TestCase;
 
 class ResponseTest extends TestCase
 {
+    protected function disableExceptionHandling()
+    {
+        $this->oldExceptionHandler = $this->app->make(ExceptionHandler::class);
+        $this->app->instance(ExceptionHandler::class, new class extends Handler {
+            public function __construct()
+            {
+            }
+            public function report(\Exception $e)
+            {
+            }
+            public function render($request, \Exception $e)
+            {
+                throw $e;
+            }
+        });
+    }
+
     public function setUp()
     {
         @session_start();
@@ -16,6 +33,7 @@ class ResponseTest extends TestCase
 
     public function testWrite()
     {
+        $this->disableExceptionHandling();
         container()->Response->write('test');
 
         $imageReflection = new ReflectionClass(container()->Response);
@@ -28,6 +46,7 @@ class ResponseTest extends TestCase
 
     public function testStatus()
     {
+        $this->disableExceptionHandling();
         container()->Response->status(404);
         $this->assertEquals(http_response_code(), 404);
     }
