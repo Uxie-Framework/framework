@@ -6,6 +6,7 @@ class ResponseTest extends TestCase
 {
     public function setUp()
     {
+        @session_start();
         IOC\IOC::createContainer();
 
         container()->bind('Response', function () {
@@ -18,7 +19,7 @@ class ResponseTest extends TestCase
         container()->Response->write('test');
 
         $imageReflection = new ReflectionClass(container()->Response);
-        $property = $imageReflection->getProperty('response');
+        $property        = $imageReflection->getProperty('response');
         $property->setAccessible(true);
         $response = $property->getValue(container()->Response);
 
@@ -34,7 +35,7 @@ class ResponseTest extends TestCase
     public function testJson()
     {
         container()->Response->json([
-        'name' => 'uxie',
+        'name'    => 'uxie',
         'package' => 'response',
       ]);
 
@@ -44,5 +45,10 @@ class ResponseTest extends TestCase
         $response = $property->getValue(container()->Response);
 
         $this->assertEquals($response->getText(), '{"name":"uxie","package":"response"}');
+    }
+
+    public function testSession()
+    {
+        $this->assertInstanceOf(Response\Session::class, container()->Response->session);
     }
 }
