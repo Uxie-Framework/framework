@@ -5,10 +5,12 @@ namespace Response;
 class Response
 {
     private $response;
+    public $session;
 
     public function __construct()
     {
         $this->response = new ResponseText();
+        $this->session  = new Session();
     }
 
     public function write(string $text): Self
@@ -65,21 +67,6 @@ class Response
     public function unsetAllCookies(): void
     {
         unset($_COOKIE);
-    }
-
-    public function session(string $name, string $value = null): void
-    {
-        session($name, $value);
-    }
-
-    public function unsetSession(string $session): void
-    {
-        unsetSession($session);
-    }
-
-    public function unsetAllSessions(): void
-    {
-        session_destroy();
     }
 
     public function back(): void
