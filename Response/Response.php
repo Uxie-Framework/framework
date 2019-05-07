@@ -4,13 +4,15 @@ namespace Response;
 
 class Response
 {
-    private $response;
     public $session;
+    public $cookie;
+    private $response;
 
     public function __construct()
     {
         $this->response = new ResponseText();
         $this->session  = new Session();
+        $this->cookie   = new Cookie();
     }
 
     public function write(string $text): Self
@@ -52,21 +54,6 @@ class Response
     {
         $this->response->resetResponseTo(view($view, $data));
         return $this;
-    }
-
-    public function cookie(string $name, string $value, string $date): void
-    {
-        cookie($name, $value, $date);
-    }
-
-    public function unsetCookie(string $cookie): void
-    {
-        unsetCookie($cookie);
-    }
-
-    public function unsetAllCookies(): void
-    {
-        unset($_COOKIE);
     }
 
     public function back(): void
