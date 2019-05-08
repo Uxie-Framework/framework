@@ -46,24 +46,44 @@ function redirect(string $url)
     header('Location: '.$url);
 }
 
-function cookie($key, $value = null, $time = null)
+function setSession(string $key, string $value)
 {
-    if ($value && $time) {
-        return setcookie($key, $value, $time, '/');
-    }
-    if ($value && !$time) {
-        return setcookie($key, $value, time(), '/');
-    }
-    if (!$value && !$time) {
-        return $_COOKIE[$key] ?? null;
-    }
-
-    throw new \Exception("Cookie function can't resolve of the given arguments", 21);
+    container()->Response->session->set($key, $value);
 }
 
-function unsetCookie($key)
+function getSession(string $key)
 {
-    setcookie($key, '', time() - 1);
+    return container()->Response->session->get($key);
+}
+
+function destroySession(string $key)
+{
+    container()->Response->session->destroy($key);
+}
+
+function destroyAllSessions()
+{
+    container()->Response->session->destroyAll();
+}
+
+function setNewCookie(sting $key, string $value, string $date)
+{
+    container()->Response->cookie->set($key, $value, $date);
+}
+
+function getCookie(string $key)
+{
+    return container()->Resonse->cookie->get($key);
+}
+
+function destroyCookie(string $key)
+{
+    container()->Response->cookie->destroy($key);
+}
+
+function destroyAllCookies()
+{
+    container()->Response->cookie->destroyAll();
 }
 
 function language(string $language = null)
