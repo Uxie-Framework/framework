@@ -53,7 +53,7 @@ class Attempt
     private function startSession()
     {
         foreach ((array)$this->userData[0] as $key => $value) {
-            if ($this->password['key'] !== $key) {
+            if ($this->password['key'] !== $key && !is_null($value)) {
                 setSession($key, $value);
             }
         }
