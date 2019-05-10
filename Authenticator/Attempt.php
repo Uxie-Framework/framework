@@ -54,10 +54,10 @@ class Attempt
     {
         foreach ((array)$this->userData[0] as $key => $value) {
             if ($this->password['key'] !== $key) {
-                session($key, $value);
+                setSession($key, $value);
             }
         }
-        session('time', time());
+        setSession('time', time());
     }
 
     private function setup()
