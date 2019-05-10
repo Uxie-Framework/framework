@@ -11,9 +11,6 @@ class Logout
 
     private function logout()
     {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-        session_destroy();
+        destroyAllSessions();
     }
 }
