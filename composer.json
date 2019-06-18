@@ -33,7 +33,9 @@
       "Response\\":      "Response/",
       "Router\\":        "Router/",
       "Services\\":      "Services/",
-      "Validator\\":     "Validator/"
+      "Validator\\":     "Validator/",
+      "Session\\":       "Session/",
+      "Cookie\\":        "Cookie/"
     }
   }
 }
