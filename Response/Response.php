@@ -4,15 +4,11 @@ namespace Response;
 
 class Response
 {
-    public $session;
-    public $cookie;
     private $response;
 
     public function __construct()
     {
         $this->response = new ResponseText();
-        $this->session  = new Session();
-        $this->cookie   = new Cookie();
     }
 
     public function write(string $text): Self
