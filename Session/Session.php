@@ -7,7 +7,21 @@ class Session
 
     public function __construct()
     {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->sessions = $_SESSION;
+    }
+
+    public function delete(string $key): void
+    {
+        unset($_SESSION[$key]);
+        unset($this->sessions[$key]);
+    }
+
+    public function deleteAll(): void
+    {
+        session_destroy();
     }
 
     public function set(string $key, string $value): void

@@ -10,6 +10,19 @@ class Cookie
         $this->cookies = $_COOKIE;
     }
 
+    public function delete(string $key): void
+    {
+        unset($_COOKIE[$key]);
+        setcookie($key, '', time()-1);
+    }
+
+    public function deleteAll(): void
+    {
+        foreach ($_COOKIE as $key => $value) {
+            setcookie($key, $value, time()-1);
+        }
+    }
+
     public function set(string $key, string $value, string $date): void
     {
         $this->cookies[$key] = $value;
