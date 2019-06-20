@@ -32,12 +32,12 @@ class Request
 
     public function cookie(string $cookie): string
     {
-        return cookie($cookie);
+        return getCookie($cookie);
     }
 
     public function session(string $session): string
     {
-        return session($session);
+        return getSession($session);
     }
 
     public function ip(): string
