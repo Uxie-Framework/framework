@@ -48,42 +48,42 @@ function redirect(string $url)
 
 function setSession(string $key, string $value)
 {
-    container()->Response->session->set($key, $value);
+    container()->Session->set($key, $value);
 }
 
 function getSession(string $key)
 {
-    return container()->Response->session->get($key);
+    return container()->Session->$key;
 }
 
 function destroySession(string $key)
 {
-    container()->Response->session->destroy($key);
+    container()->Session->delete($key);
 }
 
 function destroyAllSessions()
 {
-    container()->Response->session->destroyAll();
+    container()->Session->deleteAll();
 }
 
 function setNewCookie(sting $key, string $value, string $date)
 {
-    container()->Response->cookie->set($key, $value, $date);
+    container()->Cookie->set($key, $value, $date);
 }
 
 function getCookie(string $key)
 {
-    return container()->Resonse->cookie->get($key);
+    return container()->Cookie->$key;
 }
 
 function destroyCookie(string $key)
 {
-    container()->Response->cookie->destroy($key);
+    container()->Cookie->delete($key);
 }
 
 function destroyAllCookies()
 {
-    container()->Response->cookie->destroyAll();
+    container()->Cookie->deleteAll();
 }
 
 function language(string $language = null)

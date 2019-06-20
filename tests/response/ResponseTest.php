@@ -46,9 +46,4 @@ class ResponseTest extends TestCase
 
         $this->assertEquals($response->getText(), '{"name":"uxie","package":"response"}');
     }
-
-    public function testSession()
-    {
-        $this->assertInstanceOf(Response\Session::class, container()->Response->session);
-    }
 }
