@@ -50,10 +50,10 @@ class UrlMatcher implements UrlMatcherInterface
         return true;
     }
 
-    private function isVariable(string $urlValue, string $routeValue): bool
+    private function isVariable(string $urlVariable, string $routeVariable): bool
     {
-        if (preg_match('@{\$(.*?)}@', $routeValue)) {
-            $this->urlVariables[$this->normalizeVariable($routeValue)] = $urlValue;
+        if (preg_match('@{\$(.*?)}@', $routeVariable)) {
+            $this->urlVariables[$this->normalizeVariable($routeVariable)] = $urlVariable;
             return true;
         }
 
