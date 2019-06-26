@@ -20,10 +20,11 @@ class Validator
         $this->pipeline = new Pipeline();
     }
 
-    public function validate(): void
+    public function validate(): self
     {
         $this->errors = $this->pipeline->process();
         $this->normalizeErrors(); // remove null values from the array
+        return $this;
     }
 
     public function isValide(): bool
