@@ -2,10 +2,23 @@
 
 namespace Validator\Validators;
 
-class Email extends Validator
+class Email implements Validatable
 {
-    public function check(string $email)
+    private $input;
+    private $errorMsg;
+
+    public function __construct(string $input, string $errorMsg)
     {
-        return filter_var($email, FILTER_VALIDATE_EMAIL);
+        $this->input = $input;
+        $this->errorMsg = $errorMsg;
+    }
+
+    public function check(): string
+    {
+        if (!filter_var($this->input, FILTER_VALIDATE_EMAIL)) {
+            return $this->errorMsg;
+        }
+
+        return '';
     }
 }

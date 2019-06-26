@@ -2,10 +2,23 @@
 
 namespace Validator\Validators;
 
-class Url extends Validator
+class Url implements Validatable
 {
-    public function check(string $input)
+    private $input;
+    private $errorMsg;
+
+    public function __construct(string $input, string $errorMsg)
     {
-        return filter_var($input, FILTER_VALIDATE_URL);
+        $this->input    = $input;
+        $this->errorMsg = $errorMsg;
+    }
+
+    public function check(): string
+    {
+        if (filter_var($this->input, FILTER_VALIDATE_URL)) {
+            return '';
+        }
+
+        return $this->errorMsg;
     }
 }

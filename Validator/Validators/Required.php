@@ -2,10 +2,23 @@
 
 namespace Validator\Validators;
 
-class Required extends Validator
+class Required implements Validatable
 {
-    public function check(string $input)
+    private $input;
+    private $errorMsg;
+
+    public function __construct(string $input, string $errorMsg)
     {
-        return $input ? true : false;
+        $this->input    = $input;
+        $this->errorMsg = $errorMsg;
+    }
+
+    public function check(): string
+    {
+        if ($this->input) {
+            return '';
+        }
+
+        return $this->errorMsg;
     }
 }

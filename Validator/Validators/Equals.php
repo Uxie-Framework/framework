@@ -2,14 +2,24 @@
 
 namespace Validator\Validators;
 
-class Equals extends Validator
+class Equals implements Validatable
 {
-    public function check(string $input, string $fieldName, string $match)
+    private $input;
+    private $input2;
+    private $errorMsg;
+    
+    public function __construct(string $input, string $input2, string $errorMsg)
     {
-        if ($input === $match) {
-            return true;
+        $this->input    = $input;
+        $this->input2   = $input2;
+        $this->errorMsg = $errorMsg;
+    }
+    public function check(): string
+    {
+        if ($this->input !== $this->input2) {
+            return $this->errorMsg;
         }
 
-        return false;
+        return '';
     }
 }

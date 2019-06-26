@@ -2,10 +2,23 @@
 
 namespace Validator\validators;
 
-class IsFloat extends Validator
+class IsFloat implements Validatable
 {
-    public function check($input)
+    private $input;
+    private $errorMsg;
+
+    public function __construct($input, string $errorMsg)
     {
-        return filter_var($input, FILTER_VALIDATE_FLOAT);
+        $this->input = $input;
+        $this->errorMsg = $errorMsg;
+    }
+
+    public function check(): string
+    {
+        if (!is_float($this->input)) {
+            return $this->errorMsg;
+        }
+
+        return '';
     }
 }
