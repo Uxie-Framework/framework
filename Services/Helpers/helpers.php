@@ -86,15 +86,14 @@ function destroyAllCookies()
     container()->Cookie->deleteAll();
 }
 
-function language(string $language = null)
+function setLanguage(string $language): void
 {
-    if ($language === null) {
-        return cookie('_language') ?? 'en';
-    }
-    if (is_string($language)) {
-        cookie('_language', $language, time()+3600*24*30);
-        return cookie('_language');
-    }
+    setNewCookie('_language', $language, tima()+3600*24*364);
+}
+
+function getLanguage(): string
+{
+    return getCookie('_language') ?? 'en';
 }
 
 function translation(string $languageFile)
