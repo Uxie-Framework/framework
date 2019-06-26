@@ -2,10 +2,22 @@
 
 namespace Validator\Validators;
 
-class IsIp extends Validator
+class IsIp implements Validatable
 {
-    public function check($input)
+    private $errorMsg;
+    private $input;
+
+    public function __construct(string $input, string $errorMsg)
     {
-        return filter_var($input, FILTER_VALIDATE_IP);
+        $this->input = $input;
+        $this->errorMsg = $errorMsg;
+    }
+    public function check(): string
+    {
+        if (filter_var($this->input, FILTER_VALIDATE_IP) == $this->input) {
+            return '';
+        }
+
+        return $this->errorMsg;
     }
 }
