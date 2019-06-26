@@ -2,25 +2,28 @@
 
 namespace Validator;
 
+use Validator\Pipeline as Pipeline;
+use Validator\Validators\Factory as Factory;
+
 class Validator
 {
-    private $input;
     private $errors = [];
+    private $pipeline;
 
-    public function validate(string $input, string $field): self
+    public static function start(): self
     {
-        if (!isset(container()->Request->body->{$input})) {
-            throw new \Exception("( $input ) input does not exist", 1);
-        }
-
-        return  $this->validator->startValidation(container()->request->body->{$input}, $field);
+        return new self();
     }
 
-    private function startValidation(string $input, string $field): self
+    public function __construct()
     {
-        $this->input = $input;
-        $this->field = $field;
-        return $this;
+        $this->pipeline = new Pipeline();
+    }
+
+    public function validate(): void
+    {
+        $this->errors = $this->pipeline->process();
+        $this->normalizeErrors(); // remove null values from the array
     }
 
     public function isValide(): bool
@@ -30,29 +33,21 @@ class Validator
 
     public function getErrors(): array
     {
-        return empty($this->errors) ? [] : $this->generateErrorMessages(new ErrorMessageGenerator());
+        return $this->errors;
     }
 
-    private function generateErrorMessages(ErrorMessageGeneratorInterface $generator): array
+    private function normalizeErrors(): void
     {
-        $errorMessages = [];
-        foreach ($this->errors as $error) {
-            $errorMessages[] = $generator->compileErrorMessage($error['validator'], $error['arguments']);
-        }
-
-        return $errorMessages;
+        $this->errors = array_filter($this->errors, function (string $value) {
+            if (!is_null($value)) {
+                return $value;
+            }
+        });
     }
 
     public function __call($validator, $arguments): self
     {
-        array_unshift($arguments, $this->input);
-        if (!call_user_func_array(["Validator\Validators\\$validator", 'validate'], [$arguments])) {
-            $arguments[0] = $this->field;
-            $this->errors[] = [
-                'validator' => $validator,
-                'arguments' => $arguments,
-            ];
-        }
+        $this->pipeline->pipe(Factory::create($validator, ...$arguments));
 
         return $this;
     }
