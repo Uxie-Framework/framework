@@ -10,7 +10,7 @@ class RequestTest extends TestCase
         $_POST['_method'] = 'PUT';
         $request = new Request\Request();
         $this->assertEquals('PUT', $request->method());
-        
+
         $_POST['_method'] = 'DELETE';
         $request = new Request\Request();
         $this->assertEquals('DELETE', $request->method());
@@ -20,7 +20,7 @@ class RequestTest extends TestCase
     {
         $_SERVER['REQUEST_URI'] = 'url';
         $request = new Request\Request();
-        $this->assertEquals('http://url', $request->url());
+        $this->assertEquals('http://http://url', $request->url());
     }
 
     public function testPath()
