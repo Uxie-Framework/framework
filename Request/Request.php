@@ -60,9 +60,4 @@ class Request
         $this->body  = $handler->handleBody();
         $this->files = $handler->handleFiles();
     }
-
-    public function isValide(): bool
-    {
-        return (empty($this->getErrors())) ? true : false;
-    }
 }
