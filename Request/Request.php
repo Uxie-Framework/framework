@@ -22,7 +22,9 @@ class Request
 
     public function url(): string
     {
-        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $host = $_SERVER['HTTP_HOST'];
+        $url = $_SERVER['REQUEST_URI'];
+        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$host$url";
     }
 
     public function path(): string
