@@ -14,15 +14,16 @@ class RequestMethodResolver implements RequestMethodResolverInterface
         $this->method  = $_SERVER['REQUEST_METHOD'];
     }
 
-    public function getMethod()
+    public function getMethod(): string
     {
         if ($this->method === 'POST') {
             return $this->resolveMethodFromInputs();
         }
+        
         return $this->method;
     }
 
-    private function resolveMethodFromInputs()
+    private function resolveMethodFromInputs(): string
     {
         if (isset($this->request->body->_method)) {
             return $this->getMethodFromRequest();
@@ -31,7 +32,7 @@ class RequestMethodResolver implements RequestMethodResolverInterface
         return 'POST';
     }
 
-    private function getMethodFromRequest()
+    private function getMethodFromRequest(): string
     {
         if (!in_array($this->request->body->_method, $this->allowedMethods)) {
             throw new \Exception($this->request->body->_method." Type of method is not supported", 1);

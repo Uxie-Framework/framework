@@ -26,6 +26,7 @@ class RouterTest extends TestCase
     {
         $_SERVER['REQUEST_URI']    = 'testPost';
         $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST['_method']          = null;
 
         container()->bind('Request', function () {
             return new Request\Request();
