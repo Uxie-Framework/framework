@@ -3,28 +3,8 @@
 // include a view
 function view(string $view, array $data = [])
 {
-    if (getenv('TEMPLATING_ENGINE') == 'Blade') {
-        return bladeView($view, $data);
-    } else {
-        return pugView($view, $data);
-    }
-}
-
-function bladeView(string $view, array $data = [])
-{
     container()->build('Blade', '../App/Views', '../cache/blade');
     return container()->Blade->make($view, $data);
-}
-
-function pugView(string $view, array $data = [])
-{
-    container()->build('Pug', [
-        'expressionLanguage' => 'php',
-        'cache'              => '../cache/pug',
-        'basedir'            => '../App/Views',
-        ]);
-
-    return container()->Pug->render("../App/Views/$view.pug", $data);
 }
 
 // return full valide url (inside application)
