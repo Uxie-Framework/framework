@@ -23,20 +23,21 @@ abstract class Model
         }
     }
 
-    public function getPDO(): \PDO
+    public static function getPDO(): \PDO
     {
-        return $this->pdo;
+        $self = new static();
+        return $self->pdo;
     }
 
-    public function query($query): \PDOStatement
+    public static function query(string $query): \PDOStatement
     {
-        try {
-            $result = $this->pdo->query($query);
-
+        $self = new static();
+        $result = $self->pdo->query($query);
+        if ($result) {
             return $result;
-        } catch (PDOException $e) {
-            throw new Exception($e->getMessage(), $e->getCode());
         }
+
+        throw new Exception("Something is wrong with the query : $query", 1);
     }
 
     private function execute(): \PDOStatement
