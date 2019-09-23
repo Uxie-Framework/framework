@@ -19,6 +19,7 @@ class ModelTest extends TestCase
                 id VARCHAR(30) NOT NULL PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
                 date DATE,
+                count INT(2) NOT NULL,
                 created_at DATE NOT NULL,
                 deleted_at DATE,
                 softdelete TINYINT(1) NOT NULL
@@ -26,13 +27,23 @@ class ModelTest extends TestCase
         );
     }
 
-    public function testInsert()
+    public function testPdo()
     {
-        $test = TestModel::insert(['id' => uniqid(), 'date' => '2010-04-05','name' => 'myName'])->save();
+        $this->assertInstanceof(\PDO::class, TestModel::getPDO());
+    }
+
+    public function testQuery()
+    {
+        $this->assertInstanceof(\PDOStatement::class, TestModel::query('select * from test'));
+    }
+
+    public function testInsertAndSave()
+    {
+        $test = TestModel::insert(['id' => uniqid(), 'date' => '20-04-05','name' => 'myName', 'count' => 1])->save();
         $this->assertInstanceof(\PDOStatement::class, $test);
     }
 
-    public function testSelect()
+    public function testSelectAndGet()
     {
         $data = TestModel::select()->get();
         $this->assertTrue(is_array($data));
@@ -46,13 +57,52 @@ class ModelTest extends TestCase
 
     public function testWhere()
     {
-        $data = TestModel::select()->where('name', '=', 'myName')->count();
-        $this->assertTrue($data > 0);
+        $data = TestModel::select()->where('name', '=', 'myName')->get();
+        $this->assertTrue(is_array($data));
+    }
+
+    public function testOr()
+    {
+        $data = TestModel::select()->where('name', '=', 'Uxie')->or('name', '=', 'myName')->get();
+        $this->assertEquals($data[0]->name, 'myName');
     }
 
     public function testFirst()
     {
         $data = TestModel::select()->first();
         $this->assertEquals($data->name, 'myName');
+    }
+
+    public function testUpdate()
+    {
+        $test = TestModel::update(['date' => '2020-04-05'])->where('name', '=', 'myName')->save();
+        $this->assertInstanceof(\PDOStatement::class, $test);
+    }
+
+    public function testFind()
+    {
+        $test = TestModel::find('name', 'myName');
+        $this->assertEquals($test[0]->name, 'myName');
+    }
+
+    public function testFindOrFail()
+    {
+        $this->assertTrue(TestModel::findOrFail('name', 'myName'));
+        $this->assertFalse(TestModel::findOrFail('name', 'uxie'));
+    }
+
+    public function testIncrease()
+    {
+        $this->assertInstanceof(\PDOStatement::class, TestModel::increase('count', 1)->save());
+    }
+
+    public function testDecrease()
+    {
+        $this->assertInstanceof(\PDOStatement::class, TestModel::decrease('count', 1)->save());
+    }
+
+    public function testDelete()
+    {
+        $this->assertInstanceof(\PDOStatement::class, TestModel::delete()->where('name', '=', 'myName')->save());
     }
 }
