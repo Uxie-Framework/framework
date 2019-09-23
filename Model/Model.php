@@ -79,7 +79,6 @@ abstract class Model
     public function save(): \PDOStatement
     {
         $statment = $this->execute();
-
         return $statment;
     }
 
@@ -104,9 +103,16 @@ abstract class Model
         return boolval($exist);
     }
 
-    public static function increase(string $column, string $value): self
+    public static function increase(string $column, int $value): self
     {
-        static::$query = 'update '.static::$table." set $column = ".$column.$value;
+        static::$query = 'update '.static::$table." set $column = ".$column." + $value";
+
+        return new static();
+    }
+
+    public static function decrease(string $column, int $value): self
+    {
+        static::$query = 'update '.static::$table." set $column = ".$column." - $value";
 
         return new static();
     }
