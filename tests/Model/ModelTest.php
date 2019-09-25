@@ -108,6 +108,18 @@ class ModelTest extends TestCase
         $this->assertTrue(!empty(TestModel::select(['max(name)'])->groupBy('name')->get()));
     }
 
+    public function testLimit()
+    {
+        $this->assertTrue(!empty(TestModel::select()->limit(1)->get()));
+        $this->assertTrue(!empty(TestModel::select()->limit(1, 10)->get()));
+    }
+
+    public function testOrderBy()
+    {
+        $this->assertTrue(!empty(TestModel::select()->orderBy('name', 'ASC')->get()));
+        $this->assertTrue(!empty(TestModel::select()->orderBy('name', 'DESC')->get()));
+    }
+
     public function testHardDelete()
     {
         $this->assertInstanceof(\PDOStatement::class, TestModel::hardDelete()->where('name', '=', 'hardDelete')->save());
