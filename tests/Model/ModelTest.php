@@ -40,6 +40,7 @@ class ModelTest extends TestCase
     {
         $test = TestModel::insert(['id' => uniqid(), 'date' => '20-04-05','name' => 'myName', 'count' => 1])->save();
         $this->assertInstanceof(\PDOStatement::class, $test);
+
         $test = TestModel::insert(['id' => uniqid(), 'date' => '17-08-12', 'name' => 'hardDelete', 'count' => 1])->save();
         $this->assertInstanceof(\PDOStatement::class, $test);
     }
@@ -102,8 +103,20 @@ class ModelTest extends TestCase
         $this->assertInstanceof(\PDOStatement::class, TestModel::decrease('count', 1)->save());
     }
 
+    public function testGroupBy()
+    {
+        $this->assertTrue(!empty(TestModel::select(['max(name)'])->groupBy('name')->get()));
+    }
+
+    public function testHardDelete()
+    {
+        $this->assertInstanceof(\PDOStatement::class, TestModel::hardDelete()->where('name', '=', 'hardDelete')->save());
+        $this->assertEquals(TestModel::select()->where('name', '=', 'hardDelete')->count(), 0);
+    }
+
     public function testDelete()
     {
         $this->assertInstanceof(\PDOStatement::class, TestModel::delete()->where('name', '=', 'myName')->save());
+        $this->assertTrue(empty(TestModel::select()->get()));
     }
 }
