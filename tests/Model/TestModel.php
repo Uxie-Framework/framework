@@ -1,4 +1,6 @@
 <?php
+namespace tests\Model;
+
 use Model\Model as Model;
 
 class TestModel extends Model

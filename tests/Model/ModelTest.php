@@ -1,9 +1,8 @@
 <?php
+namespace tests\Model;
 
 use PHPUnit\Framework\TestCase;
-use TestModel as TestModel;
 
-require 'TestModel.php';
 class ModelTest extends TestCase
 {
     public function setUp()
