@@ -40,6 +40,8 @@ class ModelTest extends TestCase
     {
         $test = TestModel::insert(['id' => uniqid(), 'date' => '20-04-05','name' => 'myName', 'count' => 1])->save();
         $this->assertInstanceof(\PDOStatement::class, $test);
+        $test = TestModel::insert(['id' => uniqid(), 'date' => '17-08-12', 'name' => 'hardDelete', 'count' => 1])->save();
+        $this->assertInstanceof(\PDOStatement::class, $test);
     }
 
     public function testSelectAndGet()
