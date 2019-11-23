@@ -2,7 +2,9 @@
 
 namespace Validator\Validators;
 
-class Equals implements Validatable
+use Validator\Pipable;
+
+class Equals implements Validatable, Pipable
 {
     private $input;
     private $input2;

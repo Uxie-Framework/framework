@@ -2,7 +2,9 @@
 
 namespace Validator\Validators;
 
-class IsIp implements Validatable
+use Validator\Pipable;
+
+class IsIp implements Validatable,Pipable
 {
     private $errorMsg;
     private $input;

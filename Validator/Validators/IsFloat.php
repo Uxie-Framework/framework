@@ -2,7 +2,9 @@
 
 namespace Validator\validators;
 
-class IsFloat implements Validatable
+use Validator\Pipable;
+
+class IsFloat implements Validatable, Pipable
 {
     private $input;
     private $errorMsg;

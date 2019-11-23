@@ -23,7 +23,7 @@ class Validator
     public function validate(): self
     {
         $this->errors = $this->pipeline->process();
-        $this->normalizeErrors(); // remove null values from the array
+        $this->normalizeErrors(); // remove empty errors from the array
         return $this;
     }
 

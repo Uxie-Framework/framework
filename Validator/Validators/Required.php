@@ -2,7 +2,9 @@
 
 namespace Validator\Validators;
 
-class Required implements Validatable
+use Validator\Pipable;
+
+class Required implements Validatable, Pipable
 {
     private $input;
     private $errorMsg;
