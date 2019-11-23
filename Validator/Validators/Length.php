@@ -2,7 +2,9 @@
 
 namespace Validator\Validators;
 
-class Length implements Validatable
+use Validator\Pipable;
+
+class Length implements Validatable, Pipable
 {
     private $input;
     private $errorMsg;

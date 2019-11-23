@@ -2,7 +2,9 @@
 
 namespace Validator\Validators;
 
-class Email implements Validatable
+use Validator\Pipable;
+
+class Email implements Validatable, Pipable
 {
     private $input;
     private $errorMsg;

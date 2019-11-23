@@ -2,7 +2,9 @@
 
 namespace Validator\Validators;
 
-class IsInt implements Validatable
+use Validator\Pipable;
+
+class IsInt implements Validatable,Pipable
 {
     private $input;
     private $errorMsg;
