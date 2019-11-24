@@ -4,7 +4,7 @@ namespace Validator\Validators;
 
 use Validator\Pipable;
 
-class IsIp implements Validatable,Pipable
+class IsIp implements Validatable, Pipable
 {
     private $errorMsg;
     private $input;
