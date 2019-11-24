@@ -9,7 +9,7 @@ class IsFloat implements Validatable, Pipable
     private $input;
     private $errorMsg;
 
-    public function __construct($input, string $errorMsg)
+    public function __construct(string $input, string $errorMsg)
     {
         $this->input = $input;
         $this->errorMsg = $errorMsg;
@@ -17,7 +17,7 @@ class IsFloat implements Validatable, Pipable
 
     public function check(): string
     {
-        if (!is_float($this->input)) {
+        if (!filter_var($this->input, FILTER_VALIDATE_FLOAT)) {
             return $this->errorMsg;
         }
 

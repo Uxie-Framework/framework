@@ -10,7 +10,7 @@ class Equals implements Validatable, Pipable
     private $input2;
     private $errorMsg;
 
-    public function __construct($input, $input2, string $errorMsg)
+    public function __construct(string $input, string $input2, string $errorMsg)
     {
         $this->input    = $input;
         $this->input2   = $input2;
