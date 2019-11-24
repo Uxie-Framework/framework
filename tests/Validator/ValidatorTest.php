@@ -18,8 +18,7 @@ class ValidatorTest extends TestCase
     public function testValidate()
     {
         $validator = Validator::start();
-        $validator->validate();
-        $this->assertTrue(empty($validator->getErrors));
+        $this->assertInstanceof(Validator::class, $validator->validate());
     }
 
     public function testIsValide()
@@ -62,7 +61,7 @@ class ValidatorTest extends TestCase
     {
         $validator = Validator::start();
         $validator->equals(1, 2, 'Not Equals')->validate();
-        $this->assertEquals('Not Equals', $validator->getErrors()[0]);
+        $this->assertFalse(empty($validator->getErrors()));
 
         $validator2 = Validator::start();
         $validator2->equals(1, 1, 'Not Equals')->validate();
@@ -72,55 +71,55 @@ class ValidatorTest extends TestCase
     public function testIsFloat()
     {
         $validator = Validator::start();
-        $validator->isFloat(5, 'not a float')->validate();
-        $this->assertEquals('not a float', $validator->getErrors()[0]);
+        $validator->isFloat("5e", 'not a float')->validate();
+        $this->assertFalse(empty($validator->getErrors()));
 
         $validator2 = Validator::start();
-        $validator2->isFloat(2.5, 'not a float')->validate();
+        $validator2->isFloat("2.5", 'not a float')->validate();
         $this->assertTrue(empty($validator2->getErrors()));
     }
 
     public function testIsInt()
     {
         $validator = Validator::start();
-        $validator->isInt(5.58, 'false')->validate();
-        $this->assertEquals('false', $validator->getErrors()[0]);
+        $validator->isInt("5.58", 'error message')->validate();
+        $this->assertFalse(empty($validator->getErrors()));
 
         $validator2 = Validator::start();
-        $validator2->isInt(25, 'false')->validate();
+        $validator2->isInt("25", 'error message')->validate();
         $this->assertTrue(empty($validator2->getErrors()));
     }
 
     public function testIsIp()
     {
         $validator = Validator::start();
-        $validator->isIp('34.44.322.3', 'false')->validate();
-        $this->assertEquals('false', $validator->getErrors()[0]);
+        $validator->isIp('34.44.322.3', 'error message')->validate();
+        $this->assertFalse(empty($validator->getErrors()));
 
         $validator2 = Validator::start();
-        $validator2->isIp('34.233.54.21', 'false')->validate();
+        $validator2->isIp('34.233.54.21', 'error message')->validate();
         $this->assertTrue(empty($validator2->getErrors()));
     }
 
     public function testLength()
     {
         $validator = Validator::start();
-        $validator->length('name', 1, 3, 'false')->validate();
-        $this->assertEquals('false', $validator->getErrors()[0]);
+        $validator->length('name', 1, 3, 'error message')->validate();
+        $this->assertFalse(empty($validator->getErrors()));
 
         $validator2 = Validator::start();
-        $validator2->length('name', 1, 10, 'false')->validate();
+        $validator2->length('name', 1, 10, 'error message')->validate();
         $this->assertTrue(empty($validator2->getErrors()));
     }
 
     public function testRequired()
     {
         $validator = Validator::start();
-        $validator->required('', 'false')->validate();
-        $this->assertEquals('false', $validator->getErrors()[0]);
+        $validator->required('', 'error message')->validate();
+        $this->assertFalse(empty($validator->getErrors()));
 
         $validator2 = Validator::start();
-        $validator2->required('name', 'false')->validate();
+        $validator2->required('name', 'error message')->validate();
         $this->assertTrue(empty($validator2->getErrors()));
     }
 
@@ -138,11 +137,11 @@ class ValidatorTest extends TestCase
     public function testUrl()
     {
         $validator = Validator::start();
-        $validator->url('website', 'false')->validate();
-        $this->assertEquals('false', $validator->getErrors()[0]);
+        $validator->url('website', 'error message')->validate();
+        $this->assertFalse(empty($validator->getErrors()));
 
         $validator2 = Validator::start();
-        $validator2->url('http://google.com', 'false')->validate();
+        $validator2->url('http://google.com', 'error message')->validate();
         $this->assertTrue(empty($validator2->getErrors()));
     }
 }
