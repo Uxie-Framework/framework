@@ -9,6 +9,7 @@ class Validator
 {
     private $errors = [];
     private $pipeline;
+    private $input;
 
     public static function start(): self
     {
@@ -18,6 +19,12 @@ class Validator
     public function __construct()
     {
         $this->pipeline = new Pipeline();
+    }
+
+    public function setInput(string $input): self
+    {
+        $this->input = $input;
+        return $this;
     }
 
     public function validate(): self
@@ -48,6 +55,9 @@ class Validator
 
     public function __call($validator, $arguments): self
     {
+        if (isset($this->input)) {
+            array_unshift($arguments, $this->input);
+        }
         $this->pipeline->pipe(Factory::create($validator, ...$arguments));
 
         return $this;
