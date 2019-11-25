@@ -144,4 +144,26 @@ class ValidatorTest extends TestCase
         $validator2->url('http://google.com', 'error message')->validate();
         $this->assertTrue(empty($validator2->getErrors()));
     }
+
+    public function testSetInput()
+    {
+        $validator = Validator::start();
+        $validator->setInput('input');
+
+        $imageReflection = new ReflectionClass($validator);
+        $property        = $imageReflection->getProperty('input');
+        $property->setAccessible(true);
+        $this->assertEquals('input', $property->getValue($validator));
+    }
+
+    public function testSetInputWithEmailTest()
+    {
+        $validator = Validator::start();
+        $validator->setInput('notEmail')->email('Error message')->validate();
+        $this->assertFalse($validator->isValide());
+
+        $validator2 = Validator::start();
+        $validator2->setInput('myEmail@gmail.com')->email('Error message')->validate();
+        $this->assertTrue($validator2->isValide());
+    }
 }
