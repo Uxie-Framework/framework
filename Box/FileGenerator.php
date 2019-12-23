@@ -5,10 +5,11 @@ namespace Box;
 class FileGenerator
 {
     private $commandDirs = [
-        'Controller' => 'Controllers',
-        'Middleware' => 'Middlewares',
-        'Model'      => 'Models',
-        'Repository' => 'Repositories',
+        'controller' => 'Controllers',
+        'middleware' => 'Middlewares',
+        'model'      => 'Models',
+        'repository' => 'Repositories',
+        'filter'     => 'Filters'
     ];
     private $command;
     private $argument;
