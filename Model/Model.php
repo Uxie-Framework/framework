@@ -119,7 +119,7 @@ abstract class Model
 
     public static function select(array $columns = ['*']): self
     {
-        static::$query      = 'select '.implode($columns, ',').' from '.static::$table.' ';
+        static::$query      = 'select '.implode(',', $columns).' from '.static::$table.' ';
         static::$query     .= 'where softdelete is false ';
         static::$whereFlag  = ' and ';
         return new static();
