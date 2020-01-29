@@ -19,7 +19,7 @@ class '.$fileName.' extends Validator implements Filterable
 
     public function __construct(Request $request)
     {
-        //
+        parent::__construct();
     }
 
     public function check(): bool
