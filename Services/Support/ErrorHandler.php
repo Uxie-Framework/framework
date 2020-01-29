@@ -18,12 +18,10 @@ class ErrorHandler
     public function handle(\Throwable $e)
     {
         container()->Logger->error($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile());
-        $code = $e->getCode();
-        $error = $e->getMessage();
         if (getenv('PRODUCTION_MODE') === 'ON') {
-            $code = 'ERROR';
-            $error = '404';
+            $this->response->view('CoreViews/error', ['code' => '404', 'error' => 'internal error'])->send();
+        } else {
+            $this->response->view('CoreViews/error', ['code' => $e->getCode(), 'error' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()])->send();
         }
-        $this->response->view('CoreViews/error', ['code' => $code, 'error' => $error])->send();
     }
 }
