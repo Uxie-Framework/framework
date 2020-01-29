@@ -9,7 +9,7 @@ trait Aliases
         'MiddlewaresProviders' => 'App/MiddlewaresLocator.php',
         'Services'             => 'App/Services.php',
         'Controllers'          => 'App/Controllers',
-        'Filters'              => 'App/Controllers/Filters',
+        'Filters'              => 'App/Filters',
         'Models'               => 'App/Models',
         'Repositories'         => 'App/Repositories',
         'Middlewares'          => 'App/Middlewares',
