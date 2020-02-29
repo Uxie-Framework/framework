@@ -84,11 +84,11 @@ function translation(string $languageFile)
 function csrf_field()
 {
     if (isset(container()->Response->session->_token)) {
-        $token = container()->Response->session->_token;
+        $token = getSession('_token');
     } else {
         $token = uniqid(random_int(0, 1000));
     }
-    container()->Response->session->set('_token', $token);
+    setSession('_token', $token);
     echo "<input type='hidden' name='_token' value='".$token."'>";
 }
 
