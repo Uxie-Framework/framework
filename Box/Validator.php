@@ -8,7 +8,7 @@ class Validator
 
     public function validate($command)
     {
-        if (!in_array($command, $this->commands)) {
+        if (!in_array(strtolower($command), $this->commands)) {
             exit("this command $command does not exist \n");
         }
     }

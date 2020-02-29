@@ -46,7 +46,7 @@ function destroyAllSessions()
     container()->Session->deleteAll();
 }
 
-function setNewCookie(sting $key, string $value, string $date)
+function setNewCookie(string $key, string $value, string $date)
 {
     container()->Cookie->set($key, $value, $date);
 }
@@ -68,7 +68,7 @@ function destroyAllCookies()
 
 function setLanguage(string $language): void
 {
-    setNewCookie('_language', $language, tima()+3600*24*364);
+    setNewCookie('_language', $language, time()+3600*24*364);
 }
 
 function getLanguage(): string

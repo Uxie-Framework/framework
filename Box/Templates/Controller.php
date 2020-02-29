@@ -50,8 +50,8 @@ class '.$fileName.' extends Controller
 {
     private $response;
     private $request;
-    
-    pubic function __construct(Request $request, Response $response)
+
+    public function __construct(Request $request, Response $response)
     {
         $this->response = $response;
         $this->request  = $request;

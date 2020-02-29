@@ -22,7 +22,7 @@ class FileGenerator
         $this->command = $command;
         $this->argument = $argument;
         $this->flag = $flag;
-        $this->fileInfo = $this->getFileLocationInfos(new FileLocationResolver(getAliase($this->commandDirs[$command]), $argument));
+        $this->fileInfo = $this->getFileLocationInfos(new FileLocationResolver(getAliase($this->commandDirs[strtolower($command)]), $argument));
         $this->template = $this->getTemplate();
     }
 

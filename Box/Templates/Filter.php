@@ -11,7 +11,7 @@ trait Filter
 namespace Filter'.$directory.';
 
 use Request\Request as Request;
-use Validate\Validator as Validator;
+use Validator\Validator as Validator;
 use Filter\Filterable as Filterable;
 
 class '.$fileName.' extends Validator implements Filterable
