@@ -83,7 +83,7 @@ function translation(string $languageFile)
 
 function csrf_field()
 {
-    if (isset(container()->Response->session->_token)) {
+    if (getSession('_token')) {
         $token = getSession('_token');
     } else {
         $token = uniqid(random_int(0, 1000));
@@ -94,13 +94,13 @@ function csrf_field()
 
 function csrf_token()
 {
-    return container()->Response->session->_token;
+    return getSession('_token');
 }
 
 function generate_csrf_token()
 {
-    container()->Response->session->set('_token', uniqid(random_int(0, 1000)));
-    return container()->Response->session->_token;
+    setSession('_token', uniqid(random_int(0, 1000)));
+    return getSession('_token');
 }
 
 function method_field(string $method)

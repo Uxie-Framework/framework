@@ -48,7 +48,7 @@ class RequestDataHandler implements RequestDataHandlerInterface
 
     private function filter($input)
     {
-        if (is_string($input)) {
+        if (is_string($input) && strlen($input) > 0) {
             return trim($input);
         }
         return null;

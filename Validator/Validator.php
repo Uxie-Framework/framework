@@ -21,9 +21,9 @@ class Validator
         $this->pipeline = new Pipeline();
     }
 
-    public function setInput(string $input): self
+    public function setInput(?string $input): self
     {
-        $this->input = $input;
+        $this->input = is_null($input) ? '' : $input;
         return $this;
     }
 

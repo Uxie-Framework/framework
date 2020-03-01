@@ -18,7 +18,7 @@ abstract class Model
     {
         try {
             $this->pdo = new PDO(getenv('DB_CNX').':host='.getenv('DB_HOST').';port='.getenv('DB_PORT').';dbname='.getenv('DB_NAME'), getenv('DB_USER'), getenv('DB_PASS'));
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             throw new Exception('cant connect to database '.$e->getMessage(), $e->getCode());
         }
     }
@@ -131,22 +131,30 @@ abstract class Model
             'created_at' => date('Y-m-d H:i:s'),
             'softdelete' => 0,
         ]);
-        $inputs          = array_map('addslashes', array_values($data));
+        $inputs = array_map(function($input) {
+            if (is_string($input)) {
+                return addslashes($input);
+            }
+            return $input;
+        }, array_values($data));
         $columns         = implode(',', array_keys($data));
         $values          = implode(',', array_fill(0, count($inputs), '?'));
         static::$query  .= 'insert into '.static::$table."($columns) values($values)";
         static::$inputs  = $inputs;
-
         return new static();
     }
 
     public static function update(array $data): self
     {
-        $inputs  = array_map('addslashes', array_values($data));
+        $inputs = array_map(function($input) {
+            if (is_string($input)) {
+                return addslashes($input);
+            }
+            return $input;
+        }, array_values($data));
         $columns = implode(',', array_map(function ($value) {
             return "$value = ?";
         }, array_keys($data)));
-        $values         = implode(',', array_fill(0, count($inputs), '?'));
         static::$query  = 'update '.static::$table." set $columns ";
         static::$inputs = $inputs;
 
