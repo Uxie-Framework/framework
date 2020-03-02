@@ -10,7 +10,7 @@ class ModelTest extends TestCase
         putenv("DB_CNX=mysql");
         putenv("DB_HOST=127.0.0.1");
         putenv("DB_USER=root");
-        putenv("DB_PASS=amineamine");
+        putenv("DB_PASS=");
         putenv("DB_NAME=test");
         putenv("DB_PORT=3306");
         TestModel::query(
