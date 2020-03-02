@@ -19,13 +19,13 @@ class RequestMethodResolver implements RequestMethodResolverInterface
         if ($this->method === 'POST') {
             return $this->resolveMethodFromInputs();
         }
-        
+
         return $this->method;
     }
 
     private function resolveMethodFromInputs(): string
     {
-        if (isset($this->request->body->_method)) {
+        if (isset($this->request->body->_method) && !is_null($this->request->body->_method)) {
             return $this->getMethodFromRequest();
         }
 
