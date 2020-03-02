@@ -96,6 +96,13 @@ abstract class Model
         return $data;
     }
 
+    public static function findOne(string $column, string $value): object
+    {
+        $data = static::select()->where($column, '=', $value)->get();
+
+        return $data[0];
+    }
+
     public static function findOrFail(string $column, string $value): bool
     {
         $exist = static::select()->where($column, '=', $value)->count();
