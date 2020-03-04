@@ -86,7 +86,7 @@ function translation(string $languageFile)
 
 function csrf_field()
 {
-    if (getSession('_token')) {
+    if (isset(container()->Session->_token)) {
         $token = getSession('_token');
     } else {
         $token = uniqid(random_int(0, 1000));
