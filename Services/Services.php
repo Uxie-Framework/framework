@@ -10,7 +10,6 @@ trait Services
             'Router'     => \Router\Router::class,
             'Kernel'     => \Kernel\Kernel::class,
             'Compiler'   => \Kernel\Compiler\Compiler::class,
-            'Middleware' => \App\Middleware\Middleware::class,
             'Dotenv'     => \Dotenv\Dotenv::class,
             'Blade'      => \Jenssegers\Blade\Blade::class,
             'Pug'        => \Pug\Pug::class,
