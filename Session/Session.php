@@ -39,7 +39,7 @@ class Session
         throw new \Exception("$key session does not exist in Session object", 1);
     }
 
-    public function __isset(string $key): boolean
+    public function __isset(string $key): bool
     {
         return isset($this->sessions[$key]);
     }
