@@ -20,6 +20,10 @@ class MiddlewareCompiler implements DependencyCompilerInterface
         $middlewareProvider = require rootDir().getAliase('MiddlewaresProviders');
 
         foreach ($this->middlewares as $middleware) {
+            if (!array_key_exists($middleware, $middlewareProvider)) {
+                throw new \Exception("This middleware $middleware is not defined in the middleware locator");
+            }
+
             $this->callMiddleware($middlewareProvider[$middleware]);
         }
     }

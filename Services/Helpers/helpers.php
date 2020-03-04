@@ -3,6 +3,9 @@
 // include a view
 function view(string $view, array $data = [])
 {
+    if (isset(container()->Blade)) {
+        unset(container()->Blade);
+    }
     container()->build('Blade', '../App/Views', '../cache/blade');
     return container()->Blade->make($view, $data);
 }
