@@ -38,7 +38,7 @@ class Cookie
         throw new \Exception("$key does not exist in Cookie object", 1);
     }
 
-    public function __isset(string $key): boolean
+    public function __isset(string $key): bool
     {
         return isset($this->cookies[$key]);
     }
