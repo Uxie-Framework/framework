@@ -7,7 +7,6 @@ trait Aliases
     private static $aliases = [
         'App'                  => 'App/App.php',
         'MiddlewaresProviders' => 'App/MiddlewaresLocator.php',
-        'Services'             => 'App/Services.php',
         'Controllers'          => 'App/Controllers',
         'Filters'              => 'App/Filters',
         'Models'               => 'App/Models',
