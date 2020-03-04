@@ -12,7 +12,6 @@ trait Services
             'Compiler'   => \Kernel\Compiler\Compiler::class,
             'Dotenv'     => \Dotenv\Dotenv::class,
             'Blade'      => \Jenssegers\Blade\Blade::class,
-            'Pug'        => \Pug\Pug::class,
             'Auth'       => \Authenticator\Auth::class,
         ],
 
