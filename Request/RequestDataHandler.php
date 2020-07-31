@@ -38,7 +38,7 @@ class RequestDataHandler implements RequestDataHandlerInterface
 
         $result = [];
         foreach ($data as $key => $value) {
-            foreach ($variable as $key2 => $value2) {
+            foreach ($value as $key2 => $value2) {
                 $result[$key2][$key] = $value2;
             }
         }
