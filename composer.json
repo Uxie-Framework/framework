@@ -7,7 +7,7 @@
 
     "require": {
         "php":                         ">=7.2",
-        "phpunit/phpunit":             "^6.0",
+        "phpunit/phpunit":             "^9.0",
         "mohamed-amine/ioc-container": "^0.6"
     },
 
