@@ -5,7 +5,7 @@ use Cookie\Cookie as Cookie;
 
 class CookieTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         IOC\IOC::createContainer();
         $_COOKIE['name'] = 'uxie';

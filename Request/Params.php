@@ -11,6 +11,11 @@ class Params
         $this->variables = $params;
     }
 
+    public function getArray(): array
+    {
+        return $this->variables;
+    }
+
     public function __set($key, $value)
     {
         $this->variables[$key] = $value;
