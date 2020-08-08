@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         IOC\IOC::createContainer();
     }

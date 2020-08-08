@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 class ModelTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         putenv("DB_CNX=mysql");
         putenv("DB_HOST=127.0.0.1");

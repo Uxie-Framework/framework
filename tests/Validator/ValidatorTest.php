@@ -5,7 +5,7 @@ use Validator\Validator as Validator;
 
 class ValidatorTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         tests\Model\TestModel::insert(['id' => uniqid(), 'date' => '20-04-05','name' => 'myName', 'count' => 1])->save();
     }

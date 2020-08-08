@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 class ResponseTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         @session_start();
         IOC\IOC::createContainer();
