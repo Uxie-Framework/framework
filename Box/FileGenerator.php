@@ -4,12 +4,19 @@ namespace Box;
 
 class FileGenerator
 {
-    private $commandDirs = [
+    private $commandDirectories = [
         'controller' => 'Controllers',
         'middleware' => 'Middlewares',
         'model'      => 'Models',
         'repository' => 'Repositories',
         'filter'     => 'Filters'
+    ];
+    private $commandShortcuts = [
+        'controller' => 'Controller',
+        'middleware' => 'Middleware',
+        'model'      => 'Model',
+        'repository' => 'Repositorie',
+        'filter'     => 'Filter'
     ];
     private $command;
     private $argument;
@@ -22,7 +29,7 @@ class FileGenerator
         $this->command = $command;
         $this->argument = $argument;
         $this->flag = $flag;
-        $this->fileInfo = $this->getFileLocationInfos(new FileLocationResolver(getAliase($this->commandDirs[strtolower($command)]), $argument));
+        $this->fileInfo = $this->getFileLocationInfos(new FileLocationResolver(getAliase($this->commandDirectories[strtolower($command)]), $argument));
         $this->template = $this->getTemplate();
     }
 
@@ -38,7 +45,7 @@ class FileGenerator
 
     private function getTemplate()
     {
-        $templateGenerator = 'Box\TemplateGenerators\\'.$this->command;
+        $templateGenerator = 'Box\TemplateGenerators\\'.$this->commandShortcuts[strtolower($this->command)];
         return $this->generateTemplate(new $templateGenerator($this->fileInfo->getFileDir(), $this->fileInfo->getFileName(), $this->flag));
     }
 
