@@ -2,7 +2,7 @@
 
 namespace Request;
 
-class Params
+class Params implements DataHolder
 {
     private $variables = [];
 
@@ -16,12 +16,12 @@ class Params
         return $this->variables;
     }
 
-    public function __set($key, $value)
+    public function __set(string $key, ?string $value): void
     {
         $this->variables[$key] = $value;
     }
 
-    public function __get($key)
+    public function __get(string $key): ?string
     {
         if (!isset($this->variables[$key])) {
             throw new \Exception("$key Param dont exist", 1);
@@ -29,7 +29,7 @@ class Params
         return $this->variables[$key];
     }
 
-    public function __isset($key)
+    public function __isset(string $key): bool
     {
         return isset($this->variables[$key]) ? true : false;
     }
