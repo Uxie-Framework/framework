@@ -15,7 +15,7 @@ class RequestDataHandler implements RequestDataHandlerInterface
     public function handleBody(): Body
     {
         foreach ($_POST as $key => $value) {
-            $this->body->{$key} = $this->filter($value);
+            $this->body->{$key} = $value;
         }
 
         return $this->body;
@@ -44,13 +44,5 @@ class RequestDataHandler implements RequestDataHandlerInterface
         }
 
         return $result;
-    }
-
-    private function filter($input)
-    {
-        if (is_string($input) && strlen($input) > 0) {
-            return trim($input);
-        }
-        return null;
     }
 }
