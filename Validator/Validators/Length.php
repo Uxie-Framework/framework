@@ -18,6 +18,7 @@ class Length implements Validatable, Pipable
         $this->max      = $max;
         $this->errorMsg = $errorMsg;
     }
+    
     public function check(): string
     {
         if (!$this->maxLength($this->max) or !$this->minLength($this->min)) {
@@ -25,7 +26,7 @@ class Length implements Validatable, Pipable
         }
         return '';
     }
-
+ 
     private function maxLength(int $max): bool
     {
         return (strlen($this->input) > $max) ? false : true;
