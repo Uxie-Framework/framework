@@ -1,6 +1,6 @@
 <?php
 
-namespace Validator\validators;
+namespace Validator\Validators;
 
 use Validator\Pipable;
 
