@@ -50,99 +50,99 @@ class ValidatorTest extends TestCase
     {
         $validator = Validator::start();
         $validator->email('email', 'not an email')->validate();
-        $this->assertEquals('not an email', $validator->getErrors()[0]);
+        $this->assertFalse($validator->isValide());
 
         $validator2 = Validator::start();
         $validator2->email('uxie@gmail.com', 'not an email')->validate();
-        $this->assertTrue(empty($validator2->getErrors()));
+        $this->assertTrue($validator2->isValide());
     }
 
     public function testEquals()
     {
         $validator = Validator::start();
         $validator->equals(1, 2, 'Not Equals')->validate();
-        $this->assertFalse(empty($validator->getErrors()));
+        $this->assertFalse($validator->isValide());
 
         $validator2 = Validator::start();
         $validator2->equals(1, 1, 'Not Equals')->validate();
-        $this->assertTrue(empty($validator2->getErrors()));
+        $this->assertTrue($validator2->isValide());
     }
 
     public function testIsFloat()
     {
         $validator = Validator::start();
         $validator->isFloat("5e", 'not a float')->validate();
-        $this->assertFalse(empty($validator->getErrors()));
+        $this->assertFalse($validator->isValide());
 
         $validator2 = Validator::start();
         $validator2->isFloat("2.5", 'not a float')->validate();
-        $this->assertTrue(empty($validator2->getErrors()));
+        $this->assertTrue($validator2->isValide());
     }
 
     public function testIsInt()
     {
         $validator = Validator::start();
         $validator->isInt("5.58", 'error message')->validate();
-        $this->assertFalse(empty($validator->getErrors()));
+        $this->assertFalse($validator->isValide());
 
         $validator2 = Validator::start();
         $validator2->isInt("25", 'error message')->validate();
-        $this->assertTrue(empty($validator2->getErrors()));
+        $this->assertTrue($validator2->isValide());
     }
 
     public function testIsIp()
     {
         $validator = Validator::start();
         $validator->isIp('34.44.322.3', 'error message')->validate();
-        $this->assertFalse(empty($validator->getErrors()));
+        $this->assertFalse($validator->isValide());
 
         $validator2 = Validator::start();
         $validator2->isIp('34.233.54.21', 'error message')->validate();
-        $this->assertTrue(empty($validator2->getErrors()));
+        $this->assertTrue($validator2->isValide());
     }
 
     public function testLength()
     {
         $validator = Validator::start();
         $validator->length('name', 1, 3, 'error message')->validate();
-        $this->assertFalse(empty($validator->getErrors()));
+        $this->assertFalse($validator->isValide());
 
         $validator2 = Validator::start();
         $validator2->length('name', 1, 10, 'error message')->validate();
-        $this->assertTrue(empty($validator2->getErrors()));
+        $this->assertTrue($validator2->isValide());
     }
 
     public function testRequired()
     {
         $validator = Validator::start();
         $validator->required('', 'error message')->validate();
-        $this->assertFalse(empty($validator->getErrors()));
+        $this->assertFalse($validator->isValide());
 
         $validator2 = Validator::start();
         $validator2->required('name', 'error message')->validate();
-        $this->assertTrue(empty($validator2->getErrors()));
+        $this->assertTrue($validator2->isValide());
     }
 
     public function testUnique()
     {
         $validator = Validator::start();
         $validator->unique('myName', tests\Model\TestModel::class, 'name', 'Not Unique message error')->validate();
-        $this->assertFalse(empty($validator->getErrors()));
+        $this->assertFalse($validator->isValide());
 
         $validator2 = Validator::start();
         $validator2->unique('notMyName', tests\Model\TestModel::class, 'name', 'Not Unique message error')->validate();
-        $this->assertTrue(empty($validator2->getErrors()));
+        $this->assertTrue($validator2->isValide());
     }
 
     public function testUrl()
     {
         $validator = Validator::start();
         $validator->url('website', 'error message')->validate();
-        $this->assertFalse(empty($validator->getErrors()));
+        $this->assertFalse($validator->isValide());
 
         $validator2 = Validator::start();
         $validator2->url('http://google.com', 'error message')->validate();
-        $this->assertTrue(empty($validator2->getErrors()));
+        $this->assertTrue($validator2->isValide());
     }
 
     public function testSetInput()
@@ -165,5 +165,16 @@ class ValidatorTest extends TestCase
         $validator2 = Validator::start();
         $validator2->setInput('myEmail@gmail.com')->email('Error message')->validate();
         $this->assertTrue($validator2->isValide());
+    }
+
+    public function testIsDate()
+    {
+        $validator = Validator::start();
+        $validator->setInput('1999--04-12')->isDate('Error message')->validate();
+        $this->assertFalse($validator->isValide(), '19990-32-55 is not a date and validator should return false not true');
+
+        $validator2 = Validator::start();
+        $validator2->setInput('1999-05-14')->isDate('1999-05-14 is a date and validator should return true')->validate();
+        $this->assertTrue($validator2->isValide(), '1999-05-14 is a date and validator should return true');
     }
 }

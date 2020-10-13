@@ -11,6 +11,7 @@ class Factory
         'isfloat'  => 'IsFloat',
         'isint'    => 'IsInt',
         'isip'     => 'IsIp',
+        'isdate'   => 'IsDate',
         'length'   => 'Length',
         'required' => 'Required',
         'unique'   => 'Unique',
