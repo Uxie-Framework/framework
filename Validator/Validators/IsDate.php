@@ -4,7 +4,7 @@ namespace Validator\Validators;
 
 use Validator\Pipable;
 
-class Email extends Validatable implements Pipable
+class IsDate extends Validatable implements Pipable
 {
     private $input;
 
@@ -16,7 +16,7 @@ class Email extends Validatable implements Pipable
 
     public function check(): bool
     {
-        if (!filter_var($this->input, FILTER_VALIDATE_EMAIL)) {
+        if (!strtotime($this->input)) {
             return false;
         }
 

@@ -4,10 +4,9 @@ namespace Validator\Validators;
 
 use Validator\Pipable;
 
-class IsInt implements Validatable, Pipable
+class IsInt extends Validatable implements Pipable
 {
     private $input;
-    private $errorMsg;
 
     public function __construct(string $input, string $errorMsg)
     {
@@ -15,12 +14,12 @@ class IsInt implements Validatable, Pipable
         $this->errorMsg = $errorMsg;
     }
 
-    public function check(): string
+    public function check(): bool
     {
         if (!filter_var($this->input, FILTER_VALIDATE_INT)) {
-            return $this->errorMsg;
+            return false;
         }
 
-        return '';
+        return true;
     }
 }

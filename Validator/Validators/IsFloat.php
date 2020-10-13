@@ -4,10 +4,9 @@ namespace Validator\Validators;
 
 use Validator\Pipable;
 
-class IsFloat implements Validatable, Pipable
+class IsFloat extends Validatable implements Pipable
 {
     private $input;
-    private $errorMsg;
 
     public function __construct(string $input, string $errorMsg)
     {
@@ -15,12 +14,12 @@ class IsFloat implements Validatable, Pipable
         $this->errorMsg = $errorMsg;
     }
 
-    public function check(): string
+    public function check(): bool
     {
         if (!filter_var($this->input, FILTER_VALIDATE_FLOAT)) {
-            return $this->errorMsg;
+            return false;
         }
 
-        return '';
+        return true;
     }
 }

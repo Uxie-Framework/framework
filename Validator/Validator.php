@@ -46,7 +46,7 @@ class Validator
 
     private function normalizeErrors(): void
     {
-        $this->errors = array_filter($this->errors, function (string $value) {
+        $this->errors = array_filter($this->errors, function (?string $value) {
             if (!is_null($value)) {
                 return $value;
             }

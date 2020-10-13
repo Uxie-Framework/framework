@@ -4,12 +4,11 @@ namespace Validator\Validators;
 
 use Validator\Pipable;
 
-class Unique implements Validatable, Pipable
+class Unique extends Validatable implements Pipable
 {
     private $input;
     private $model;
     private $column;
-    private $errorMsg;
 
     public function __construct(string $input, string $model, string $column, string $errorMsg)
     {
@@ -19,13 +18,13 @@ class Unique implements Validatable, Pipable
         $this->errorMsg = $errorMsg;
     }
 
-    public function check(): string
+    public function check(): bool
     {
         $data = $this->model::select()->where($this->column, '=', $this->input)->get();
-        if (empty($data)) {
-            return '';
+        if (!empty($data)) {
+            return false;
         }
 
-        return $this->errorMsg;
+        return true;
     }
 }
