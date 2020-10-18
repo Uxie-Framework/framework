@@ -16,7 +16,9 @@ class Pipeline
     {
         $errors = [];
         foreach ($this->validators as $validator) {
-            array_push($errors, $validator->check());
+            if (!$validator->check()) {
+                array_push($errors, $validator->getErrorMessage());
+            }
         }
 
         return $errors;

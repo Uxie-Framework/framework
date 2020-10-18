@@ -4,11 +4,10 @@ namespace Validator\Validators;
 
 use Validator\Pipable;
 
-class Equals implements Validatable, Pipable
+class Equals extends Validatable implements Pipable
 {
     private $input;
     private $input2;
-    private $errorMsg;
 
     public function __construct(string $input, string $input2, string $errorMsg)
     {
@@ -16,12 +15,13 @@ class Equals implements Validatable, Pipable
         $this->input2   = $input2;
         $this->errorMsg = $errorMsg;
     }
-    public function check(): string
+
+    public function check(): bool
     {
         if ($this->input !== $this->input2) {
-            return $this->errorMsg;
+            return false;
         }
 
-        return '';
+        return true;
     }
 }

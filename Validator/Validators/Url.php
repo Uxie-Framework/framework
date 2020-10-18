@@ -4,10 +4,9 @@ namespace Validator\Validators;
 
 use Validator\Pipable;
 
-class Url implements Validatable, Pipable
+class Url extends Validatable implements Pipable
 {
     private $input;
-    private $errorMsg;
 
     public function __construct(string $input, string $errorMsg)
     {
@@ -15,12 +14,12 @@ class Url implements Validatable, Pipable
         $this->errorMsg = $errorMsg;
     }
 
-    public function check(): string
+    public function check(): bool
     {
-        if (filter_var($this->input, FILTER_VALIDATE_URL)) {
-            return '';
+        if (!filter_var($this->input, FILTER_VALIDATE_URL)) {
+            return false;
         }
 
-        return $this->errorMsg;
+        return true;
     }
 }

@@ -4,10 +4,9 @@ namespace Validator\Validators;
 
 use Validator\Pipable;
 
-class Required implements Validatable, Pipable
+class Required extends Validatable implements Pipable
 {
     private $input;
-    private $errorMsg;
 
     public function __construct(string $input, string $errorMsg)
     {
@@ -15,12 +14,12 @@ class Required implements Validatable, Pipable
         $this->errorMsg = $errorMsg;
     }
 
-    public function check(): string
+    public function check(): bool
     {
-        if ($this->input) {
-            return '';
+        if (!$this->input) {
+            return false;
         }
 
-        return $this->errorMsg;
+        return true;
     }
 }

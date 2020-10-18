@@ -2,7 +2,14 @@
 
 namespace Validator\Validators;
 
-interface Validatable
+abstract class Validatable
 {
-    public function check(): string;
+    protected $errorMsg;
+    
+    abstract public function check(): bool;
+    
+    public function getErrorMessage(): ?string
+    {
+        return $this->errorMsg;
+    }
 }

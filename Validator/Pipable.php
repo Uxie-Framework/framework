@@ -3,5 +3,6 @@ namespace Validator;
 
 interface Pipable
 {
-    public function check(): string;
+    public function check(): bool;
+    public function getErrorMessage(): ?string;
 }

@@ -4,10 +4,9 @@ namespace Validator\Validators;
 
 use Validator\Pipable;
 
-class Length implements Validatable, Pipable
+class Length extends Validatable implements Pipable
 {
     private $input;
-    private $errorMsg;
     private $max;
     private $min;
 
@@ -18,14 +17,16 @@ class Length implements Validatable, Pipable
         $this->max      = $max;
         $this->errorMsg = $errorMsg;
     }
-    public function check(): string
+    
+    public function check(): bool
     {
         if (!$this->maxLength($this->max) or !$this->minLength($this->min)) {
-            return $this->errorMsg;
+            return false;
         }
-        return '';
+        
+        return true;
     }
-
+ 
     private function maxLength(int $max): bool
     {
         return (strlen($this->input) > $max) ? false : true;

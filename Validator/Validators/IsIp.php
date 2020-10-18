@@ -4,9 +4,8 @@ namespace Validator\Validators;
 
 use Validator\Pipable;
 
-class IsIp implements Validatable, Pipable
+class IsIp extends Validatable implements Pipable
 {
-    private $errorMsg;
     private $input;
 
     public function __construct(string $input, string $errorMsg)
@@ -14,12 +13,12 @@ class IsIp implements Validatable, Pipable
         $this->input = $input;
         $this->errorMsg = $errorMsg;
     }
-    public function check(): string
+    public function check(): bool
     {
-        if (filter_var($this->input, FILTER_VALIDATE_IP) == $this->input) {
-            return '';
+        if (!filter_var($this->input, FILTER_VALIDATE_IP) == $this->input) {
+            return false;
         }
 
-        return $this->errorMsg;
+        return true;
     }
 }
