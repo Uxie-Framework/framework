@@ -26,7 +26,7 @@ class UrlMatcher implements UrlMatcherInterface
         return $tmpArray;
     }
 
-    public function match(): bool
+    public function matchURL(): bool
     {
         if (count($this->url) !== count($this->route)) {
             return false;

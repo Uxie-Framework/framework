@@ -42,7 +42,7 @@ class RouteResolver implements RouteResolverInterface
 
     private function UrlMatchRoute(UrlMatcher $matcher): bool
     {
-        if ($matcher->match()) {
+        if ($matcher->matchURL()) {
             $this->setUrlVariables($matcher->urlVariables);
             return true;
         }

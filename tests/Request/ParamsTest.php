@@ -13,6 +13,7 @@ class ParamsTest extends TestCase
         $this->values = ['key1' => 'value1', 'key2' => 'value2'];
         $this->params = new Params($this->values);
     }
+
     public function testGetArray()
     {
         $this->assertIsArray(($this->params->getArray()), 'Params is not returning an Array');
