@@ -43,8 +43,8 @@ abstract class Model
     private function execute(): \PDOStatement
     {
         $query = static::$query;
-        $statment          = $this->pdo->prepare(static::$query);
-        $verifyedStatment  = $statment->execute(static::$inputs);
+        $statement          = $this->pdo->prepare(static::$query);
+        $verifyedStatment  = $statement->execute(static::$inputs);
         static::$inputs    = null;
         static::$query     = null;
         static::$whereFlag = 'where';
@@ -53,7 +53,7 @@ abstract class Model
             throw new Exception('Database query error: '.$query, '0300');
         }
 
-        return $statment;
+        return $statement;
     }
 
     public function get(): array
@@ -73,7 +73,7 @@ abstract class Model
             return $data[0];
         }
 
-        throw new \Exception("first method returning null value", 1);
+        throw new Exception("first method returning null value", 1);
     }
 
     public function save(): \PDOStatement

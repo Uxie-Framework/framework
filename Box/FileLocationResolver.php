@@ -5,7 +5,7 @@ namespace Box;
 class FileLocationResolver
 {
     private $fileInfo;
-    private $mainDir;
+    private $fullDir;
 
     public function __construct(string $mainDir, string $fullName)
     {

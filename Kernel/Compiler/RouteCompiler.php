@@ -23,23 +23,22 @@ class RouteCompiler implements DependencyCompilerInterface
      * Check if route action is Closure or method@controller format
      * And then call it
      *
-     * @return Mixed
      */
-    public function execute()
+    public function execute(): void
     {
         if ($this->route->getAction() instanceof Closure) {
-            return $this->callClosure($this->route);
+            $this->callClosure($this->route);
         }
 
         if ($this->isController($this->route)) {
-            return $this->executeController($this->route);
+            $this->executeController($this->route);
         }
 
         throw new \Exception('Route Parameter Error', 1);
     }
 
     /**
-     * Check if route action is a Closure then excute it.
+     * Check if route action is a Closure then execute it.
      *
      * @param RouteInterface $route
      */
@@ -55,7 +54,7 @@ class RouteCompiler implements DependencyCompilerInterface
      * @param RouteInterface $route
      * @return bool
      */
-    private function isController(RouteInterface $route)
+    private function isController(RouteInterface $route): bool
     {
         // check if route is in Class@method format.
         if (strpos($route->getAction(), '@') && !strpos($route->getAction(), '/')) {
@@ -71,11 +70,11 @@ class RouteCompiler implements DependencyCompilerInterface
      * @param RouteInterface $route
      * @return object
      */
-    private function executeController(RouteInterface $route)
+    private function executeController(RouteInterface $route): void
     {
         $parameters = $this->explodeController($route);
         $controller = new $parameters['controller'](container()->Request, container()->Response);
-        return call_user_func_array([$controller, $parameters['method']], $this->arguments);
+        call_user_func_array([$controller, $parameters['method']], $this->arguments);
     }
 
     /**

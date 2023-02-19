@@ -4,9 +4,9 @@ namespace Box\TemplateGenerators;
 
 abstract class TemplateGenerator
 {
-    private $file;
     private $directory;
     private $flag;
+    private $fileName;
 
     public function __construct(string $directory, string $fileName, string $flag = null)
     {
@@ -18,6 +18,7 @@ abstract class TemplateGenerator
 
     public function generate()
     {
+        // FIXME: template is undefined inside this class
         return $this->template($this->directory, $this->fileName, $this->flag);
     }
 

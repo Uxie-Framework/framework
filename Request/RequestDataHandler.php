@@ -5,6 +5,7 @@ namespace Request;
 class RequestDataHandler implements RequestDataHandlerInterface
 {
     private $body;
+    private $files;
 
     public function __construct()
     {

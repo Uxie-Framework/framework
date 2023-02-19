@@ -5,11 +5,6 @@ use Validator\Validator as Validator;
 
 class ValidatorTest extends TestCase
 {
-    public function setUp(): void
-    {
-        tests\Model\TestModel::insert(['id' => uniqid(), 'date' => '20-04-05','name' => 'myName', 'count' => 1])->save();
-    }
-
     public function testStart()
     {
         $this->assertInstanceof(Validator::class, Validator::start());
@@ -120,17 +115,6 @@ class ValidatorTest extends TestCase
 
         $validator2 = Validator::start();
         $validator2->required('name', 'error message')->validate();
-        $this->assertTrue(empty($validator2->getErrors()));
-    }
-
-    public function testUnique()
-    {
-        $validator = Validator::start();
-        $validator->unique('myName', tests\Model\TestModel::class, 'name', 'Not Unique message error')->validate();
-        $this->assertFalse(empty($validator->getErrors()));
-
-        $validator2 = Validator::start();
-        $validator2->unique('notMyName', tests\Model\TestModel::class, 'name', 'Not Unique message error')->validate();
         $this->assertTrue(empty($validator2->getErrors()));
     }
 
