@@ -10,7 +10,7 @@ class Email extends Validatable implements Pipable
 
     public function __construct(string $input, string $errorMsg)
     {
-        $this->input = $input;
+        $this->input    = $input;
         $this->errorMsg = $errorMsg;
     }
 

@@ -10,9 +10,9 @@ class Generator
 
     public function __construct(string $command, string $argument, string $flag = null)
     {
-        $this->command = $command;
+        $this->command  = $command;
         $this->argument = $argument;
-        $this->flag = $flag;
+        $this->flag     = $flag;
     }
 
     public function execute()

@@ -42,8 +42,8 @@ abstract class Model
 
     private function execute(): \PDOStatement
     {
-        $query = static::$query;
-        $statement          = $this->pdo->prepare(static::$query);
+        $query             = static::$query;
+        $statement         = $this->pdo->prepare(static::$query);
         $verifyedStatment  = $statement->execute(static::$inputs);
         static::$inputs    = null;
         static::$query     = null;

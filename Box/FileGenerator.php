@@ -26,9 +26,9 @@ class FileGenerator
 
     public function __construct(string $command, string $argument, string $flag = null)
     {
-        $this->command = $command;
+        $this->command  = $command;
         $this->argument = $argument;
-        $this->flag = $flag;
+        $this->flag     = $flag;
         $this->fileInfo = $this->getFileLocationInfos(new FileLocationResolver(getAliase($this->commandDirectories[strtolower($command)]), $argument));
         $this->template = $this->getTemplate();
     }
