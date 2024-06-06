@@ -6,8 +6,8 @@
     "license"    : "MIT",
 
     "require": {
-        "php"                        : "^8.2",
-        "phpunit/phpunit"            : "^10.1",
+        "php"                        : "^8.3",
+        "phpunit/phpunit"            : "^11.1",
         "mohamed-amine/ioc-container": "^0.8"
     },
 
