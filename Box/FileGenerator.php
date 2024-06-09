@@ -35,7 +35,7 @@ class FileGenerator
 
     public function create()
     {
-        if (!file_put_contents($this->fileInfo->getFileDir().DIRECTORY_SEPARATOR.$this->fileInfo->getFileName().'.php', $this->template)) {
+        if (!file_put_contents($this->fileInfo->getFileDir() . DIRECTORY_SEPARATOR . $this->fileInfo->getFileName() . '.php', $this->template)) {
             echo "can't create file";
             exit();
         }
@@ -45,7 +45,7 @@ class FileGenerator
 
     private function getTemplate()
     {
-        $templateGenerator = 'Box\TemplateGenerators\\'.$this->commandShortcuts[strtolower($this->command)];
+        $templateGenerator = 'Box\TemplateGenerators\\' . $this->commandShortcuts[strtolower($this->command)];
         return $this->generateTemplate(new $templateGenerator($this->fileInfo->getFileDir(), $this->fileInfo->getFileName(), $this->flag));
     }
 

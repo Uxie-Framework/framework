@@ -14,8 +14,8 @@ class RouteCompiler implements DependencyCompilerInterface
     {
         $this->route = $route;
         $this->arguments = [
-          container()->Request,
-          container()->Response,
+            container()->Request,
+            container()->Response,
         ];
     }
 
@@ -87,7 +87,7 @@ class RouteCompiler implements DependencyCompilerInterface
     {
         $parameters = explode('@', $route->getAction());
         return [
-            'controller' => '\Controller\\'.$parameters[0],
+            'controller' => '\Controller\\' . $parameters[0],
             'method' => $parameters[1],
         ];
     }

@@ -35,7 +35,7 @@ class RequestMethodResolver implements RequestMethodResolverInterface
     private function getMethodFromRequest(): string
     {
         if (!in_array($this->request->body->_method, $this->allowedMethods)) {
-            throw new \Exception($this->request->body->_method." Type of method is not supported", 1);
+            throw new \Exception($this->request->body->_method . " Type of method is not supported", 1);
         }
 
         return $this->request->body->_method;

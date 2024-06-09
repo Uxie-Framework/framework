@@ -23,7 +23,7 @@ abstract class Model
         }
     }
 
-    public static function getPDO(): \PDO
+    public static function getPDO(): PDO
     {
         $self = new static();
         return $self->pdo;

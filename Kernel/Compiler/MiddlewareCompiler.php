@@ -17,7 +17,7 @@ class MiddlewareCompiler implements DependencyCompilerInterface
      */
     public function execute(): void
     {
-        $middlewareProvider = require rootDir().getAliase('MiddlewaresProviders');
+        $middlewareProvider = require rootDir() . getAliase('MiddlewaresProviders');
 
         foreach ($this->middlewares as $middleware) {
             if (!array_key_exists($middleware, $middlewareProvider)) {

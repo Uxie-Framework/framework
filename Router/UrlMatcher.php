@@ -41,7 +41,7 @@ class UrlMatcher implements UrlMatcherInterface
 
     private function matchUrlWithRoute(): bool
     {
-        for ($i=0; $i < count($this->url); $i++) {
+        for ($i = 0; $i < count($this->url); $i++) {
             if (($this->url[$i] !== $this->route[$i]) && !$this->isVariable($this->url[$i], $this->route[$i])) {
                 return false;
             }

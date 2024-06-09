@@ -14,7 +14,7 @@ class Kernel implements KernelInterface
         // load all service providers.
         container()->build('Services\ServicesLoader');
         // load routes
-        container()->Router->call(rootDir().'App/Routes.php');
+        container()->Router->call(rootDir() . 'App/Routes.php');
     }
 
     /**

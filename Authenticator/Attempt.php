@@ -38,7 +38,7 @@ class Attempt
 
     private function getUserData()
     {
-        $model = "\Model\\".$this->table['value'];
+        $model = "\Model\\" . $this->table['value'];
         if ($this->optionalValue['value']) {
             return $model::select()->where($this->identifier['key'], '=', $this->identifier['value'])->where($this->optionalValue['key'], '=', $this->optionalValue['value'])->get();
         }
@@ -81,7 +81,7 @@ class Attempt
      * remove white spaces from inputs & add slashes
      *
      * @return void
-    */
+     */
     private function secure()
     {
         foreach ($this->data as $key => $value) {

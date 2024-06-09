@@ -26,6 +26,6 @@ abstract class TemplateGenerator
     {
         $dir = explode('/', $this->directory);
         $dir = array_slice($dir, 2, count($dir));
-        $this->directory = empty($dir) ? implode('\\', $dir) : '\\'.implode('\\', $dir);
+        $this->directory = empty($dir) ? implode('\\', $dir) : '\\' . implode('\\', $dir);
     }
 }

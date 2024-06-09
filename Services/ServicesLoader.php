@@ -14,7 +14,7 @@ class ServicesLoader
 
     private function loadApp()
     {
-        require rootDir().getAliase('App');
+        require rootDir() . getAliase('App');
     }
 
     private function loadServices()

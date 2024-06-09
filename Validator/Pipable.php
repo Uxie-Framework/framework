@@ -1,4 +1,5 @@
 <?php
+
 namespace Validator;
 
 interface Pipable

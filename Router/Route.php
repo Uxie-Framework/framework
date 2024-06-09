@@ -16,7 +16,7 @@ class Route implements RouteInterface
     public function __construct(string $method, string $prefix, string $routeUrl, $action)
     {
         $this->method          = $method;
-        $this->routeUrl        = $prefix.$routeUrl;
+        $this->routeUrl        = $prefix . $routeUrl;
         $this->action          = $action;
         $this->middlewares     = new MiddlewaresCollection([]);
         $this->lateMiddlewares = new MiddlewaresCollection([]);

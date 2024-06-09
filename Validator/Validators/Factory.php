@@ -1,4 +1,5 @@
 <?php
+
 namespace Validator\Validators;
 
 use Validator\Validators\Validatable as Validatable;
@@ -23,7 +24,7 @@ class Factory
 
     public function return(string $validator, ...$arguments): Validatable
     {
-        $validator = "Validator\Validators\\".$this->resolveValidator($validator);
+        $validator = "Validator\Validators\\" . $this->resolveValidator($validator);
         return new $validator(...$arguments);
     }
 

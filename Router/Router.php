@@ -41,7 +41,7 @@ class Router implements RouterInterface
             return $this;
         }
 
-        throw new \Exception('This Page ('.url(currentUrl()).') Does Not Exist', 404);
+        throw new \Exception('This Page (' . url(currentUrl()) . ') Does Not Exist', 404);
     }
 
     /**

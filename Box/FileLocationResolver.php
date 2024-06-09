@@ -19,7 +19,7 @@ class FileLocationResolver
             return $mainDir;
         }
 
-        return $mainDir.'/'.$this->fileInfo['dirname'];
+        return $mainDir . '/' . $this->fileInfo['dirname'];
     }
 
     public function getFileName()

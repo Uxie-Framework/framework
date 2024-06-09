@@ -13,20 +13,20 @@ function view(string $view, array $data = [])
 // return full valide url (inside application)
 function url(string $url)
 {
-    $host = 'http'.(($_SERVER['SERVER_PORT'] == 443) ? 's://' : '://').$_SERVER['HTTP_HOST'].'/';
+    $host = 'http' . (($_SERVER['SERVER_PORT'] == 443) ? 's://' : '://') . $_SERVER['HTTP_HOST'] . '/';
 
-    return $host.$url;
+    return $host . $url;
 }
 // redirect to a specific url (inside application);
 function route(string $url)
 {
-    $host = 'http'.(($_SERVER['SERVER_PORT'] == 443) ? 's://' : '://').$_SERVER['HTTP_HOST'].'/';
-    header('Location: '.$host.$url);
+    $host = 'http' . (($_SERVER['SERVER_PORT'] == 443) ? 's://' : '://') . $_SERVER['HTTP_HOST'] . '/';
+    header('Location: ' . $host . $url);
 }
 // reidrect to an external url
 function redirect(string $url)
 {
-    header('Location: '.$url);
+    header('Location: ' . $url);
 }
 
 function setSession(string $key, string $value)
@@ -71,7 +71,7 @@ function destroyAllCookies()
 
 function setLanguage(string $language): void
 {
-    setNewCookie('_language', $language, time()+3600*24*364);
+    setNewCookie('_language', $language, time() + 3600 * 24 * 364);
 }
 
 function getLanguage(): string
@@ -92,7 +92,7 @@ function csrf_field()
         $token = uniqid(random_int(0, 1000));
     }
     setSession('_token', $token);
-    echo "<input type='hidden' name='_token' value='".$token."'>";
+    echo "<input type='hidden' name='_token' value='" . $token . "'>";
 }
 
 function csrf_token()
@@ -124,7 +124,7 @@ function getAliase(string $aliase)
 
 function rootDir()
 {
-    return $_SERVER['DOCUMENT_ROOT'].'/../';
+    return $_SERVER['DOCUMENT_ROOT'] . '/../';
 }
 
 function previousUrl()

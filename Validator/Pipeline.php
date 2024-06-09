@@ -1,4 +1,5 @@
 <?php
+
 namespace Validator;
 
 use Validator\Validators\Validatable as Validatable;

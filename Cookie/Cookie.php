@@ -1,4 +1,5 @@
 <?php
+
 namespace Cookie;
 
 class Cookie
@@ -13,13 +14,13 @@ class Cookie
     public function delete(string $key): void
     {
         unset($_COOKIE[$key]);
-        setcookie($key, '', time()-1);
+        setcookie($key, '', time() - 1);
     }
 
     public function deleteAll(): void
     {
         foreach ($_COOKIE as $key => $value) {
-            setcookie($key, $value, time()-1);
+            setcookie($key, $value, time() - 1);
         }
     }
 
