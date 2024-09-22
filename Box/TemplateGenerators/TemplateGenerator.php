@@ -18,7 +18,7 @@ abstract class TemplateGenerator
 
     public function generate()
     {
-        // FIXME: template is undefined inside this class
+        // The error of undefined template() is not correct because template() function comes from the Box\Templates files.
         return $this->template($this->directory, $this->fileName, $this->flag);
     }
 
