@@ -20,7 +20,7 @@ class Check
 
     private function checkCondition(string $key, string $value)
     {
-        if (session($key) === $value) {
+        if (getSession($key) === $value) {
             return true;
         }
         return false;
@@ -28,7 +28,7 @@ class Check
 
     public function check()
     {
-        if (session('id')) {
+        if (getSession('id')) {
             return true;
         }
         return false;

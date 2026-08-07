@@ -33,7 +33,7 @@ class RouteResolver implements RouteResolverInterface
 
     private function validateRequestMethod(): bool
     {
-        if ($this->route->getMethod() === $this->request->getMethod()) {
+        if ($this->route->getMethod() === $this->request->method()) {
             return true;
         }
 
@@ -42,7 +42,7 @@ class RouteResolver implements RouteResolverInterface
 
     private function UrlMatchRoute(UrlMatcher $matcher): bool
     {
-        if ($matcher->match()) {
+        if ($matcher->matchURL()) {
             $this->setUrlVariables($matcher->urlVariables);
             return true;
         }

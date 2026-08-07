@@ -2,10 +2,23 @@
 
 namespace Validator\Validators;
 
-class IsIp extends Validator
+use Validator\Pipable;
+
+class IsIp extends Validatable implements Pipable
 {
-    public function check($input)
+    private $input;
+
+    public function __construct(string $input, string $errorMsg)
     {
-        return filter_var($input, FILTER_VALIDATE_IP);
+        $this->input    = $input;
+        $this->errorMsg = $errorMsg;
+    }
+    public function check(): bool
+    {
+        if (!filter_var($this->input, FILTER_VALIDATE_IP) == $this->input) {
+            return false;
+        }
+
+        return true;
     }
 }

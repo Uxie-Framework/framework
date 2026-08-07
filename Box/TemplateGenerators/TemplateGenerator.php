@@ -4,9 +4,9 @@ namespace Box\TemplateGenerators;
 
 abstract class TemplateGenerator
 {
-    private $file;
     private $directory;
     private $flag;
+    private $fileName;
 
     public function __construct(string $directory, string $fileName, string $flag = null)
     {
@@ -18,6 +18,7 @@ abstract class TemplateGenerator
 
     public function generate()
     {
+        // undefined template() is not a real error it's caused by the template() function coming from the Box\Templates files.
         return $this->template($this->directory, $this->fileName, $this->flag);
     }
 
@@ -25,6 +26,6 @@ abstract class TemplateGenerator
     {
         $dir = explode('/', $this->directory);
         $dir = array_slice($dir, 2, count($dir));
-        $this->directory = empty($dir) ? implode('\\', $dir) : '\\'.implode('\\', $dir);
+        $this->directory = empty($dir) ? implode('\\', $dir) : '\\' . implode('\\', $dir);
     }
 }

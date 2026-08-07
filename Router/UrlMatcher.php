@@ -26,7 +26,7 @@ class UrlMatcher implements UrlMatcherInterface
         return $tmpArray;
     }
 
-    public function match(): bool
+    public function matchURL(): bool
     {
         if (count($this->url) !== count($this->route)) {
             return false;
@@ -41,7 +41,7 @@ class UrlMatcher implements UrlMatcherInterface
 
     private function matchUrlWithRoute(): bool
     {
-        for ($i=0; $i < count($this->url); $i++) {
+        for ($i = 0; $i < count($this->url); $i++) {
             if (($this->url[$i] !== $this->route[$i]) && !$this->isVariable($this->url[$i], $this->route[$i])) {
                 return false;
             }
@@ -50,13 +50,19 @@ class UrlMatcher implements UrlMatcherInterface
         return true;
     }
 
-    private function isVariable(string $urlValue, string $routeValue): bool
+    private function isVariable(string $urlVariable, string $routeVariable): bool
     {
-        if (preg_match('@{\$(.*?)}@', $routeValue)) {
-            $this->urlVariables[] = $urlValue;
+        if (preg_match('@{\$(.*?)}@', $routeVariable)) {
+            $this->urlVariables[$this->normalizeVariable($routeVariable)] = $urlVariable;
             return true;
         }
 
         return false;
+    }
+
+    private function normalizeVariable(string $variable)
+    {
+        preg_match('@{\$(.*?)}@', $variable, $result);
+        return $result[1];
     }
 }

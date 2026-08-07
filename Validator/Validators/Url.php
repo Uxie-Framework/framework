@@ -2,10 +2,24 @@
 
 namespace Validator\Validators;
 
-class Url extends Validator
+use Validator\Pipable;
+
+class Url extends Validatable implements Pipable
 {
-    public function check(string $input)
+    private $input;
+
+    public function __construct(string $input, string $errorMsg)
     {
-        return filter_var($input, FILTER_VALIDATE_URL);
+        $this->input    = $input;
+        $this->errorMsg = $errorMsg;
+    }
+
+    public function check(): bool
+    {
+        if (!filter_var($this->input, FILTER_VALIDATE_URL)) {
+            return false;
+        }
+
+        return true;
     }
 }

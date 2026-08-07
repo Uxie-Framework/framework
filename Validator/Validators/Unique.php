@@ -2,13 +2,29 @@
 
 namespace Validator\Validators;
 
-class Unique extends Validator
-{
-    public function check(string $input, string $model, string $column)
-    {
-        $model = 'Model\\'.$model;
-        $data = $model::select()->where($column, '=', $input)->get();
+use Validator\Pipable;
 
-        return (empty($data)) ? true : false;
+class Unique extends Validatable implements Pipable
+{
+    private $input;
+    private $model;
+    private $column;
+
+    public function __construct(string $input, string $model, string $column, string $errorMsg)
+    {
+        $this->input    = $input;
+        $this->model    = $model;
+        $this->column   = $column;
+        $this->errorMsg = $errorMsg;
+    }
+
+    public function check(): bool
+    {
+        $data = $this->model::select()->where($this->column, '=', $this->input)->get();
+        if (!empty($data)) {
+            return false;
+        }
+
+        return true;
     }
 }

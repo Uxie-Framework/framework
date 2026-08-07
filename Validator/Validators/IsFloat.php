@@ -1,11 +1,25 @@
 <?php
 
-namespace Validator\validators;
+namespace Validator\Validators;
 
-class IsFloat extends Validator
+use Validator\Pipable;
+
+class IsFloat extends Validatable implements Pipable
 {
-    public function check($input)
+    private $input;
+
+    public function __construct(string $input, string $errorMsg)
     {
-        return filter_var($input, FILTER_VALIDATE_FLOAT);
+        $this->input    = $input;
+        $this->errorMsg = $errorMsg;
+    }
+
+    public function check(): bool
+    {
+        if (!filter_var($this->input, FILTER_VALIDATE_FLOAT)) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -3,100 +3,80 @@
 // include a view
 function view(string $view, array $data = [])
 {
-    if (getenv('TEMPLATING_ENGINE') == 'Blade') {
-        bladeView($view, $data);
-    } else {
-        pugView($view, $data);
+    if (isset(container()->Blade)) {
+        unset(container()->Blade);
     }
-}
-
-function bladeView(string $view, array $data = [])
-{
-    container()->build('Blade', ['../App/Views', '../cache/blade']);
-    echo container()->Blade->make($view, $data);
-}
-
-function pugView(string $view, array $data = [])
-{
-    container()->build('Pug', [[
-        'expressionLanguage' => 'php',
-        'cache'              => '../cache/pug',
-        'basedir'            => '../App/Views',
-        ]]);
-
-    echo container()->Pug->render("../App/Views/$view.pug", $data);
+    container()->build('Blade', '../App/Views', '../cache/blade');
+    return container()->Blade->make($view, $data);
 }
 
 // return full valide url (inside application)
 function url(string $url)
 {
-    $host = 'http'.(($_SERVER['SERVER_PORT'] == 443) ? 's://' : '://').$_SERVER['HTTP_HOST'].'/';
+    $host = 'http' . (($_SERVER['SERVER_PORT'] == 443) ? 's://' : '://') . $_SERVER['HTTP_HOST'] . '/';
 
-    return $host.$url;
+    return $host . $url;
 }
 // redirect to a specific url (inside application);
 function route(string $url)
 {
-    $host = 'http'.(($_SERVER['SERVER_PORT'] == 443) ? 's://' : '://').$_SERVER['HTTP_HOST'].'/';
-    header('Location: '.$host.$url);
+    $host = 'http' . (($_SERVER['SERVER_PORT'] == 443) ? 's://' : '://') . $_SERVER['HTTP_HOST'] . '/';
+    header('Location: ' . $host . $url);
 }
 // reidrect to an external url
 function redirect(string $url)
 {
-    header('Location: '.$url);
+    header('Location: ' . $url);
 }
 
-function session($key, $value = null)
+function setSession(string $key, string $value)
 {
-    if (!isset($_SESSION)) {
-        session_start();
-    }
-    if (!$value && isset($_SESSION[$key])) {
-        return $_SESSION[$key] ?? false;
-    }
-    if ($value) {
-        return $_SESSION[$key] = $value;
-    }
-
-    return null;
+    container()->Session->set($key, $value);
 }
 
-function unsetSession($key)
+function getSession(string $key)
 {
-    session_start();
-    unset($_SESSION[$key]);
+    return container()->Session->$key;
 }
 
-function cookie($key, $value = null, $time = null)
+function destroySession(string $key)
 {
-    if ($value && $time) {
-        return setcookie($key, $value, $time, '/');
-    }
-    if ($value && !$time) {
-        return setcookie($key, $value, time(), '/');
-    }
-    if (!$value && !$time) {
-        return $_COOKIE[$key] ?? null;
-    }
-
-    throw new \Exception("Cookie function can't resolve of the given arguments", 21);
-
+    container()->Session->delete($key);
 }
 
-function unsetCookie($key)
+function destroyAllSessions()
 {
-    setcookie($key, '', time() - 1);
+    container()->Session->deleteAll();
 }
 
-function language(string $language = null)
+function setNewCookie(string $key, string $value, string $date)
 {
-    if ($language === null) {
-        return cookie('_language') ?? 'english';
-    }
-    if (is_string($language)) {
-        cookie('_language', $language, time()+3600*24*30);
-        return cookie('_language');
-    }
+    container()->Cookie->set($key, $value, $date);
+}
+
+function getCookie(string $key)
+{
+    return container()->Cookie->$key;
+}
+
+function destroyCookie(string $key)
+{
+    container()->Cookie->delete($key);
+}
+
+function destroyAllCookies()
+{
+    container()->Cookie->deleteAll();
+}
+
+function setLanguage(string $language): void
+{
+    setNewCookie('_language', $language, time() + 3600 * 24 * 364);
+}
+
+function getLanguage(): string
+{
+    return getCookie('_language') ?? 'en';
 }
 
 function translation(string $languageFile)
@@ -106,14 +86,24 @@ function translation(string $languageFile)
 
 function csrf_field()
 {
-    $token = session('_token') ?? uniqid(random_int(0, 1000));
-    session('_token', $token);
-    echo "<input type='hidden' name='_token' value='".$token."'>";
+    if (isset(container()->Session->_token)) {
+        $token = getSession('_token');
+    } else {
+        $token = uniqid(random_int(0, 1000));
+    }
+    setSession('_token', $token);
+    echo "<input type='hidden' name='_token' value='" . $token . "'>";
 }
 
 function csrf_token()
 {
-    return session('_token');
+    return getSession('_token');
+}
+
+function generate_csrf_token()
+{
+    setSession('_token', uniqid(random_int(0, 1000)));
+    return getSession('_token');
 }
 
 function method_field(string $method)
@@ -134,7 +124,7 @@ function getAliase(string $aliase)
 
 function rootDir()
 {
-    return $_SERVER['DOCUMENT_ROOT'].'/../';
+    return $_SERVER['DOCUMENT_ROOT'] . '/../';
 }
 
 function previousUrl()

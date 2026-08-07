@@ -2,10 +2,24 @@
 
 namespace Validator\Validators;
 
-class IsInt extends Validator
+use Validator\Pipable;
+
+class IsInt extends Validatable implements Pipable
 {
-    public function check($input)
+    private $input;
+
+    public function __construct(string $input, string $errorMsg)
     {
-        return filter_var($input, FILTER_VALIDATE_INT);
+        $this->input    = $input;
+        $this->errorMsg = $errorMsg;
+    }
+
+    public function check(): bool
+    {
+        if (!filter_var($this->input, FILTER_VALIDATE_INT)) {
+            return false;
+        }
+
+        return true;
     }
 }

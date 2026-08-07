@@ -15,19 +15,25 @@ trait Controller
 
     public function emptyController(string $directory, string $fileName)
     {
-        return "<?php
+        return '<?php
 
-namespace Controller".$directory.";
+namespace Controller'.$directory.';
 
 use Controller\Controller as Controller;
+use Request\Request as Request;
+use Response\Response as Response;
 
-class ".$fileName." extends Controller
+class '.$fileName.' extends Controller
 {
-    public function welcom()
+    private $response;
+    private $request;
+
+    public function __construct(Request $request, Response $response)
     {
-        //
+        $this->response = $response;
+        $this->request  = $request;
     }
-} \n";
+}';
     }
 
     public function resourceController(string $directory, string $fileName)
@@ -38,41 +44,50 @@ namespace Controller'.$directory.';
 
 use Controller\Controller as Controller;
 use Request\Request as Request;
+use Response\Response as Response;
 
 class '.$fileName.' extends Controller
 {
+    private $response;
+    private $request;
 
-    public function index()
+    public function __construct(Request $request, Response $response)
+    {
+        $this->response = $response;
+        $this->request  = $request;
+    }
+
+    public function index(Request $request, Response $response)
     {
         //
     }
 
-    public function create()
+    public function create(Request $request, Response $response)
     {
         //
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Response $response)
     {
         //
     }
 
-    public function show(string $id)
+    public function show(Request $request, Response $response)
     {
         //
     }
 
-    public function edit(string $id)
+    public function edit(Request $request, Response $response)
     {
         //
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Response $response)
     {
         //
     }
 
-    public function delete(string $id)
+    public function delete(Request $request, Response $response)
     {
         //
     }
