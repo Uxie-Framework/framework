@@ -6,9 +6,9 @@
     "license":     "MIT",
 
     "require": {
-        "php":                         ">=7.1.6",
-        "phpunit/phpunit":             "^6.0",
-        "mohamed-amine/ioc-container": "^0.5"
+        "php":                         "^8.3",
+        "phpunit/phpunit":             "^11.1",
+        "mohamed-amine/ioc-container": "^0.8"
     },
 
     "authors": [
