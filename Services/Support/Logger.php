@@ -1,30 +1,28 @@
 <?php
 namespace Services\Support;
 
-use Request\Request as Request;
+use Request\Handler\Request as Request;
 use Response\Response as Response;
 
 class Logger
 {
-    private $request;
-    private $response;
+    private string $logDir;
 
-    public function __construct(Request $request, Response $response)
+    public function __construct()
     {
-        $this->request  = $request;
-        $this->response = $response;
+        $this->logDir = rootDir().'log';
     }
 
-    public function error($error, $code, $line, $file)
+    public function error(string $error, mixed $code, int $line, string $file): void
     {
-        $date = date('y-m-d H:i:s');
-        $error = "\n# code : $code # $date # $error # $line # $file";
-        file_put_contents('../log/All_errors.log', $error, FILE_APPEND);
+        $date = date('Y-m-d H:i:s');
+        $message = "\n# code: {$code} # {$date} # {$error} # line {$line} # {$file}";
+        file_put_contents($this->logDir.'/All_errors.log', $message, FILE_APPEND);
     }
 
-    public function log($log, $file)
+    public function log(string $log, string $file): void
     {
-        $date = date('y-m-d H:i:s');
-        file_put_contents("../log/$file.log", "\n$date # ".$log, FILE_APPEND);
+        $date = date('Y-m-d H:i:s');
+        file_put_contents("{$this->logDir}/{$file}.log", "\n{$date} # {$log}", FILE_APPEND);
     }
 }

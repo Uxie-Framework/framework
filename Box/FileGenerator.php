@@ -18,13 +18,13 @@ class FileGenerator
         'repository' => 'Repositorie',
         'filter'     => 'Filter'
     ];
-    private $command;
-    private $argument;
-    private $flag;
-    private $template;
-    private $fileInfo;
+    private string $command;
+    private string $argument;
+    private ?string $flag;
+    private string $template;
+    private FileLocationResolver $fileInfo;
 
-    public function __construct(string $command, string $argument, string $flag = null)
+    public function __construct(string $command, string $argument, ?string $flag = null)
     {
         $this->command  = $command;
         $this->argument = $argument;
@@ -33,23 +33,22 @@ class FileGenerator
         $this->template = $this->getTemplate();
     }
 
-    public function create()
+    public function create(): void
     {
-        if (!file_put_contents($this->fileInfo->getFileDir() . DIRECTORY_SEPARATOR . $this->fileInfo->getFileName() . '.php', $this->template)) {
-            echo "can't create file";
-            exit();
+        if (!file_put_contents($this->fileInfo->getFileDir().DIRECTORY_SEPARATOR.$this->fileInfo->getFileName().'.php', $this->template)) {
+            throw new \Exception("Can't create file");
         }
 
-        echo "Success : $this->argument is created \n";
+        echo "Success : {$this->argument} is created\n";
     }
 
-    private function getTemplate()
+    private function getTemplate(): string
     {
         $templateGenerator = 'Box\TemplateGenerators\\' . $this->commandShortcuts[strtolower($this->command)];
         return $this->generateTemplate(new $templateGenerator($this->fileInfo->getFileDir(), $this->fileInfo->getFileName(), $this->flag));
     }
 
-    private function generateTemplate($templateGenerator)
+    private function generateTemplate(object $templateGenerator): string
     {
         return $templateGenerator->generate();
     }

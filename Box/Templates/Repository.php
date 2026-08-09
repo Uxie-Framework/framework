@@ -11,7 +11,7 @@ trait Repository
 namespace Repository'.$directory.';
 
 use Model\\'.$flag.' as Model;
-use Request\Request as Request;
+use Request\Handler\Request as Request;
 use Response\Response as Response;
 
 class '.$fileName.'

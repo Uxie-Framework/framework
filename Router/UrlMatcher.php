@@ -4,31 +4,36 @@ namespace Router;
 
 class UrlMatcher implements UrlMatcherInterface
 {
-    private $url;
-    private $route;
-    public $urlVariables = [];
+    private array $urlParts;
+    private array $routeParts;
+    private array $urlVariables = [];
 
     public function __construct(Url $url, Route $route)
     {
-        $this->url   = array_values($this->filterRoute(explode('/', $url->getUrl())));
-        $this->route = array_values($this->filterRoute(explode('/', $route->getRoute())));
+        $this->urlParts   = array_values($this->filterRoute(explode('/', $url->getUrl())));
+        $this->routeParts = array_values($this->filterRoute(explode('/', $route->getRoute())));
     }
 
-    private function filterRoute(array $route)
+    public function getUrlVariables(): array
     {
-        $tmpArray = [];
-        foreach ($route as $value) {
+        return $this->urlVariables;
+    }
+
+    private function filterRoute(array $segments): array
+    {
+        $filtered = [];
+        foreach ($segments as $value) {
             if (strlen($value) > 0) {
-                $tmpArray[] = $value;
+                $filtered[] = $value;
             }
         }
 
-        return $tmpArray;
+        return $filtered;
     }
 
     public function matchURL(): bool
     {
-        if (count($this->url) !== count($this->route)) {
+        if (count($this->urlParts) !== count($this->routeParts)) {
             return false;
         }
 
@@ -41,8 +46,8 @@ class UrlMatcher implements UrlMatcherInterface
 
     private function matchUrlWithRoute(): bool
     {
-        for ($i = 0; $i < count($this->url); $i++) {
-            if (($this->url[$i] !== $this->route[$i]) && !$this->isVariable($this->url[$i], $this->route[$i])) {
+        for ($i = 0; $i < count($this->urlParts); $i++) {
+            if (($this->urlParts[$i] !== $this->routeParts[$i]) && !$this->isVariable($this->urlParts[$i], $this->routeParts[$i])) {
                 return false;
             }
         }

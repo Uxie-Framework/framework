@@ -84,13 +84,16 @@ class ModelTest extends TestCase
     public function testFind()
     {
         $test = TestModel::find('name', 'myName');
-        $this->assertEquals($test[0]->name, 'myName');
+        $this->assertEquals($test->name, 'myName');
     }
 
     public function testFindOrFail()
     {
-        $this->assertTrue(TestModel::findOrFail('name', 'myName'));
-        $this->assertFalse(TestModel::findOrFail('name', 'uxie'));
+        $result = TestModel::findOrFail('name', 'myName');
+        $this->assertNotNull($result);
+
+        $this->expectException(\Exception::class);
+        TestModel::findOrFail('name', 'uxie');
     }
 
     public function testIncrease()

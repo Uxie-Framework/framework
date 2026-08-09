@@ -2,14 +2,14 @@
 
 namespace Router;
 
-use Request\Request;
+use Request\Handler\Request;
 
 class RouteResolver implements RouteResolverInterface
 {
-    private $route;
-    private $url;
-    private $request;
-    private $urlVariables = [];
+    private Route $route;
+    private Url $url;
+    private Request $request;
+    private array $urlVariables = [];
 
     public function __construct(Route $route, Url $url, Request $request)
     {
@@ -24,7 +24,7 @@ class RouteResolver implements RouteResolverInterface
             return false;
         }
 
-        if (!$this->UrlMatchRoute(new UrlMatcher($this->url, $this->route))) {
+        if (!$this->urlMatchRoute(new UrlMatcher($this->url, $this->route))) {
             return false;
         }
 
@@ -33,24 +33,20 @@ class RouteResolver implements RouteResolverInterface
 
     private function validateRequestMethod(): bool
     {
-        if ($this->route->getMethod() === $this->request->method()) {
-            return true;
-        }
-
-        return false;
+        return $this->route->getMethod() === $this->request->getMethod();
     }
 
-    private function UrlMatchRoute(UrlMatcher $matcher): bool
+    private function urlMatchRoute(UrlMatcher $matcher): bool
     {
         if ($matcher->matchURL()) {
-            $this->setUrlVariables($matcher->urlVariables);
+            $this->setUrlVariables($matcher->getUrlVariables());
             return true;
         }
 
         return false;
     }
 
-    private function setUrlVariables($urlVariables): void
+    private function setUrlVariables(array $urlVariables): void
     {
         $this->urlVariables = $urlVariables;
     }

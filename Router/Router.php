@@ -3,17 +3,17 @@
 namespace Router;
 
 use Closure;
-use Request\Request;
+use Request\Handler\Request;
 
 class Router implements RouterInterface
 {
-    private $route;
-    private $routes;
-    private $url;
-    private $request;
-    private $prefix  = '';
-    private $defaultClosure;
-    private $activeDefault = false;
+    private ?Route $route = null;
+    private RoutesCollection $routes;
+    private Url $url;
+    private Request $request;
+    private string $prefix = '';
+    private Closure $defaultClosure;
+    private bool $activeDefault = false;
 
     public function __construct()
     {
@@ -32,7 +32,7 @@ class Router implements RouterInterface
         $this->request = container()->Request;
         $this->callRoutes($routesFile);
 
-        if (isset($this->route)) {
+        if ($this->route !== null) {
             return $this;
         }
 
@@ -64,27 +64,27 @@ class Router implements RouterInterface
             ->addToRouteCollection(new Route('DELETE', $this->prefix, $route, $action));
     }
 
-    public function get(string $route, $action): Router
+    public function get(string $route, string|Closure $action): Router
     {
         return $this->addToRouteCollection(new Route('GET', $this->prefix, $route, $action));
     }
 
-    public function post(string $route, $action): Router
+    public function post(string $route, string|Closure $action): Router
     {
         return $this->addToRouteCollection(new Route('POST', $this->prefix, $route, $action));
     }
 
-    public function put(string $route, $action): Router
+    public function put(string $route, string|Closure $action): Router
     {
         return $this->addToRouteCollection(new Route('PUT', $this->prefix, $route, $action));
     }
 
-    public function patch(string $route, $action): Router
+    public function patch(string $route, string|Closure $action): Router
     {
         return $this->addToRouteCollection(new Route('PATCH', $this->prefix, $route, $action));
     }
 
-    public function delete(string $route, $action): Router
+    public function delete(string $route, string|Closure $action): Router
     {
         return $this->addToRouteCollection(new Route('DELETE', $this->prefix, $route, $action));
     }
@@ -154,7 +154,7 @@ class Router implements RouterInterface
         $this->route = isset($this->route) ? $this->route : $this->routes->current();
     }
 
-    public function getRoute(): Route
+    public function getRoute(): ?Route
     {
         return $this->route;
     }

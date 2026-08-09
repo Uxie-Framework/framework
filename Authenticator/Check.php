@@ -4,10 +4,7 @@ namespace Authenticator;
 
 class Check
 {
-    private $id;
-    private $optionalValue;
-
-    public function checkif(array $conditions)
+    public function checkif(array $conditions): bool
     {
         foreach ($conditions as $key => $value) {
             $checked = $this->checkCondition($key, $value);
@@ -18,7 +15,7 @@ class Check
         return true;
     }
 
-    private function checkCondition(string $key, string $value)
+    private function checkCondition(string $key, string $value): bool
     {
         if (getSession($key) === $value) {
             return true;
@@ -26,7 +23,7 @@ class Check
         return false;
     }
 
-    public function check()
+    public function check(): bool
     {
         if (getSession('id')) {
             return true;

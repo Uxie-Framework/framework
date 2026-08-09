@@ -4,12 +4,12 @@ namespace Authenticator;
 
 class Attempt
 {
-    private $data;
-    private $table;
-    private $identifier;
-    private $password;
-    private $optionalValue;
-    private $userData;
+    private array $data;
+    private array $table;
+    private array $identifier;
+    private array $password;
+    private ?array $optionalValue;
+    private array $userData = [];
 
     public function __construct(array $data)
     {
@@ -18,16 +18,16 @@ class Attempt
         $this->setup();
     }
 
-    public function login()
+    public function login(): bool
     {
-        if ($this->checkUserValide()) {
+        if ($this->checkUserValid()) {
             $this->startSession();
             return true;
         }
         return false;
     }
 
-    private function checkUserValide()
+    private function checkUserValid(): bool
     {
         $this->userData = $this->getUserData();
         if (!empty($this->userData)) {
@@ -36,7 +36,7 @@ class Attempt
         return false;
     }
 
-    private function getUserData()
+    private function getUserData(): array
     {
         $model = "\Model\\" . $this->table['value'];
         if ($this->optionalValue['value']) {
@@ -45,12 +45,12 @@ class Attempt
         return $model::find($this->identifier['key'], $this->identifier['value']);
     }
 
-    private function confirmPassword($userData)
+    private function confirmPassword(object $userData): bool
     {
         return password_verify($this->password['value'], $userData->{$this->password['key']});
     }
 
-    private function startSession()
+    private function startSession(): void
     {
         foreach ((array)$this->userData[0] as $key => $value) {
             if ($this->password['key'] !== $key && !is_null($value)) {
@@ -60,7 +60,7 @@ class Attempt
         setSession('time', time());
     }
 
-    private function setup()
+    private function setup(): void
     {
         $keys = array_keys($this->data);
         $values = array_values($this->data);
@@ -77,16 +77,12 @@ class Attempt
         $this->optionalValue['value'] = isset($values[3]) ? $values[3] : null;
     }
 
-    /**
-     * remove white spaces from inputs & add slashes
-     *
-     * @return void
-     */
-    private function secure()
+    private function secure(): void
     {
         foreach ($this->data as $key => $value) {
-            $secured[$key] = trim(addslashes($value));
+            if (is_string($value)) {
+                $this->data[$key] = trim($value);
+            }
         }
-        $this->data = $secured;
     }
 }

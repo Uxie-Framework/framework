@@ -4,7 +4,7 @@ namespace Services;
 
 class LanguagesResolver
 {
-    private static $paths = [];
+    private static array $paths = [];
 
     public static function resolve(string $path): array
     {

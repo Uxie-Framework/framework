@@ -4,7 +4,7 @@ namespace Kernel\Compiler;
 
 class MiddlewareCompiler implements DependencyCompilerInterface
 {
-    private $middlewares;
+    private array $middlewares;
 
     public function __construct(array $middlewares)
     {

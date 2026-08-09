@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Request\Request as Request;
+use Request\Handler\Request as Request;
 
 class RequestTest extends TestCase
 {

@@ -7,8 +7,8 @@ use Closure;
 
 class RouteCompiler implements DependencyCompilerInterface
 {
-    private $route;
     private $arguments;
+    private RouteInterface $route;
 
     public function __construct(RouteInterface $route)
     {
@@ -22,8 +22,9 @@ class RouteCompiler implements DependencyCompilerInterface
     /**
      * Check if route action is Closure or method@controller format
      * And then call it
-     *
-     */
+ 	 *
+     * @return void
+	 */
     public function execute(): void
     {
         if ($this->route->getAction() instanceof Closure) {
@@ -73,6 +74,11 @@ class RouteCompiler implements DependencyCompilerInterface
     private function executeController(RouteInterface $route): void
     {
         $parameters = $this->explodeController($route);
+
+        if (!class_exists($parameters['controller'])) {
+            throw new \Exception("Controller '{$parameters['controller']}' not found", 1);
+        }
+
         $controller = new $parameters['controller'](container()->Request, container()->Response);
         call_user_func_array([$controller, $parameters['method']], $this->arguments);
     }

@@ -2,18 +2,20 @@
 
 namespace Router;
 
-use Request\Request;
-use MiddlewareHandler\Middleware as Middleware;
+use Closure;
+use Request\Handler\Request;
 
 class Route implements RouteInterface
 {
-    private $action;
-    private $routeUrl;
-    private $method;
-    private $middlewares;
-    private $lateMiddlewares;
+    private string|Closure $action;
+    private array $variables = [];
+    private string $routeUrl;
+    private string $method;
+    private Request $request;
+    private MiddlewaresCollection $middlewares;
+    private MiddlewaresCollection $lateMiddlewares;
 
-    public function __construct(string $method, string $prefix, string $routeUrl, $action)
+    public function __construct(string $method, string $prefix, string $routeUrl, string|Closure $action)
     {
         $this->method          = $method;
         $this->routeUrl        = $prefix . $routeUrl;
@@ -27,7 +29,12 @@ class Route implements RouteInterface
         return $this->routeUrl;
     }
 
-    public function getAction()
+    public function getVariables(): array
+    {
+        return $this->variables;
+    }
+
+    public function getAction(): string|Closure
     {
         return $this->action;
     }
@@ -55,5 +62,15 @@ class Route implements RouteInterface
     public function getLateMiddlewares(): array
     {
         return $this->lateMiddlewares->getArrayCopy();
+    }
+
+    public function setVariables(array $values): void
+    {
+        $this->variables = $values;
+    }
+
+    public function setRequest(Request $request): void
+    {
+        $this->request = $request;
     }
 }

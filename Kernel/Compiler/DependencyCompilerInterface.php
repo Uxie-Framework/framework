@@ -4,5 +4,5 @@ namespace Kernel\Compiler;
 
 interface DependencyCompilerInterface
 {
-    public function execute();
+    public function execute(): void;
 }
