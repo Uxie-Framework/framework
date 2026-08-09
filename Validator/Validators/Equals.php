@@ -2,14 +2,26 @@
 
 namespace Validator\Validators;
 
-class Equals extends Validator
+use Validator\Pipable;
+
+class Equals extends Validatable implements Pipable
 {
-    public function check(string $input, string $fieldName, string $match)
+    private $input;
+    private $input2;
+
+    public function __construct(string $input, string $input2, string $errorMsg)
     {
-        if ($input === $match) {
-            return true;
+        $this->input    = $input;
+        $this->input2   = $input2;
+        $this->errorMsg = $errorMsg;
+    }
+
+    public function check(): bool
+    {
+        if ($this->input !== $this->input2) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 }

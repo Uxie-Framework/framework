@@ -4,16 +4,20 @@ namespace Box;
 
 class Generator
 {
+    private $command;
+    private $argument;
+    private $flag;
+
     public function __construct(string $command, string $argument, string $flag = null)
     {
-        $this->command = $command;
+        $this->command  = $command;
         $this->argument = $argument;
-        $this->flag = $flag;
+        $this->flag     = $flag;
     }
 
     public function execute()
     {
-        $this->validate(new Validator($this->command));
+        $this->validate(new Validator());
         $this->create(new FileGenerator($this->command, $this->argument, $this->flag));
     }
 

@@ -11,15 +11,23 @@ class Router implements RouterInterface
     private $routes;
     private $url;
     private $request;
-    private $prefix = '';
+    private $prefix  = '';
+    private $defaultClosure;
+    private $activeDefault = false;
 
     public function __construct()
     {
         $this->routes = new RoutesCollection([]);
-        $this->url = new Url;
+        $this->url    = new Url;
     }
 
-    public function call(string $routesFile)
+    /**
+     * call routes from a given routes file.
+     *
+     * @param string $routesFile
+     * @return Router
+     */
+    public function call(string $routesFile): Router
     {
         $this->request = container()->Request;
         $this->callRoutes($routesFile);
@@ -28,13 +36,32 @@ class Router implements RouterInterface
             return $this;
         }
 
-        throw new \Exception('This Page ('.url(currentUrl()).') Does Not Exist', 404);
+        if (!isset($this->route) && $this->activeDefault) {
+            $this->route = new Route('DEFAULT', 'DEFAULT', 'DEFAULT', $this->defaultClosure);
+            return $this;
+        }
+
+        throw new \Exception('This Page (' . url(currentUrl()) . ') Does Not Exist', 404);
     }
 
+    /**
+     * require a given file.
+     *
+     * @param string $routesFile
+     */
     private function callRoutes(string $routesFile): void
     {
         $route = $this;
         require $routesFile;
+    }
+
+    public function any(string $route, $action): Router
+    {
+        return $this->addToRouteCollection(new Route('GET', $this->prefix, $route, $action))
+            ->addToRouteCollection(new Route('POST', $this->prefix, $route, $action))
+            ->addToRouteCollection(new Route('PUT', $this->prefix, $route, $action))
+            ->addToRouteCollection(new Route('PATCH', $this->prefix, $route, $action))
+            ->addToRouteCollection(new Route('DELETE', $this->prefix, $route, $action));
     }
 
     public function get(string $route, $action): Router
@@ -83,6 +110,12 @@ class Router implements RouterInterface
         return $this;
     }
 
+    public function default(Closure $closure): void
+    {
+        $this->activeDefault  = true;
+        $this->defaultClosure = $closure;
+    }
+
     public function middleware(string $middleware, bool $flag = false): Router
     {
         if (isset($this->route)) {
@@ -111,25 +144,14 @@ class Router implements RouterInterface
     private function ResolveRoute(RouteResolver $resolver): void
     {
         if ($resolver->validate()) {
+            container()->Request->setParams($resolver->getUrlVariables());
             $this->saveRoute();
-            $this->bindRouteVariables($resolver->getUrlVariables());
-            $this->bindRequest($this->request);
         }
     }
 
     private function saveRoute(): void
     {
         $this->route = isset($this->route) ? $this->route : $this->routes->current();
-    }
-
-    private function bindRouteVariables(array $variables): void
-    {
-        $this->route->setVariables($variables);
-    }
-
-    private function bindRequest(): void
-    {
-        $this->route->setRequest($this->request);
     }
 
     public function getRoute(): Route

@@ -2,10 +2,24 @@
 
 namespace Validator\Validators;
 
-class Email extends Validator
+use Validator\Pipable;
+
+class Email extends Validatable implements Pipable
 {
-    public function check(string $email)
+    private $input;
+
+    public function __construct(string $input, string $errorMsg)
     {
-        return filter_var($email, FILTER_VALIDATE_EMAIL);
+        $this->input    = $input;
+        $this->errorMsg = $errorMsg;
+    }
+
+    public function check(): bool
+    {
+        if (!filter_var($this->input, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+
+        return true;
     }
 }

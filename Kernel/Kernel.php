@@ -14,7 +14,7 @@ class Kernel implements KernelInterface
         // load all service providers.
         container()->build('Services\ServicesLoader');
         // load routes
-        container()->Router->call(rootDir().'App/Routes.php');
+        container()->Router->call(rootDir() . 'App/Routes.php');
     }
 
     /**
@@ -39,5 +39,9 @@ class Kernel implements KernelInterface
     {
         // compile late-middlewares
         container()->Compiler->compileMiddlewares(container()->Router->getRoute()->getLateMiddlewares());
+        // print the output
+        container()->Response->send();
+        // end the app execution
+        exit();
     }
 }

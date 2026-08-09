@@ -8,40 +8,44 @@ use Closure;
 class RouteCompiler implements DependencyCompilerInterface
 {
     private $route;
+    private $arguments;
 
     public function __construct(RouteInterface $route)
     {
         $this->route = $route;
+        $this->arguments = [
+            container()->Request,
+            container()->Response,
+        ];
     }
 
     /**
- 	 * Check if route action is Closure or method@controller format
+     * Check if route action is Closure or method@controller format
      * And then call it
- 	 *
-     * @return Mixed
-	 */
-    public function execute()
+     *
+     */
+    public function execute(): void
     {
         if ($this->route->getAction() instanceof Closure) {
-            return $this->callClosure($this->route);
+            $this->callClosure($this->route);
         }
 
         if ($this->isController($this->route)) {
-            return $this->executeController($this->route);
+            $this->executeController($this->route);
         }
 
         throw new \Exception('Route Parameter Error', 1);
     }
 
     /**
-     * Check if route action is a Closure then excute it.
+     * Check if route action is a Closure then execute it.
      *
      * @param RouteInterface $route
      */
     private function callClosure(RouteInterface $route): void
     {
         $action = $route->getAction();
-        $action(...array_values($route->getVariables()));
+        $action(...$this->arguments);
     }
 
     /**
@@ -50,7 +54,7 @@ class RouteCompiler implements DependencyCompilerInterface
      * @param RouteInterface $route
      * @return bool
      */
-    private function isController(RouteInterface $route)
+    private function isController(RouteInterface $route): bool
     {
         // check if route is in Class@method format.
         if (strpos($route->getAction(), '@') && !strpos($route->getAction(), '/')) {
@@ -61,29 +65,29 @@ class RouteCompiler implements DependencyCompilerInterface
     }
 
     /**
- 	 * Create Controller instance and call the right method
- 	 *
- 	 * @param RouteInterface $route
- 	 * @return object
-	 */
-    private function executeController(RouteInterface $route)
+     * Create Controller instance and call the right method
+     *
+     * @param RouteInterface $route
+     * @return object
+     */
+    private function executeController(RouteInterface $route): void
     {
         $parameters = $this->explodeController($route);
-        $controller = new $parameters['controller'];
-        return call_user_func_array([$controller, $parameters['method']], $route->getVariables());
+        $controller = new $parameters['controller'](container()->Request, container()->Response);
+        call_user_func_array([$controller, $parameters['method']], $this->arguments);
     }
 
     /**
- 	 * Resolve Controller name and method to call
- 	 *
- 	 * @param RouteInterface $route
- 	 * @return array
-	 */
+     * Resolve Controller name and method to call
+     *
+     * @param RouteInterface $route
+     * @return array
+     */
     private function explodeController(RouteInterface $route): array
     {
         $parameters = explode('@', $route->getAction());
         return [
-            'controller' => '\Controller\\'.$parameters[0],
+            'controller' => '\Controller\\' . $parameters[0],
             'method' => $parameters[1],
         ];
     }

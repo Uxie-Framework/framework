@@ -4,5 +4,5 @@ namespace Router;
 
 interface UrlMatcherInterface
 {
-    public function match(): bool;
+    public function matchURL(): bool;
 }

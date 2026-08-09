@@ -2,10 +2,24 @@
 
 namespace Validator\Validators;
 
-class Required extends Validator
+use Validator\Pipable;
+
+class Required extends Validatable implements Pipable
 {
-    public function check(string $input)
+    private $input;
+
+    public function __construct(string $input, string $errorMsg)
     {
-        return $input ? true : false;
+        $this->input    = $input;
+        $this->errorMsg = $errorMsg;
+    }
+
+    public function check(): bool
+    {
+        if (!$this->input) {
+            return false;
+        }
+
+        return true;
     }
 }

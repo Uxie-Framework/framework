@@ -5,12 +5,12 @@ namespace Box;
 class FileLocationResolver
 {
     private $fileInfo;
-    private $mainDir;
+    private $fullDir;
 
     public function __construct(string $mainDir, string $fullName)
     {
         $this->fileInfo = pathinfo($fullName);
-        $this->fullDir = $this->resolveDir($mainDir, $this->fileInfo['dirname']);
+        $this->fullDir  = $this->resolveDir($mainDir, $this->fileInfo['dirname']);
     }
 
     private function resolveDir(string $mainDir, string $dir)
@@ -19,7 +19,7 @@ class FileLocationResolver
             return $mainDir;
         }
 
-        return $mainDir.'/'.$this->fileInfo['dirname'];
+        return $mainDir . '/' . $this->fileInfo['dirname'];
     }
 
     public function getFileName()

@@ -8,4 +8,7 @@
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <server name='HTTP_HOST' value='http://' />
+    </php>
 </phpunit>

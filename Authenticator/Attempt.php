@@ -38,7 +38,7 @@ class Attempt
 
     private function getUserData()
     {
-        $model = "\Model\\".$this->table['value'];
+        $model = "\Model\\" . $this->table['value'];
         if ($this->optionalValue['value']) {
             return $model::select()->where($this->identifier['key'], '=', $this->identifier['value'])->where($this->optionalValue['key'], '=', $this->optionalValue['value'])->get();
         }
@@ -53,11 +53,11 @@ class Attempt
     private function startSession()
     {
         foreach ((array)$this->userData[0] as $key => $value) {
-            if ($this->password['key'] !== $key) {
-                session($key, $value);
+            if ($this->password['key'] !== $key && !is_null($value)) {
+                setSession($key, $value);
             }
         }
-        session('time', time());
+        setSession('time', time());
     }
 
     private function setup()
@@ -81,7 +81,7 @@ class Attempt
      * remove white spaces from inputs & add slashes
      *
      * @return void
-    */
+     */
     private function secure()
     {
         foreach ($this->data as $key => $value) {
