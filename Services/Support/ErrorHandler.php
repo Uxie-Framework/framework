@@ -1,7 +1,7 @@
 <?php
 namespace Services\Support;
 
-use Request\Request as Request;
+use Request\Handler\Request as Request;
 use Response\Response as Response;
 
 class ErrorHandler
@@ -19,9 +19,9 @@ class ErrorHandler
     {
         container()->Logger->error($e->getMessage(), $e->getCode(), $e->getLine(), $e->getFile());
         if (getenv('PRODUCTION_MODE') === 'ON') {
-            $this->response->view('CoreViews/error', ['code' => '404', 'error' => 'internal error'])->send();
+            container()->Response->view('CoreViews/error', ['code' => '404', 'error' => 'internal error'])->send();
         } else {
-            $this->response->view('CoreViews/error', ['code' => $e->getCode(), 'error' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()])->send();
+            container()->Response->view('CoreViews/error', ['code' => $e->getCode(), 'error' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()])->send();
         }
     }
 }

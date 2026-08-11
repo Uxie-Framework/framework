@@ -2,11 +2,13 @@
 
 namespace Request;
 
+use Request\Handler\Request;
+
 class RequestMethodResolver implements RequestMethodResolverInterface
 {
-    private $request;
-    private $method;
-    private $allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+    private Request $request;
+    private string $method;
+    private array $allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
     public function __construct(Request $request)
     {

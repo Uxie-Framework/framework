@@ -84,15 +84,11 @@ function translation(string $languageFile)
     return \Services\LanguagesResolver::resolve($languageFile);
 }
 
-function csrf_field()
+function csrf_field(): void
 {
-    if (isset(container()->Session->_token)) {
-        $token = getSession('_token');
-    } else {
-        $token = uniqid(random_int(0, 1000));
-    }
-    setSession('_token', $token);
-    echo "<input type='hidden' name='_token' value='" . $token . "'>";
+    $token = session('_token') ?? bin2hex(random_bytes(32));
+    session('_token', $token);
+    echo '<input type="hidden" name="_token" value="'.htmlspecialchars($token, ENT_QUOTES, 'UTF-8').'">';
 }
 
 function csrf_token()
@@ -106,9 +102,9 @@ function generate_csrf_token()
     return getSession('_token');
 }
 
-function method_field(string $method)
+function method_field(string $method): void
 {
-    echo "<input type='hidden' name='_method' value='$method' />";
+    echo '<input type="hidden" name="_method" value="'.htmlspecialchars($method, ENT_QUOTES, 'UTF-8').'" />';
 }
 
 function container()

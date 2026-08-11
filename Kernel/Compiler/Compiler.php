@@ -8,11 +8,11 @@ class Compiler
 {
 
     /**
-     * Call resolved action from a route
-     *
-     * @param RouteInterface $route
-     */
-    public function compileRoute(Routeinterface $route): void
+ 	 * Call resolved action from a route
+ 	 *
+ 	 * @param RouteInterface $route
+	 */
+    public function compileRoute(RouteInterface $route): void
     {
         $this->compile(new RouteCompiler($route));
     }

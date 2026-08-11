@@ -4,7 +4,7 @@ namespace Authenticator;
 
 class Hash
 {
-    public static function hash(string $string)
+    public static function hash(string $string): string
     {
         return password_hash($string, PASSWORD_BCRYPT);
     }

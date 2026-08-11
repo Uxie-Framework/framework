@@ -20,7 +20,7 @@ trait Controller
 namespace Controller'.$directory.';
 
 use Controller\Controller as Controller;
-use Request\Request as Request;
+use Request\Handler\Request as Request;
 use Response\Response as Response;
 
 class '.$fileName.' extends Controller
@@ -43,7 +43,7 @@ class '.$fileName.' extends Controller
 namespace Controller'.$directory.';
 
 use Controller\Controller as Controller;
-use Request\Request as Request;
+use Request\Handler\Request as Request;
 use Response\Response as Response;
 
 class '.$fileName.' extends Controller

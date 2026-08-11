@@ -4,8 +4,8 @@ namespace Box;
 
 class FileLocationResolver
 {
-    private $fileInfo;
-    private $fullDir;
+    private array $fileInfo;
+    private string $fullDir;
 
     public function __construct(string $mainDir, string $fullName)
     {
@@ -13,7 +13,7 @@ class FileLocationResolver
         $this->fullDir  = $this->resolveDir($mainDir, $this->fileInfo['dirname']);
     }
 
-    private function resolveDir(string $mainDir, string $dir)
+    private function resolveDir(string $mainDir, string $dir): string
     {
         if ($dir === '.') {
             return $mainDir;
@@ -22,30 +22,28 @@ class FileLocationResolver
         return $mainDir . '/' . $this->fileInfo['dirname'];
     }
 
-    public function getFileName()
+    public function getFileName(): string
     {
         return $this->fileInfo['filename'];
     }
 
-    public function getFileDir()
+    public function getFileDir(): string
     {
         if (!is_dir($this->fullDir)) {
             $this->createDir();
         }
 
         if (!is_writable($this->fullDir)) {
-            echo "$this->fullDir is not writable \n";
-            exit();
+            throw new \Exception("Directory '{$this->fullDir}' is not writable");
         }
 
         return $this->fullDir;
     }
 
-    private function createDir()
+    private function createDir(): void
     {
-        if (!mkdir($this->fullDir)) {
-            echo "can't create Directory : $this->fullDir \n";
-            exit();
+        if (!mkdir($this->fullDir, recursive: true) && !is_dir($this->fullDir)) {
+            throw new \Exception("Can't create directory: {$this->fullDir}");
         }
     }
 }

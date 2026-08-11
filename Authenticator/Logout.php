@@ -9,7 +9,7 @@ class Logout
         $this->logout();
     }
 
-    private function logout()
+    private function logout(): void
     {
         destroyAllSessions();
     }

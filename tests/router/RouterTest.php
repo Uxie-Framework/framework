@@ -19,7 +19,7 @@ class RouterTest extends TestCase
         });
         $router = new Router\Router();
         $router->call(__DIR__.'/helpers/routes.php');
-        $this->assertInstanceof(Router\Route::class, $router->getRoute());
+        $this->assertInstanceOf(Router\Route::class, $router->getRoute());
     }
 
     public function testPost()
@@ -33,7 +33,8 @@ class RouterTest extends TestCase
         });
         $router = new Router\Router();
         $router->call(__DIR__.'/helpers/routes.php');
-        $this->assertInstanceof(Router\Route::class, $router->getRoute());
+        $this->assertInstanceOf(Router\Route::class, $router->getRoute());
+
     }
 
     public function testPut()
@@ -51,7 +52,7 @@ class RouterTest extends TestCase
 
         $router = new Router\Router();
         $router->call(__DIR__.'/helpers/routes.php');
-        $this->assertInstanceof(Router\Route::class, $router->getRoute());
+        $this->assertInstanceOf(Router\Route::class, $router->getRoute());
     }
 
     public function testPatch()
@@ -66,7 +67,7 @@ class RouterTest extends TestCase
 
         $router = new Router\Router();
         $router->call(__DIR__.'/helpers/routes.php');
-        $this->assertInstanceof(Router\Route::class, $router->getRoute());
+        $this->assertInstanceOf(Router\Route::class, $router->getRoute());
     }
 
     public function testDelete()
@@ -81,7 +82,7 @@ class RouterTest extends TestCase
 
         $router = new Router\Router();
         $router->call(__DIR__.'/helpers/routes.php');
-        $this->assertInstanceof(Router\Route::class, $router->getRoute());
+        $this->assertInstanceOf(Router\Route::class, $router->getRoute());
     }
 
     public function testGroup()
@@ -95,7 +96,7 @@ class RouterTest extends TestCase
         });
         $router = new Router\Router();
         $router->call(__DIR__.'/helpers/routes.php');
-        $this->assertInstanceof(Router\Route::class, $router->getRoute());
+        $this->assertInstanceOf(Router\Route::class, $router->getRoute());
     }
 
     public function testResource()
@@ -107,7 +108,7 @@ class RouterTest extends TestCase
         });
         $router = new Router\Router();
         $router->call(__DIR__.'/helpers/routes.php');
-        $this->assertInstanceof(Router\Route::class, $router->getRoute());
+        $this->assertInstanceOf(Router\Route::class, $router->getRoute());
     }
 
     public function testWrongUrl()
@@ -175,7 +176,7 @@ class RouterTest extends TestCase
         $router = new Router\Router();
         $router->call(__DIR__.'/helpers/routes.php');
         $route = $router->getRoute();
-        $this->assertInstanceof(Router\Route::class, $route);
+        $this->assertInstanceOf(Router\Route::class, $route);
     }
 
     public function testMiddleware()

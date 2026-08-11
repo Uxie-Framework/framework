@@ -12,6 +12,21 @@ class ServicesLoader
         $this->loadServices();
     }
 
+    private function bindServicesToIOC(): void
+    {
+        $this->bindedServices = array_merge_recursive($this->services, require rootDir().getAliase('Services'));
+        foreach ($this->bindedServices['ServiceLocators'] as $key => $value) {
+            $this->checkIfUnique($key);
+        }
+    }
+
+    private function checkIfUnique(string $key): void
+    {
+        if (isset(container()->{$key})) {
+            throw new \Exception("There is a duplication in your Providers : $key", 17);
+        }
+    }
+
     private function loadApp()
     {
         require rootDir() . getAliase('App');
