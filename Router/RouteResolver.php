@@ -2,7 +2,7 @@
 
 namespace Router;
 
-use Request\Handler\Request;
+use Request\Request;
 
 class RouteResolver implements RouteResolverInterface
 {

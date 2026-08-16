@@ -31,7 +31,6 @@
             "Box\\": "Box/",
             "Kernel\\": "Kernel/",
             "Model\\": "Model/",
-            "Request\\Handler\\": "Request-Handler/",
             "Request\\": "Request/",
             "Response\\": "Response/",
             "Router\\": "Router/",

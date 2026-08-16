@@ -86,8 +86,8 @@ function translation(string $languageFile)
 
 function csrf_field(): void
 {
-    $token = session('_token') ?? bin2hex(random_bytes(32));
-    session('_token', $token);
+    $token = getSession('_token') ?? bin2hex(random_bytes(32));
+    setSession('_token', $token);
     echo '<input type="hidden" name="_token" value="'.htmlspecialchars($token, ENT_QUOTES, 'UTF-8').'">';
 }
 

@@ -3,7 +3,7 @@
 namespace Router;
 
 use Closure;
-use Request\Handler\Request;
+use Request\Request;
 
 interface RouteInterface
 {

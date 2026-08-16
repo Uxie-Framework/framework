@@ -2,8 +2,6 @@
 
 namespace Request;
 
-use Request\Handler\Request;
-
 class RequestMethodResolver implements RequestMethodResolverInterface
 {
     private Request $request;
