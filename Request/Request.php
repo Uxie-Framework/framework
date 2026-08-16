@@ -3,7 +3,7 @@
 namespace Request;
 
 use Validator\Validate;
-use Exception;
+use InvalidArgumentException;
 
 class Request
 {
@@ -17,13 +17,8 @@ class Request
     public function __construct()
     {
         $this->handleData(new RequestDataHandler());
-        $this->method = $this->resolveMethod(new RequestMethodResolver($this));
+        $this->method = (new RequestMethodResolver($this))->getMethod();
         $this->validator = new Validate();
-    }
-
-    private function resolveMethod(RequestMethodResolverInterface $resolver): string
-    {
-        return $resolver->getMethod();
     }
 
     public function getMethod(): string
@@ -38,29 +33,30 @@ class Request
 
     public function url(): string
     {
-        $host = $_SERVER['HTTP_HOST'];
-        $url  = $_SERVER['REQUEST_URI'];
-        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$host$url";
+        $host   = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $url    = $_SERVER['REQUEST_URI'] ?? '/';
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        return "{$scheme}://{$host}{$url}";
     }
 
     public function path(): string
     {
-        return $_SERVER['REQUEST_URI'];
+        return $_SERVER['REQUEST_URI'] ?? '/';
     }
 
-    public function cookie(string $cookie): string
+    public function cookie(string $cookie): mixed
     {
         return getCookie($cookie);
     }
 
-    public function session(string $session): string
+    public function session(string $session): mixed
     {
         return getSession($session);
     }
 
     public function ip(): string
     {
-        return $_SERVER['ip'];
+        return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
     }
 
     public function setParams(array $params): void
@@ -77,7 +73,7 @@ class Request
     public function validate(string $input, string $field): Validate
     {
         if (!isset($this->{$input})) {
-            throw new Exception("( $input ) input does not exist", 1);
+            throw new InvalidArgumentException("Input '{$input}' does not exist");
         }
         return $this->validator->startValidation($this->{$input}, $field);
     }
@@ -99,11 +95,14 @@ class Request
 
     public function __get(string $name): mixed
     {
+        if (!isset($this->variables[$name])) {
+            trigger_error("Undefined request property: {$name}", E_USER_WARNING);
+        }
         return $this->variables[$name] ?? null;
     }
 
     public function __isset(string $name): bool
     {
-        return isset($this->variables[$name]);
+        return isset($this->variables[$name]) || property_exists($this, $name);
     }
 }

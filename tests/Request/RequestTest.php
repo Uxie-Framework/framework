@@ -33,7 +33,7 @@ class RequestTest extends TestCase
 
     public function testIp()
     {
-        $_SERVER['ip'] = '127.0.0.1';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $request = new Request();
         $this->assertEquals('127.0.0.1', $request->ip());
     }
