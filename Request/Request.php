@@ -2,6 +2,10 @@
 
 namespace Request;
 
+use Request\Body;
+use Request\Files;
+use Request\Params;
+use Request\RequestDataHandler;
 use Validator\Validate;
 use InvalidArgumentException;
 
@@ -9,7 +13,7 @@ class Request
 {
     private array $variables = [];
     private string $method;
-    private Validate $validator;
+    private ?Validate $validator = null;
     public Body $body;
     public Files $files;
     public Params $params;
@@ -18,12 +22,11 @@ class Request
     {
         $this->handleData(new RequestDataHandler());
         $this->method = (new RequestMethodResolver($this))->getMethod();
-        $this->validator = new Validate();
     }
 
-    public function getMethod(): string
+    private function getValidator(): Validate
     {
-        return $this->method;
+        return $this->validator ??= new Validate();
     }
 
     public function method(): string
@@ -75,7 +78,7 @@ class Request
         if (!isset($this->{$input})) {
             throw new InvalidArgumentException("Input '{$input}' does not exist");
         }
-        return $this->validator->startValidation($this->{$input}, $field);
+        return $this->getValidator()->startValidation($this->{$input}, $field);
     }
 
     public function isValid(): bool
@@ -85,7 +88,7 @@ class Request
 
     public function getErrors(): array
     {
-        return $this->validator->getErrors();
+        return $this->getValidator()->getErrors();
     }
 
     public function __set(string $name, mixed $value): void
@@ -95,9 +98,6 @@ class Request
 
     public function __get(string $name): mixed
     {
-        if (!isset($this->variables[$name])) {
-            trigger_error("Undefined request property: {$name}", E_USER_WARNING);
-        }
         return $this->variables[$name] ?? null;
     }
 
