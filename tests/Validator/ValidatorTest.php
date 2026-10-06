@@ -16,16 +16,16 @@ class ValidatorTest extends TestCase
         $this->assertInstanceof(Validator::class, $validator->validate());
     }
 
-    public function testIsValide()
+    public function testIsValid()
     {
         $validator = Validator::start();
-        $this->assertTrue($validator->isValide());
+        $this->assertTrue($validator->isValid());
 
         $imageReflection = new ReflectionClass($validator);
         $property        = $imageReflection->getProperty('errors');
         $property->setAccessible(true);
         $property->setValue($validator, ['error']);
-        $this->assertFalse($validator->isValide());
+        $this->assertFalse($validator->isValid());
     }
 
     public function testGetErrors()
@@ -144,10 +144,10 @@ class ValidatorTest extends TestCase
     {
         $validator = Validator::start();
         $validator->setInput('notEmail')->email('Error message')->validate();
-        $this->assertFalse($validator->isValide());
+        $this->assertFalse($validator->isValid());
 
         $validator2 = Validator::start();
         $validator2->setInput('myEmail@gmail.com')->email('Error message')->validate();
-        $this->assertTrue($validator2->isValide());
+        $this->assertTrue($validator2->isValid());
     }
 }

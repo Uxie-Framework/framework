@@ -2,7 +2,7 @@
 
 namespace Box\Templates;
 
-use Request\Handler\Request as Request;
+use Request\Request as Request;
 use Response\Response as Response;
 
 trait Middleware
@@ -13,7 +13,7 @@ trait Middleware
 
 namespace Middleware'.$directory.';
 
-use Request\Handler\Request as Request;
+use Request\Request as Request;
 use Response\Response as Response;
 
 class '.$fileName.'

@@ -10,7 +10,7 @@ trait Filter
 
 namespace Filter'.$directory.';
 
-use Request\Handler\Request as Request;
+use Request\Request as Request;
 use Validator\Validator as Validator;
 use Filter\Filterable as Filterable;
 
@@ -24,7 +24,7 @@ class '.$fileName.' extends Validator implements Filterable
 
     public function check(): bool
     {
-        if ($this->isValide()) {
+        if ($this->isValid()) {
             return true;
         }
 

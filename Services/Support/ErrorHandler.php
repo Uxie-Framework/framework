@@ -1,7 +1,7 @@
 <?php
 namespace Services\Support;
 
-use Request\Handler\Request as Request;
+use Request\Request as Request;
 use Response\Response as Response;
 
 class ErrorHandler

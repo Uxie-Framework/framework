@@ -34,7 +34,7 @@ class Validator
         return $this;
     }
 
-    public function isValide(): bool
+    public function isValid(): bool
     {
         return empty($this->errors) ? true : false;
     }
